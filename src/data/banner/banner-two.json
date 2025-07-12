@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1",
+    "image": "/assets/img/banner/banner-10.png",
+    "link": "/shop",
+    "title": "Premium Bras",
+    "subtitle": "Comfort & Support"
+  },
+  {
+    "id": "2",
+    "image": "/assets/img/banner/banner-11.png",
+    "link": "/shop",
+    "title": "Elegant Lingerie",
+    "subtitle": "Style & Confidence"
+  }
+]
