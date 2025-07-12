@@ -115,7 +115,7 @@
 
       .choose-icon {
         i {
-          color: #007bff;
+          color: $theme-color;
         }
       }
 
@@ -151,7 +151,7 @@
 
       .category-icon {
         i {
-          color: #007bff;
+          color: $theme-color;
         }
       }
 
@@ -170,11 +170,11 @@
       }
 
       .btn-outline-primary {
-        border-color: #007bff;
-        color: #007bff;
+        border-color: $theme-color;
+        color: $theme-color;
 
         &:hover {
-          background: #007bff;
+          background: $theme-color;
           color: #fff;
         }
       }
@@ -225,7 +225,7 @@
 
       .value-icon {
         i {
-          color: #007bff;
+          color: $theme-color;
         }
       }
 
@@ -265,7 +265,7 @@
     }
 
     .btn-primary {
-      background: #007bff;
+      background: $theme-color;
       border: none;
       padding: 12px 30px;
       font-size: 16px;
@@ -274,7 +274,7 @@
       transition: all 0.3s ease;
 
       &:hover {
-        background: #0056b3;
+        background: darken($theme-color, 10%);
         transform: translateY(-2px);
       }
     }
@@ -442,5 +442,35 @@
     &.pb-100 {
       padding-bottom: 60px;
     }
+  }
+}
+
+// Brand color utility class for icons
+.text-brand {
+  color: $theme-color !important;
+}
+
+// Brand color button classes
+.btn-brand {
+  background-color: $theme-color !important;
+  border-color: $theme-color !important;
+  color: #fff !important;
+
+  &:hover {
+    background-color: darken($theme-color, 10%) !important;
+    border-color: darken($theme-color, 10%) !important;
+    color: #fff !important;
+  }
+}
+
+.btn-outline-brand {
+  color: $theme-color !important;
+  border-color: $theme-color !important;
+  background-color: transparent !important;
+
+  &:hover {
+    background-color: $theme-color !important;
+    border-color: $theme-color !important;
+    color: #fff !important;
   }
 }

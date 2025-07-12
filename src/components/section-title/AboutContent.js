@@ -73,7 +73,7 @@ const AboutContent = () => {
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="choose-card">
                     <div className="choose-icon mb-3">
-                      <i className="fa fa-gem fa-3x text-primary"></i>
+                      <i className="fa fa-gem fa-3x text-brand"></i>
                     </div>
                     <h4>Premium Quality</h4>
                     <p>We offer only the finest electronic appliances to ensure maximum reliability and efficiency.</p>
@@ -82,7 +82,7 @@ const AboutContent = () => {
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="choose-card">
                     <div className="choose-icon mb-3">
-                      <i className="fa fa-palette fa-3x text-primary"></i>
+                      <i className="fa fa-palette fa-3x text-brand"></i>
                     </div>
                     <h4>Modern Technology</h4>
                     <p>Our products feature the latest technology while maintaining reliability and energy efficiency.</p>
@@ -91,7 +91,7 @@ const AboutContent = () => {
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="choose-card">
                     <div className="choose-icon mb-3">
-                      <i className="fa fa-users fa-3x text-primary"></i>
+                      <i className="fa fa-users fa-3x text-brand"></i>
                     </div>
                     <h4>Wide Selection</h4>
                     <p>We offer a wide range of products to ensure every home and business finds their perfect solution.</p>
@@ -100,7 +100,7 @@ const AboutContent = () => {
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="choose-card">
                     <div className="choose-icon mb-3">
-                      <i className="fa fa-shipping-fast fa-3x text-primary"></i>
+                      <i className="fa fa-shipping-fast fa-3x text-brand"></i>
                     </div>
                     <h4>Fast Delivery</h4>
                     <p>Quick and professional delivery across Pakistan with installation service.</p>
@@ -120,7 +120,7 @@ const AboutContent = () => {
                 <div className="col-lg-4 col-md-6">
                   <div className="value-card text-center p-4">
                     <div className="value-icon mb-3">
-                      <i className="fa fa-heart fa-3x text-primary"></i>
+                      <i className="fa fa-heart fa-3x text-brand"></i>
                     </div>
                     <h4>Quality First</h4>
                     <p>
@@ -132,7 +132,7 @@ const AboutContent = () => {
                 <div className="col-lg-4 col-md-6">
                   <div className="value-card text-center p-4">
                     <div className="value-icon mb-3">
-                      <i className="fa fa-users fa-3x text-primary"></i>
+                      <i className="fa fa-users fa-3x text-brand"></i>
                     </div>
                     <h4>Customer Focus</h4>
                     <p>
@@ -144,7 +144,7 @@ const AboutContent = () => {
                 <div className="col-lg-4 col-md-6">
                   <div className="value-card text-center p-4">
                     <div className="value-icon mb-3">
-                      <i className="fa fa-shield fa-3x text-primary"></i>
+                      <i className="fa fa-shield fa-3x text-brand"></i>
                     </div>
                     <h4>Professional Service</h4>
                     <p>
@@ -167,48 +167,48 @@ const AboutContent = () => {
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="category-card">
                     <div className="category-icon mb-3">
-                      <i className="fa fa-snowflake fa-3x text-primary"></i>
+                      <i className="fa fa-snowflake fa-3x text-brand"></i>
                     </div>
                     <h4>Air Conditioners</h4>
                     <p>Premium AC units for homes and businesses with energy efficiency.</p>
                     <div className="btn-hover">
-                      <Link to="/shop" className="btn btn-outline-primary btn-sm">Shop AC</Link>
+                      <Link to="/shop" className="btn btn-outline-brand btn-sm">Shop AC</Link>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="category-card">
                     <div className="category-icon mb-3">
-                      <i className="fa fa-thermometer-empty fa-3x text-primary"></i>
+                      <i className="fa fa-thermometer-empty fa-3x text-brand"></i>
                     </div>
                     <h4>Freezers</h4>
                     <p>Quality freezers for commercial and residential use.</p>
                     <div className="btn-hover">
-                      <Link to="/shop" className="btn btn-outline-primary btn-sm">Shop Freezers</Link>
+                      <Link to="/shop" className="btn btn-outline-brand btn-sm">Shop Freezers</Link>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="category-card">
                     <div className="category-icon mb-3">
-                      <i className="fa fa-tv fa-3x text-primary"></i>
+                      <i className="fa fa-tv fa-3x text-brand"></i>
                     </div>
                     <h4>Home Appliances</h4>
                     <p>Modern home appliances for everyday convenience.</p>
                     <div className="btn-hover">
-                      <Link to="/shop" className="btn btn-outline-primary btn-sm">Shop Appliances</Link>
+                      <Link to="/shop" className="btn btn-outline-brand btn-sm">Shop Appliances</Link>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="category-card">
                     <div className="category-icon mb-3">
-                      <i className="fa fa-cogs fa-3x text-primary"></i>
+                      <i className="fa fa-cogs fa-3x text-brand"></i>
                     </div>
                     <h4>Commercial Equipment</h4>
                     <p>Professional equipment for businesses and commercial use.</p>
                     <div className="btn-hover">
-                      <Link to="/shop" className="btn btn-outline-primary btn-sm">Shop Equipment</Link>
+                      <Link to="/shop" className="btn btn-outline-brand btn-sm">Shop Equipment</Link>
                     </div>
                   </div>
                 </div>
@@ -271,7 +271,7 @@ const AboutContent = () => {
               </p>
               <div className="mt-4">
                 <div className="btn-hover">
-                  <Link to="/shop" className="btn btn-primary btn-lg">
+                  <Link to="/shop" className="btn btn-brand btn-lg">
                     Shop Our Collection
                   </Link>
                 </div>

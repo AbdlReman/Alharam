@@ -8,6 +8,7 @@ import LayoutOne from "../../layouts/LayoutOne";
 import emailjs from "emailjs-com";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { deleteAllFromCart } from "../../store/slices/cart-slice";
+import { EMAILJS_CONFIG } from "../../config/emailjs";
 
 // Initialize EmailJS with your brand configuration
 emailjs.init("uOGdgPbVqeIsG8gD8");
@@ -128,8 +129,8 @@ const Checkout = () => {
 
     try {
       const result = await emailjs.send(
-        "service_fuhazui", // Your service ID
-        "template_524i96s", // Your template ID
+        EMAILJS_CONFIG.SERVICE_ID, // Your service ID
+        EMAILJS_CONFIG.ORDER_TEMPLATE_ID, // Your template ID
         {
           brandName: "Alharam",
           firstName: formData.firstName,
@@ -150,7 +151,7 @@ const Checkout = () => {
           totals: formattedTotals,
           total: total,
         },
-        "uOGdgPbVqeIsG8gD8" // Your user ID
+        EMAILJS_CONFIG.PUBLIC_KEY // Your user ID
       );
       console.log("Email sent successfully:", result);
 

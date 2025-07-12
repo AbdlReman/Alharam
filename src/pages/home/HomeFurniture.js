@@ -4,7 +4,7 @@ import LayoutOne from "../../layouts/LayoutOne";
 import HeroSliderTwentySeven from "../../wrappers/hero-slider/HeroSliderTwentySeven";
 import BannerTwentySeven from "../../wrappers/banner/BannerTwentySeven";
 import TabProductTwo from "../../wrappers/product/TabProductTwo";
-import CountDownOne from "../../wrappers/countdown/CountDownOne";
+import RecurringCountDown from "../../wrappers/countdown/RecurringCountDown";
 import FeatureIconTwo from "../../wrappers/feature-icon/FeatureIconTwo";
 
 
@@ -26,11 +26,11 @@ const HomeFurniture = () => {
         <TabProductTwo spaceBottomClass="pb-100" category="lingerie" />
 
         {/* countdown */}
-        <CountDownOne
+        <RecurringCountDown
           spaceTopClass="pt-115"
           spaceBottomClass="pb-115"
           bgImg="/assets/img/bg/bg-1.jpg"
-          dateTime="December 25, 2024 12:12:00"
+          cycleDays={10}
         />
 
         {/* feature icon */}

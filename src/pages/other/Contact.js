@@ -39,7 +39,7 @@ const Contact = () => {
     setSubmitStatus('');
 
     // Check if EmailJS is properly configured
-    if (!EMAILJS_CONFIG.SERVICE_ID || !EMAILJS_CONFIG.TEMPLATE_ID || !EMAILJS_CONFIG.PUBLIC_KEY) {
+    if (!EMAILJS_CONFIG.SERVICE_ID || !EMAILJS_CONFIG.CONTACT_TEMPLATE_ID || !EMAILJS_CONFIG.PUBLIC_KEY) {
       setSubmitStatus('error');
       setIsSubmitting(false);
       toast.error('EmailJS is not properly configured. Please check your configuration.');
@@ -49,7 +49,7 @@ const Contact = () => {
     try {
       const result = await emailjs.send(
         EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.TEMPLATE_ID,
+        EMAILJS_CONFIG.CONTACT_TEMPLATE_ID,
         {
           from_name: formData.name,
           from_email: formData.email,
