@@ -7,7 +7,7 @@ const AboutContent = () => {
       <div className="container">
         {/* Our Story Section */}
         <div className="row">
-          <div className="col-lg-6">
+          <div className="col-lg-12">
             <div className="about-content">
               <h2>Our Story</h2>
               <p>
@@ -53,18 +53,9 @@ const AboutContent = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-6">
-            <div className="about-image">
-              <img 
-                src="/assets/img/banner/banner-1.jpg" 
-                alt="Alharam Store" 
-                className="img-fluid rounded"
-              />
-            </div>
-          </div>
         </div>
 
-        {/* Why Choose Lanina Section */}
+        {/* Why Choose Alharam Section */}
         <div className="row mt-5">
           <div className="col-lg-12">
                           <div className="why-choose-alharam text-center">
@@ -248,7 +239,7 @@ const AboutContent = () => {
                     <div className="testimonial-content p-4">
                       <p>"Perfect quality and reliable service. Alharam understands what customers need."</p>
                       <div className="customer-info">
-                        <strong>- Sana from Islamabad</strong>
+                        <strong>- Zara from Islamabad</strong>
                       </div>
                     </div>
                   </div>

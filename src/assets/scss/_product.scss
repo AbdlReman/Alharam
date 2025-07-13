@@ -311,7 +311,7 @@
         border-radius: 3px;
 
         &.pink {
-          background-color: #fa6bff;
+          color: $theme-color-light;
         }
 
         &.purple {
@@ -413,7 +413,7 @@
 
           &:hover,
           &.active {
-            background-color: #000;
+            background-color: $theme-color;
           }
         }
 
@@ -1702,7 +1702,7 @@
 
         &:hover,
         &.active {
-          background-color: #fa6bff;
+          background-color: $theme-color;
         }
       }
 
@@ -2258,11 +2258,11 @@
           border: none;
           border-radius: 50px;
           background: none;
-          background-color: #a749ff;
+          background-color: $theme-color;
 
           &:hover,
           &.active {
-            background-color: #fa6bff;
+            background-color: $theme-color;
           }
 
           &:disabled {
@@ -2712,7 +2712,7 @@
         &:hover,
         &.active {
           color: #fff;
-          background-color: #fa6bff;
+          background-color: $theme-color;
         }
       }
     }
@@ -2999,7 +2999,7 @@
 
         &:hover,
         &.active {
-          background-color: #fed700;
+          background-color: $theme-color;
         }
       }
     }
@@ -3057,7 +3057,7 @@
 
         &:hover,
         &.active {
-          background: #fed700;
+          background: $theme-color;
         }
       }
     }
