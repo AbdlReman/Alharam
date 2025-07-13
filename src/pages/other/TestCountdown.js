@@ -27,7 +27,7 @@ const TestCountdown = () => {
       <RecurringCountDown
         spaceTopClass="pt-50"
         spaceBottomClass="pb-50"
-        bgImg="/assets/img/bg/bg-1.jpg"
+        bgImg="/assets/img/bg/bg.png"
         cycleDays={10}
       />
 

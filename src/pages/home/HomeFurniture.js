@@ -29,7 +29,7 @@ const HomeFurniture = () => {
         <RecurringCountDown
           spaceTopClass="pt-115"
           spaceBottomClass="pb-115"
-          bgImg="/assets/img/bg/bg-1.jpg"
+          bgImg="/assets/img/bg/bg.png"
           cycleDays={10}
         />
 
