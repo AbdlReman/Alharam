@@ -167,7 +167,7 @@ const AboutContent = () => {
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="category-card">
                     <div className="category-icon mb-3">
-                      <i className="fa fa-snowflake fa-3x text-brand"></i>
+                      <i className="fa fa-snowflake-o fa-3x text-brand"></i>
                     </div>
                     <h4>Air Conditioners</h4>
                     <p>Premium AC units for homes and businesses with energy efficiency.</p>
@@ -179,7 +179,7 @@ const AboutContent = () => {
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="category-card">
                     <div className="category-icon mb-3">
-                      <i className="fa fa-thermometer-empty fa-3x text-brand"></i>
+                      <i className="fa fa-thermometer-0 fa-3x text-brand"></i>
                     </div>
                     <h4>Freezers</h4>
                     <p>Quality freezers for commercial and residential use.</p>
@@ -191,7 +191,7 @@ const AboutContent = () => {
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="category-card">
                     <div className="category-icon mb-3">
-                      <i className="fa fa-tv fa-3x text-brand"></i>
+                      <i className="fa fa-home fa-3x text-brand"></i>
                     </div>
                     <h4>Home Appliances</h4>
                     <p>Modern home appliances for everyday convenience.</p>
@@ -203,7 +203,7 @@ const AboutContent = () => {
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="category-card">
                     <div className="category-icon mb-3">
-                      <i className="fa fa-cogs fa-3x text-brand"></i>
+                      <i className="fa fa-industry fa-3x text-brand"></i>
                     </div>
                     <h4>Commercial Equipment</h4>
                     <p>Professional equipment for businesses and commercial use.</p>
