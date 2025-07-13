@@ -114,8 +114,8 @@ const Contact = () => {
                       <i className="fa fa-phone" />
                     </div>
                     <div className="contact-info-dec">
-                      <p>+92 302 005 8237</p>
-                      <p>+92 318 506 7794</p>
+                      <p>+923310164313</p>
+                      <p>+923342743554</p>
                     </div>
                   </div>
                   <div className="single-contact-info">
@@ -124,14 +124,14 @@ const Contact = () => {
                     </div>
                     <div className="contact-info-dec">
                       <p>
-                                      <a href="mailto:info@alharam.com.pk">
-                info@alharam.com.pk
-              </a>
+                        <a href="mailto:info@alharam.store">
+                          info@alharam.store
+                        </a>
                       </p>
                       <p>
-                                      <a href="https://alharam.com.pk">
-                alharam.com.pk
-              </a>
+                        <a href="mailto:support@alharam.store">
+                          support@alharam.store
+                        </a>
                       </p>
                     </div>
                   </div>

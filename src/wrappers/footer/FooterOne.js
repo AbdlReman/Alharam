@@ -1,9 +1,6 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import FooterCopyright from "../../components/footer/FooterCopyright";
-import FooterNewsletter from "../../components/footer/FooterNewsletter";
-
 
 const FooterOne = ({
   backgroundColorClass,
@@ -19,153 +16,100 @@ const FooterOne = ({
     <footer className={clsx("footer-area", backgroundColorClass, spaceTopClass, spaceBottomClass, extraFooterClass, spaceLeftClass, spaceRightClass )}>
       <div className={`${containerClass ? containerClass : "container"}`}>
         <div className="row">
-          <div
-            className={`${
-              sideMenu ? "col-xl-2 col-sm-4" : "col-lg-2 col-sm-4"
-            }`}
-          >
-            {/* footer copyright */}
-            <FooterCopyright
-              footerLogo="/assets/img/logo/alharam-logo.png"
-              spaceBottomClass="mb-30"
-            />
+          <div className="col-lg-3 col-md-6 col-sm-6">
+            <div className="footer-widget mb-30 text-center text-sm-start">
+              <div className="footer-logo mb-20">
+                <Link to={process.env.PUBLIC_URL + "/"}>
+                  <img 
+                    alt="Alharam" 
+                    src={process.env.PUBLIC_URL + "/assets/img/logo/alharam-logo.png"}
+                    style={{ maxWidth: "150px", height: "auto" }}
+                  />
+                </Link>
+              </div>
+              <div className="footer-widget">
+                <p className="mt-20">
+                  &copy; {new Date().getFullYear()}{" "}
+                  <Link to={process.env.PUBLIC_URL + "/"}>
+                    Alharam
+                  </Link>
+                  . All Rights Reserved
+                </p>
+              </div>
+            </div>
           </div>
-          <div
-            className={`${
-              sideMenu ? "col-xl-2 col-sm-4" : "col-lg-2 col-sm-4"
-            }`}
-          >
-            <div className="footer-widget mb-30 ml-30">
+          <div className="col-lg-3 col-md-6 col-sm-6">
+            <div className="footer-widget mb-30 text-center text-sm-start">
               <div className="footer-title">
-                <h3>ABOUT ALHARAM</h3>
+                <h3>MAIN PAGES</h3>
               </div>
               <div className="footer-list">
                 <ul>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "/about"}>About us</Link>
+                    <Link to={process.env.PUBLIC_URL + "/"}>Home</Link>
                   </li>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "#/"}>
-                      Store location
-                    </Link>
+                    <Link to={process.env.PUBLIC_URL + "/shop"}>Shop</Link>
                   </li>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "/contact"}>
-                      Contact
-                    </Link>
+                    <Link to={process.env.PUBLIC_URL + "/about"}>About Us</Link>
                   </li>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "#/"}>
-                      Orders tracking
-                    </Link>
+                    <Link to={process.env.PUBLIC_URL + "/contact"}>Contact</Link>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-          <div
-            className={`${
-              sideMenu ? "col-xl-2 col-sm-4" : "col-lg-2 col-sm-4"
-            }`}
-          >
-            <div
-              className={`${
-                sideMenu
-                  ? "footer-widget mb-30 ml-95"
-                  : "footer-widget mb-30 ml-50"
-              }`}
-            >
+          <div className="col-lg-3 col-md-6 col-sm-6">
+            <div className="footer-widget mb-30 text-center text-sm-start">
               <div className="footer-title">
-                <h3>CUSTOMER CARE</h3>
+                <h3>ACCOUNT</h3>
               </div>
               <div className="footer-list">
                 <ul>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "#/"}>Returns</Link>
+                    <Link to={process.env.PUBLIC_URL + "/cart"}>Cart</Link>
                   </li>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "#/"}>
-                      Product Guide
-                    </Link>
+                    <Link to={process.env.PUBLIC_URL + "/checkout"}>Checkout</Link>
                   </li>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "#/"}>Installation Guide</Link>
+                    <Link to={process.env.PUBLIC_URL + "/wishlist"}>Wishlist</Link>
                   </li>
                   <li>
-                    <Link to={process.env.PUBLIC_URL + "#/"}>FAQs</Link>
+                    <Link to={process.env.PUBLIC_URL + "/compare"}>Compare</Link>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-          <div
-            className={`${
-              sideMenu ? "col-xl-3 col-sm-4" : "col-lg-2 col-sm-6"
-            }`}
-          >
-            <div
-              className={`${
-                sideMenu
-                  ? "footer-widget mb-30 ml-145"
-                  : "footer-widget mb-30 ml-75"
-              }`}
-            >
+          <div className="col-lg-3 col-md-6 col-sm-6">
+            <div className="footer-widget mb-30 text-center text-sm-start">
               <div className="footer-title">
-                <h3>FOLLOW US</h3>
+                <h3>CONTACT INFO</h3>
               </div>
               <div className="footer-list">
                 <ul>
                   <li>
-                    <a
-                      href="//www.facebook.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Facebook
-                    </a>
+                    <i className="fa fa-phone"></i>{" "}
+                    <a href="tel://+923310164313">+923310164313</a>
                   </li>
                   <li>
-                    <a
-                      href="//www.twitter.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Twitter
-                    </a>
+                    <i className="fa fa-phone"></i>{" "}
+                    <a href="tel://+923342743554">+923342743554</a>
                   </li>
                   <li>
-                    <a
-                      href="//www.instagram.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Instagram
-                    </a>
+                    <i className="fa fa-envelope"></i>{" "}
+                    <a href="mailto:info@alharam.store">info@alharam.store</a>
                   </li>
                   <li>
-                    <a
-                      href="//www.youtube.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Youtube
-                    </a>
+                    <i className="fa fa-envelope"></i>{" "}
+                    <a href="mailto:support@alharam.store">support@alharam.store</a>
                   </li>
                 </ul>
               </div>
             </div>
-          </div>
-          <div
-            className={`${
-              sideMenu ? "col-xl-3 col-sm-8" : "col-lg-4 col-sm-6"
-            }`}
-          >
-            {/* footer newsletter */}
-            <FooterNewsletter
-              spaceBottomClass="mb-30"
-              spaceLeftClass="ml-70"
-              sideMenu={sideMenu}
-            />
           </div>
         </div>
       </div>
@@ -175,13 +119,13 @@ const FooterOne = ({
 
 FooterOne.propTypes = {
   backgroundColorClass: PropTypes.string,
+  spaceTopClass: PropTypes.string,
+  spaceBottomClass: PropTypes.string,
+  spaceLeftClass: PropTypes.string,
+  spaceRightClass: PropTypes.string,
   containerClass: PropTypes.string,
   extraFooterClass: PropTypes.string,
-  sideMenu: PropTypes.bool,
-  spaceBottomClass: PropTypes.string,
-  spaceTopClass: PropTypes.string,
-  spaceLeftClass: PropTypes.string,
-  spaceRightClass: PropTypes.string
+  sideMenu: PropTypes.bool
 };
 
 export default FooterOne;
