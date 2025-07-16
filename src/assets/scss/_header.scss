@@ -125,12 +125,12 @@
   img {
     width: 240px;
     height: auto;
-    max-height: 96px;
+    max-height: 72px;
     object-fit: contain;
 
     @media #{$md-layout} {
       width: 192px;
-      max-height: 80px;
+      max-height: 52px;
     }
 
     @media #{$xs-layout} {
@@ -140,7 +140,7 @@
 
     @media (max-width: 400px) {
       width: 150px;
-      max-height: 72px;
+      max-height: 52px;
     }
   }
 
