@@ -20,7 +20,30 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
             <Link to="/">Home</Link>
           </li>
           <li className="mega-menu-title">
-            <Link to="/shop">Shop</Link>
+            <Link to="/shop">
+              Shop
+              {sidebarMenu ? (
+                <span>
+                  <i className="fa fa-angle-right"></i>
+                </span>
+              ) : (
+                <i className="fa fa-angle-down" />
+              )}
+            </Link>
+            <ul className="submenu">
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/shop"}>All Products</Link>
+              </li>
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/cosmetic"}>Cosmetics</Link>
+              </li>
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/mobile-accessories"}>Mobile Accessories</Link>
+              </li>
+              <li>
+                <Link to={process.env.PUBLIC_URL + "/electronic"}>Electronics</Link>
+              </li>
+            </ul>
           </li>
 
           <li>

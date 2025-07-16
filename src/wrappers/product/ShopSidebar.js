@@ -20,7 +20,8 @@ const ShopSidebar = ({
   selectedColor, 
   searchTerm, 
   clearAllFilters,
-  sideSpaceClass 
+  sideSpaceClass,
+  hideCategoryFilter = false
 }) => {
   const uniqueCategories = getIndividualCategories(products);
   const uniqueColors = getIndividualColors(products);
@@ -38,11 +39,13 @@ const ShopSidebar = ({
       />
 
       {/* filter by categories */}
-      <ShopCategories
-        categories={uniqueCategories}
-        handleCategoryFilter={handleCategoryFilter}
-        selectedCategory={selectedCategory}
-      />
+      {!hideCategoryFilter && (
+        <ShopCategories
+          categories={uniqueCategories}
+          handleCategoryFilter={handleCategoryFilter}
+          selectedCategory={selectedCategory}
+        />
+      )}
 
       {/* filter by color */}
       <ShopColor 

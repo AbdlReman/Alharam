@@ -12,6 +12,11 @@ const ShopGridStandard = lazy(() => import("./pages/shop/ShopGridStandard"));
 // product pages
 const Product = lazy(() => import("./pages/shop-product/Product"));
 
+// category pages
+const CosmeticPage = lazy(() => import("./pages/category/CosmeticPage"));
+const MobileAccessoriesPage = lazy(() => import("./pages/category/MobileAccessoriesPage"));
+const ElectronicPage = lazy(() => import("./pages/category/ElectronicPage"));
+
 // blog pages
 const BlogStandard = lazy(() => import("./pages/blog/BlogStandard"));
 const BlogNoSidebar = lazy(() => import("./pages/blog/BlogNoSidebar"));
@@ -63,6 +68,20 @@ const App = () => {
             <Route
               path={process.env.PUBLIC_URL + "/product/:slug"}
               element={<Product />}
+            />
+
+            {/* Category pages */}
+            <Route
+              path={process.env.PUBLIC_URL + "/cosmetic"}
+              element={<CosmeticPage />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/mobile-accessories"}
+              element={<MobileAccessoriesPage />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/electronic"}
+              element={<ElectronicPage />}
             />
 
             {/* Blog pages */}

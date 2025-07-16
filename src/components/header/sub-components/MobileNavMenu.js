@@ -13,11 +13,33 @@ const MobileNavMenu = () => {
           </Link>
         </li>
        
-<li>
-<Link to={process.env.PUBLIC_URL + "/shop"}>
+        <li className="menu-item-has-children">
+          <Link to={process.env.PUBLIC_URL + "/shop"}>
             {t("shop")}
           </Link>
-</li>
+          <ul className="sub-menu">
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/shop"}>
+                All Products
+              </Link>
+            </li>
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/cosmetic"}>
+                Cosmetics
+              </Link>
+            </li>
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/mobile-accessories"}>
+                Mobile Accessories
+              </Link>
+            </li>
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/electronic"}>
+                Electronics
+              </Link>
+            </li>
+          </ul>
+        </li>
         
         {/* <li>
           <Link to={process.env.PUBLIC_URL + "/shop-grid-standard"}>
