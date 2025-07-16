@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Rating from "./sub-components/ProductRating";
-import { getDiscountPrice } from "../../helpers/product";
+import { getDiscountPrice, truncateTitle } from "../../helpers/product";
 import ProductModal from "./ProductModal";
 import { addToCart } from "../../store/slices/cart-slice";
 import { addToWishlist } from "../../store/slices/wishlist-slice";
@@ -139,7 +139,7 @@ const ProductGridSingle = ({
         <div className="product-content text-center">
           <h3>
             <Link to={process.env.PUBLIC_URL + "/product/" + product.slug}>
-              {product.name}
+              {truncateTitle(product.name)}
             </Link>
           </h3>
           {product.rating && product.rating > 0 ? (

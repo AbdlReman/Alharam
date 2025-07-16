@@ -31,6 +31,34 @@
       }
     }
 
+    &.four-column {
+      .col-xl-3 {
+        flex: 1 0 25%;
+
+        max-width: 25%;
+
+        transition: 0.5s;
+
+        @media #{$lg-layout} {
+          flex: 1 0 33.3333%;
+
+          max-width: 33.3333%;
+        }
+
+        @media #{$md-layout} {
+          flex: 1 0 50%;
+
+          max-width: 50%;
+        }
+
+        @media #{$xs-layout} {
+          flex: 1 0 100%;
+
+          max-width: 100%;
+        }
+      }
+    }
+
     &.five-column {
       .col-xl-3 {
         flex: 1 0 20%;
@@ -287,9 +315,15 @@
     position: relative;
 
     overflow: hidden;
+    height: 300px;
+    /* Fixed height for consistent appearance */
 
     img {
       width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      background: #fff;
     }
 
     &-badges {
@@ -1619,9 +1653,16 @@
 
   .product-img {
     position: relative;
+    height: 300px;
+    /* Fixed height for consistent appearance */
+    overflow: hidden;
 
     img {
       width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      background: #fff;
     }
 
     span {

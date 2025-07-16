@@ -3,7 +3,7 @@ import { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-import { getDiscountPrice } from "../../helpers/product";
+import { getDiscountPrice, truncateTitle } from "../../helpers/product";
 import Rating from "./sub-components/ProductRating";
 import ProductModal from "./ProductModal";
 import { addToCart } from "../../store/slices/cart-slice";
@@ -131,7 +131,7 @@ const ProductGridListSingle = ({
         <div className="product-content text-center">
           <h3>
             <Link to={process.env.PUBLIC_URL + "/product/" + product.slug}>
-              {product.name}
+              {truncateTitle(product.name)}
             </Link>
           </h3>
           {product.rating && product.rating > 0 && (
@@ -194,7 +194,7 @@ const ProductGridListSingle = ({
             <div className="shop-list-content">
               <h3>
                 <Link to={process.env.PUBLIC_URL + "/product/" + product.slug}>
-                  {product.name}
+                  {truncateTitle(product.name)}
                 </Link>
               </h3>
               <div className="product-list-price">

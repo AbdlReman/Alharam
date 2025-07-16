@@ -250,3 +250,9 @@ export const toggleShopTopFilter = e => {
   }
   e.currentTarget.classList.toggle("active");
 };
+
+export const truncateTitle = (title, maxLength = 20) => {
+  if (!title) return "";
+  if (title.length <= maxLength) return title;
+  return title.substring(0, maxLength) + "...";
+};

@@ -2,14 +2,12 @@ import PropTypes from "prop-types";
 import clsx from "clsx"
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Tab from "react-bootstrap/Tab";
-import Nav from "react-bootstrap/Nav";
 import SectionTitle from "../../components/section-title/SectionTitle";
 import ProductGridTwo from "./ProductGridTwo";
 import client from "../../data/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
-const TabProductTwo = ({ spaceBottomClass, category }) => {
+const ProductSection = ({ spaceBottomClass, category, title }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -62,23 +60,15 @@ const TabProductTwo = ({ spaceBottomClass, category }) => {
   }, []);
 
   // Filter products by category
-  const cosmeticProducts = products
-    .filter(product => product.category && product.category.includes('cosmetic'))
-    .slice(0, 4);
-  
-  const mobileAccessoriesProducts = products
-    .filter(product => product.category && product.category.includes('mobileaccessories'))
-    .slice(0, 4);
-  
-  const electronicProducts = products
-    .filter(product => product.category && product.category.includes('electronic'))
+  const categoryProducts = products
+    .filter(product => product.category && product.category.includes(category))
     .slice(0, 4);
 
   if (loading) {
     return (
       <div className={clsx("product-area", spaceBottomClass)}>
         <div className="container">
-          <SectionTitle titleText="DAILY DEALS!" positionClass="text-center" />
+          <SectionTitle titleText={title} positionClass="text-center" />
           <div className="text-center py-5">
             <p>Loading products...</p>
           </div>
@@ -90,55 +80,13 @@ const TabProductTwo = ({ spaceBottomClass, category }) => {
   return (
     <div className={clsx("product-area", spaceBottomClass)}>
       <div className="container">
-        <SectionTitle titleText="DAILY DEALS!" positionClass="text-center" />
-        <Tab.Container defaultActiveKey="cosmetic">
-          <Nav
-            variant="pills"
-            className="product-tab-list pt-30 pb-55 text-center"
-          >
-            <Nav.Item>
-              <Nav.Link eventKey="cosmetic">
-                <h4>Cosmetics</h4>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="mobileAccessories">
-                <h4>Mobile Accessories</h4>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="electronic">
-                <h4>Electronics</h4>
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-          <Tab.Content>
-            <Tab.Pane eventKey="cosmetic">
-              <div className="row four-column">
-                <ProductGridTwo
-                  products={cosmeticProducts}
-                  spaceBottomClass="mb-25"
-                />
-              </div>
-            </Tab.Pane>
-            <Tab.Pane eventKey="mobileAccessories">
-              <div className="row four-column">
-                <ProductGridTwo
-                  products={mobileAccessoriesProducts}
-                  spaceBottomClass="mb-25"
-                />
-              </div>
-            </Tab.Pane>
-            <Tab.Pane eventKey="electronic">
-              <div className="row four-column">
-                <ProductGridTwo
-                  products={electronicProducts}
-                  spaceBottomClass="mb-25"
-                />
-              </div>
-            </Tab.Pane>
-          </Tab.Content>
-        </Tab.Container>
+        <SectionTitle titleText={title} positionClass="text-center" />
+        <div className="row four-column">
+          <ProductGridTwo
+            products={categoryProducts}
+            spaceBottomClass="mb-25"
+          />
+        </div>
         <div className="view-more text-center mt-20 toggle-btn6 col-12">
           <Link
             className="loadMore6"
@@ -152,9 +100,10 @@ const TabProductTwo = ({ spaceBottomClass, category }) => {
   );
 };
 
-TabProductTwo.propTypes = {
-  category: PropTypes.string,
+ProductSection.propTypes = {
+  category: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   spaceBottomClass: PropTypes.string
 };
 
-export default TabProductTwo;
+export default ProductSection; 

@@ -3,7 +3,7 @@ import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import HeroSliderTwentySeven from "../../wrappers/hero-slider/HeroSliderTwentySeven";
 import BannerTwentySeven from "../../wrappers/banner/BannerTwentySeven";
-import TabProductTwo from "../../wrappers/product/TabProductTwo";
+import ProductSection from "../../wrappers/product/ProductSection";
 import RecurringCountDown from "../../wrappers/countdown/RecurringCountDown";
 import FeatureIconTwo from "../../wrappers/feature-icon/FeatureIconTwo";
 
@@ -22,8 +22,26 @@ const HomeFurniture = () => {
         {/* banner */}
         <BannerTwentySeven spaceTopClass="pt-80" spaceBottomClass="pb-60" />
 
-        {/* tab product */}
-        <TabProductTwo spaceBottomClass="pb-100" category="lingerie" />
+        {/* mobile accessories section */}
+        <ProductSection 
+          spaceBottomClass="pb-100" 
+          category="mobileaccessories" 
+          title="MOBILE ACCESSORIES" 
+        />
+
+        {/* cosmetics section */}
+        <ProductSection 
+          spaceBottomClass="pb-100" 
+          category="cosmetic" 
+          title="COSMETICS" 
+        />
+
+        {/* electronics section */}
+        <ProductSection 
+          spaceBottomClass="pb-100" 
+          category="electronic" 
+          title="ELECTRONICS" 
+        />
 
         {/* countdown */}
         <RecurringCountDown

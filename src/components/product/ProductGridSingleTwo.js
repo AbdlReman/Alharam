@@ -3,7 +3,7 @@ import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
-import { getDiscountPrice } from "../../helpers/product";
+import { getDiscountPrice, truncateTitle } from "../../helpers/product";
 import ProductModal from "./ProductModal";
 import { addToWishlist } from "../../store/slices/wishlist-slice";
 import { addToCompare } from "../../store/slices/compare-slice";
@@ -59,18 +59,14 @@ const ProductGridSingleTwo = ({
                 e.target.src = '/assets/img/product/default-product.jpg';
               }}
             />
-            {displayImages.length > 1 ? (
-              <img
-                className="hover-img"
-                src={hoverImage}
-                alt={product.name}
-                onError={(e) => {
-                  e.target.src = '/assets/img/product/default-product.jpg';
-                }}
-              />
-            ) : (
-              ""
-            )}
+            <img
+              className="hover-img"
+              src={hoverImage}
+              alt={product.name}
+              onError={(e) => {
+                e.target.src = '/assets/img/product/default-product.jpg';
+              }}
+            />
           </Link>
           {product.discount || product.new ? (
             <div className="product-img-badges">
@@ -154,7 +150,7 @@ const ProductGridSingleTwo = ({
           >
             <h3>
               <Link to={process.env.PUBLIC_URL + "/product/" + product.slug}>
-                {product.name}
+                {truncateTitle(product.name)}
               </Link>
             </h3>
             <div className="price-2">
