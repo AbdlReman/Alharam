@@ -1025,10 +1025,11 @@
       overflow: hidden;
 
       width: 80px;
-      height: 60px;
+      height: 45px;
       padding: 0;
 
       border: 1px solid #e8e8e8;
+      border-radius: 4px;
 
       .qtybutton {
         font-size: 14px;
@@ -1055,14 +1056,14 @@
         top: 0;
         left: 0;
 
-        height: 60px;
+        height: 45px;
       }
 
       .inc.qtybutton {
         top: 0;
         right: 0;
 
-        height: 60px;
+        height: 45px;
       }
 
       input.cart-plus-minus-box {
@@ -1071,7 +1072,7 @@
         float: left;
 
         width: 80px;
-        height: 60px;
+        height: 45px;
         margin: 0;
         padding: 0;
 
@@ -1084,53 +1085,112 @@
     }
 
     .pro-details-cart {
-      margin: 0 25px 0 10px;
+      margin: 0 15px 0 0;
+      margin-left: 20px;
 
       @media #{$xs-layout} {
-        margin: 0 10px 0 10px;
+        margin: 0 10px 0 0;
+        margin-left: 15px;
       }
 
       @media #{$md-layout} {
-        margin: 0 17px 0 10px;
+        margin: 0 15px 0 0;
+        margin-left: 20px;
       }
 
       a,
       button {
-        font-weight: bold;
+        font-weight: 600;
+        font-size: 14px;
         line-height: 1;
 
         z-index: 99;
 
         display: inline-block;
 
-        padding: 23px 38px 23px;
+        padding: 15px 30px;
 
         text-transform: uppercase;
+        border-radius: 4px;
+        transition: all 0.3s ease;
 
         color: #fff;
         border: none;
-        background: none;
-        background-color: #343538;
+        background: #343538;
 
         @media #{$xs-layout} {
-          padding: 23px 12px 23px;
+          padding: 12px 20px;
+          font-size: 13px;
         }
 
         @media #{$md-layout} {
-          padding: 22px 22px 22px;
+          padding: 14px 25px;
         }
 
         &:hover {
-          border: none;
+          background: #000;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         &:disabled {
           cursor: not-allowed;
+          opacity: 0.6;
+          background: #666;
+        }
+      }
+    }
 
-          &:before,
-          &:after {
-            display: none;
-          }
+    .pro-details-buy-now {
+      margin: 0 15px 0 0;
+
+      @media #{$xs-layout} {
+        margin: 0 10px 0 0;
+      }
+
+      @media #{$md-layout} {
+        margin: 0 15px 0 0;
+      }
+
+      a,
+      button {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1;
+
+        z-index: 99;
+
+        display: inline-block;
+
+        padding: 15px 30px;
+
+        text-transform: uppercase;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+
+        color: #fff;
+        border: none;
+        background: $theme-color;
+
+        @media #{$xs-layout} {
+          padding: 12px 20px;
+          font-size: 13px;
+        }
+
+        @media #{$md-layout} {
+          padding: 14px 25px;
+        }
+
+        &:hover {
+          background: darken($theme-color, 10%);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        &:disabled {
+          cursor: not-allowed;
+          opacity: 0.6;
+          background: #ccc;
         }
       }
     }

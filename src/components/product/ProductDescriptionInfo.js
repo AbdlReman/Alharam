@@ -240,6 +240,20 @@ const ProductDescriptionInfo = ({
               <button disabled>Out of Stock</button>
             )}
           </div>
+          <div className="pro-details-buy-now btn-hover">
+            {productStock && productStock > 0 ? (
+              <button
+                onClick={handleAddToCart}
+                disabled={productCartQty >= productStock}
+                className="buy-now-btn"
+              >
+                {" "}
+                Buy Now{" "}
+              </button>
+            ) : (
+              <button disabled>Out of Stock</button>
+            )}
+          </div>
           <div className="pro-details-wishlist">
             <button
               className={wishlistItem !== undefined ? "active" : ""}

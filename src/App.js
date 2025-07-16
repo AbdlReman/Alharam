@@ -76,7 +76,7 @@ const App = () => {
               element={<CosmeticPage />}
             />
             <Route
-              path={process.env.PUBLIC_URL + "/mobile-accessories"}
+              path={process.env.PUBLIC_URL + "/mobileaccessories"}
               element={<MobileAccessoriesPage />}
             />
             <Route

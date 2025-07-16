@@ -198,7 +198,7 @@ const MobileAccessoriesPage = () => {
         <Breadcrumb
           pages={[
             { label: "Home", path: process.env.PUBLIC_URL + "/" },
-            { label: "Mobile Accessories", path: process.env.PUBLIC_URL + "/mobile-accessories" },
+            { label: "Mobile Accessories", path: process.env.PUBLIC_URL + "/mobileaccessories" },
           ]}
         />
         <div className="shop-area pt-95 pb-100">
