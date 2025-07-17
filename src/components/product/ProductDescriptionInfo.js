@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductCartQuantity } from "../../helpers/product";
 import Rating from "./sub-components/ProductRating";
@@ -19,6 +19,7 @@ const ProductDescriptionInfo = ({
   compareItem,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   const [selectedProductColor, setSelectedProductColor] = useState("");
   const [selectedProductSize, setSelectedProductSize] = useState("");
@@ -66,6 +67,20 @@ const ProductDescriptionInfo = ({
       selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
       selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null
     }));
+  };
+
+  const handleBuyNow = () => {
+    // First add the product to cart (without showing toast)
+    dispatch(addToCart({
+      ...product,
+      quantity: quantityCount,
+      selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
+      selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null,
+      suppressToast: true
+    }));
+    
+    // Then navigate to checkout
+    navigate("/checkout");
   };
 
   return (
@@ -243,7 +258,7 @@ const ProductDescriptionInfo = ({
           <div className="pro-details-buy-now btn-hover">
             {productStock && productStock > 0 ? (
               <button
-                onClick={handleAddToCart}
+                onClick={handleBuyNow}
                 disabled={productCartQty >= productStock}
                 className="buy-now-btn"
               >

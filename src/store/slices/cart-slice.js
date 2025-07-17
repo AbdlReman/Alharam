@@ -10,6 +10,8 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action) {
       const product = action.payload;
+      const suppressToast = action.payload?.suppressToast || false;
+      
       if (!product.variation) {
         const cartItem = state.cartItems.find((item) => item.id === product.id);
         if (!cartItem) {
@@ -18,7 +20,9 @@ const cartSlice = createSlice({
             quantity: product.quantity ? product.quantity : 1,
             cartItemId: uuidv4(),
           });
-          toast.success("Added to cart successfully!");
+          if (!suppressToast) {
+            toast.success("Added to cart successfully!");
+          }
         } else {
           state.cartItems = state.cartItems.map((item) => {
             if (item.cartItemId === cartItem.cartItemId) {
@@ -31,7 +35,9 @@ const cartSlice = createSlice({
             }
             return item;
           });
-          toast.success("Quantity updated in cart!");
+          if (!suppressToast) {
+            toast.success("Quantity updated in cart!");
+          }
         }
       } else {
         const cartItem = state.cartItems.find(
@@ -49,7 +55,9 @@ const cartSlice = createSlice({
             quantity: product.quantity ? product.quantity : 1,
             cartItemId: uuidv4(),
           });
-          toast.success("Added to cart successfully!");
+          if (!suppressToast) {
+            toast.success("Added to cart successfully!");
+          }
         } else if (
           cartItem !== undefined &&
           (cartItem.selectedProductColor !== product.selectedProductColor ||
@@ -63,7 +71,9 @@ const cartSlice = createSlice({
               cartItemId: uuidv4(),
             },
           ];
-          toast.success("Added to cart successfully!");
+          if (!suppressToast) {
+            toast.success("Added to cart successfully!");
+          }
         } else {
           state.cartItems = state.cartItems.map((item) => {
             if (item.cartItemId === cartItem.cartItemId) {
@@ -78,7 +88,9 @@ const cartSlice = createSlice({
             }
             return item;
           });
-          toast.success("Quantity updated in cart!");
+          if (!suppressToast) {
+            toast.success("Quantity updated in cart!");
+          }
         }
       }
     },
