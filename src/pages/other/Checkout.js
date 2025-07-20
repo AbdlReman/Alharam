@@ -9,6 +9,7 @@ import emailjs from "emailjs-com";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { deleteAllFromCart } from "../../store/slices/cart-slice";
 import { EMAILJS_CONFIG } from "../../config/emailjs";
+import { sendOrderNotification } from "../../config/whatsapp";
 
 // Initialize EmailJS with your brand configuration
 emailjs.init("uOGdgPbVqeIsG8gD8");
@@ -153,6 +154,7 @@ const Checkout = () => {
     });
 
     try {
+      // Send email notification
       const result = await emailjs.send(
         EMAILJS_CONFIG.SERVICE_ID, // Your service ID
         EMAILJS_CONFIG.ORDER_TEMPLATE_ID, // Your template ID
@@ -182,6 +184,29 @@ const Checkout = () => {
       );
       console.log("Email sent successfully:", result);
 
+      // Send WhatsApp notification
+      const whatsappResult = await sendOrderNotification({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        companyName: formData.companyName,
+        country: formData.country,
+        streetAddress: formData.streetAddress,
+        city: formData.city,
+        state: formData.state,
+        postcode: formData.postcode,
+        phone: formData.phone,
+        email: formData.email,
+        orderNotes: formData.orderNotes,
+        paymentMethod: getPaymentMethodName(formData.paymentMethod),
+        transactionId: formData.transactionId,
+        productNames: formattedProductNames,
+        quantities: formattedQuantities,
+        prices: formattedPrices,
+        totals: formattedTotals,
+        total: total,
+      });
+      console.log("WhatsApp notification result:", whatsappResult);
+
       // Dismiss loading toast and show success
       toast.dismiss(loadingToast);
 
@@ -205,8 +230,8 @@ const Checkout = () => {
         transactionId: "",
       });
 
-      // Show single success notification
-      toast.success("Order completed successfully!", {
+      // Show success notification with WhatsApp info
+      toast.success("Order completed successfully! WhatsApp notification sent.", {
         position: "top-center",
         autoClose: 4000,
         hideProgressBar: false,
