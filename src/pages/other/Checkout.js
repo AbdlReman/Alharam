@@ -27,6 +27,8 @@ const Checkout = () => {
     phone: "",
     email: "",
     orderNotes: "",
+    paymentMethod: "cash_on_delivery",
+    transactionId: "",
   });
 
   const { pathname } = useLocation();
@@ -74,6 +76,15 @@ const Checkout = () => {
       return;
     }
 
+    // Validate transaction ID for online payments
+    if (
+      formData.paymentMethod !== "cash_on_delivery" &&
+      !formData.transactionId
+    ) {
+      toast.error("Please enter your transaction ID for online payment");
+      return;
+    }
+
     // Show loading toast
     const loadingToast = toast.loading("Processing your order...");
 
@@ -91,7 +102,7 @@ const Checkout = () => {
         productName: item.name,
         quantity: item.quantity,
         price: finalDiscountedPrice,
-        total: itemTotal
+        total: itemTotal,
       };
     });
 
@@ -100,22 +111,35 @@ const Checkout = () => {
       .toFixed(2);
 
     // Create separate arrays for each column
-    const productNames = orderSummary.map(item => {
-      const shortName = item.productName.length > 30 
-        ? item.productName.substring(0, 27) + '...' 
-        : item.productName;
-      return shortName;
+    const productNames = orderSummary.map((item) => {
+      return item.productName; // Return full product name without truncation
     });
-    
-    const quantities = orderSummary.map(item => item.quantity);
-            const prices = orderSummary.map(item => `${"Rs "}${item.price}`);
-        const totals = orderSummary.map(item => `${"Rs "}${item.total}`);
+
+    const quantities = orderSummary.map((item) => item.quantity);
+    const prices = orderSummary.map((item) => `${"Rs "}${item.price}`);
+    const totals = orderSummary.map((item) => `${"Rs "}${item.total}`);
     
     // Join arrays with line breaks for display
-    const formattedProductNames = productNames.join('\n');
-    const formattedQuantities = quantities.join('\n');
-    const formattedPrices = prices.join('\n');
-    const formattedTotals = totals.join('\n');
+    const formattedProductNames = productNames.join("\n");
+    const formattedQuantities = quantities.join("\n");
+    const formattedPrices = prices.join("\n");
+    const formattedTotals = totals.join("\n");
+
+    // Get payment method display name
+    const getPaymentMethodName = (method) => {
+      switch (method) {
+        case "cash_on_delivery":
+          return "Cash on Delivery";
+        case "easypaisa":
+          return "Easy Paisa";
+        case "jazzcash":
+          return "Jazz Cash";
+        case "bank":
+          return "Bank Transfer";
+        default:
+          return method;
+      }
+    };
 
     // Log the data to be sent for debugging
     console.log("FormData:", {
@@ -125,6 +149,7 @@ const Checkout = () => {
       prices: formattedPrices,
       totals: formattedTotals,
       total,
+      paymentMethod: getPaymentMethodName(formData.paymentMethod),
     });
 
     try {
@@ -145,6 +170,8 @@ const Checkout = () => {
           phone: formData.phone,
           email: formData.email,
           orderNotes: formData.orderNotes,
+          paymentMethod: getPaymentMethodName(formData.paymentMethod),
+          transactionId: formData.transactionId,
           productNames: formattedProductNames,
           quantities: formattedQuantities,
           prices: formattedPrices,
@@ -174,6 +201,8 @@ const Checkout = () => {
         phone: "",
         email: "",
         orderNotes: "",
+        paymentMethod: "cash_on_delivery",
+        transactionId: "",
       });
 
       // Show single success notification
@@ -418,14 +447,155 @@ const Checkout = () => {
                           <div className="your-order-total">
                             <ul>
                               <li className="order-total">Total</li>
-                              <li>
-                                {"Rs " +
-                                  cartTotalPrice.toFixed(2)}
-                              </li>
+                              <li>{"Rs " + cartTotalPrice.toFixed(2)}</li>
                             </ul>
                           </div>
                         </div>
-                        <div className="payment-method"></div>
+
+                        {/* Payment Method Section */}
+                        <div className="payment-method">
+                          <h4>Payment Method</h4>
+                          <div className="payment-options">
+                            <div className="payment-option mb-20">
+                              <div className="radio-wrapper">
+                                <input
+                                  type="radio"
+                                  id="cash_on_delivery"
+                                  name="paymentMethod"
+                                  value="cash_on_delivery"
+                                  checked={
+                                    formData.paymentMethod ===
+                                    "cash_on_delivery"
+                                  }
+                                  onChange={handleChange}
+                                  className="custom-radio"
+                                />
+                                <label
+                                  htmlFor="cash_on_delivery"
+                                  className="radio-label"
+                                >
+                                  Cash on Delivery
+                                </label>
+                              </div>
+                            </div>
+
+                            <div className="payment-option mb-20">
+                              <div className="radio-wrapper">
+                                <input
+                                  type="radio"
+                                  id="easypaisa"
+                                  name="paymentMethod"
+                                  value="easypaisa"
+                                  checked={
+                                    formData.paymentMethod === "easypaisa"
+                                  }
+                                  onChange={handleChange}
+                                  className="custom-radio"
+                                />
+                                <label
+                                  htmlFor="easypaisa"
+                                  className="radio-label"
+                                >
+                                  Easy Paisa
+                                </label>
+                              </div>
+                              {formData.paymentMethod === "easypaisa" && (
+                                <div className="payment-details">
+                                  <p>
+                                    <strong>Account:</strong> 03108111554
+                                  </p>
+                                  <p>
+                                    <strong>Account Holder:</strong> Asiya bibi
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="payment-option mb-20">
+                              <div className="radio-wrapper">
+                                <input
+                                  type="radio"
+                                  id="jazzcash"
+                                  name="paymentMethod"
+                                  value="jazzcash"
+                                  checked={
+                                    formData.paymentMethod === "jazzcash"
+                                  }
+                                  onChange={handleChange}
+                                  className="custom-radio"
+                                />
+                                <label
+                                  htmlFor="jazzcash"
+                                  className="radio-label"
+                                >
+                                  Jazz Cash
+                                </label>
+                              </div>
+                              {formData.paymentMethod === "jazzcash" && (
+                                <div className="payment-details">
+                                  <p>
+                                    <strong>Account:</strong> 03287818894
+                                  </p>
+                                  <p>
+                                    <strong>Account Holder:</strong> Iqra
+                                    siddique
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="payment-option mb-20">
+                              <div className="radio-wrapper">
+                                <input
+                                  type="radio"
+                                  id="bank"
+                                  name="paymentMethod"
+                                  value="bank"
+                                  checked={formData.paymentMethod === "bank"}
+                                  onChange={handleChange}
+                                  className="custom-radio"
+                                />
+                                <label htmlFor="bank" className="radio-label">
+                                  Bank Transfer
+                                </label>
+                              </div>
+                              {formData.paymentMethod === "bank" && (
+                                <div className="payment-details">
+                                  <p>
+                                    <strong>Account Holder:</strong> ASIA BIBI
+                                  </p>
+                                  <p>
+                                    <strong>Bank:</strong> Meezan
+                                    Bank-MAMUKANJAN BRANCH
+                                  </p>
+                                  <p>
+                                    <strong>Account Number:</strong>{" "}
+                                    98980106494041
+                                  </p>
+                                  <p>
+                                    <strong>IBAN:</strong>{" "}
+                                    PK73MEZN0098980106494041
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Transaction ID Field for Online Payments */}
+                          {formData.paymentMethod !== "cash_on_delivery" && (
+                            <div className="transaction-id-field mt-20">
+                              <label>Transaction ID / TRX ID *</label>
+                              <input
+                                type="text"
+                                name="transactionId"
+                                value={formData.transactionId}
+                                onChange={handleChange}
+                                placeholder="Enter your transaction ID"
+                                className="w-100"
+                              />
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <div className="place-order mt-25">
                         <button className="btn-hover" type="submit">
@@ -455,6 +625,104 @@ const Checkout = () => {
             )}
           </div>
         </div>
+
+        {/* Custom CSS for Payment Method Styling */}
+        <style jsx>{`
+          .payment-method {
+            margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #e8e8e8;
+          }
+
+          .payment-method h4 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+          }
+
+          .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          .payment-option {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .radio-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+          }
+
+          .custom-radio {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            cursor: pointer;
+            // accent-color: #f7941d;
+          }
+
+          .radio-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            margin: 0;
+            line-height: 1.2;
+          }
+
+          .payment-details {
+            margin-left: 24px;
+            margin-top: 8px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid #f7941d;
+          }
+
+          .payment-details p {
+            margin: 0 0 5px 0;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+          }
+
+          .payment-details p:last-child {
+            margin-bottom: 0;
+          }
+
+          .transaction-id-field {
+            margin-top: 15px;
+          }
+
+          .transaction-id-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+          }
+
+          .transaction-id-field input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+          }
+
+          .transaction-id-field input:focus {
+            outline: none;
+            border-color: #f7941d;
+            box-shadow: 0 0 0 1px rgba(247, 148, 29, 0.1);
+          }
+        `}</style>
       </LayoutOne>
     </Fragment>
   );
