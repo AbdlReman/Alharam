@@ -1,6 +1,7 @@
 export const WHATSAPP_CONFIG = {
   // WhatsApp Business API configuration
-  PHONE_NUMBER: '+923020058237', // Your WhatsApp number
+  PHONE_NUMBERS: ['+923020058237', '+923342743554'], // Multiple WhatsApp numbers
+  PRIMARY_PHONE: '+923020058237', // Primary number for backward compatibility
   API_URL: 'https://api.whatsapp.com/send', // WhatsApp API URL
   BUSINESS_NAME: 'Alharam Store',
   // Alternative webhook service for more reliable delivery
@@ -74,12 +75,23 @@ export const sendWhatsAppMessage = async (message) => {
   try {
     // Encode the message for URL
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `${WHATSAPP_CONFIG.API_URL}?phone=${WHATSAPP_CONFIG.PHONE_NUMBER}&text=${encodedMessage}`;
     
-    // Open WhatsApp in a new window/tab
-    window.open(whatsappUrl, '_blank');
+    // Send to all configured numbers
+    const results = [];
     
-    return { success: true, message: 'WhatsApp message prepared successfully' };
+    for (const phoneNumber of WHATSAPP_CONFIG.PHONE_NUMBERS) {
+      const whatsappUrl = `${WHATSAPP_CONFIG.API_URL}?phone=${phoneNumber}&text=${encodedMessage}`;
+      
+      // Open WhatsApp in a new window/tab for each number
+      window.open(whatsappUrl, '_blank');
+      results.push({ phoneNumber, success: true });
+    }
+    
+    return { 
+      success: true, 
+      message: `WhatsApp message prepared successfully for ${results.length} number(s)`,
+      results 
+    };
   } catch (error) {
     console.error('Error sending WhatsApp message:', error);
     return { success: false, error: error.message };
@@ -99,18 +111,29 @@ export const sendAutomaticWhatsApp = async (message) => {
     // You can replace this with actual API calls to your preferred service
     
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `${WHATSAPP_CONFIG.API_URL}?phone=${WHATSAPP_CONFIG.PHONE_NUMBER}&text=${encodedMessage}`;
+    const results = [];
     
-    // Create a temporary link and click it programmatically
-    const link = document.createElement('a');
-    link.href = whatsappUrl;
-    link.target = '_blank';
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Send to all configured numbers
+    for (const phoneNumber of WHATSAPP_CONFIG.PHONE_NUMBERS) {
+      const whatsappUrl = `${WHATSAPP_CONFIG.API_URL}?phone=${phoneNumber}&text=${encodedMessage}`;
+      
+      // Create a temporary link and click it programmatically
+      const link = document.createElement('a');
+      link.href = whatsappUrl;
+      link.target = '_blank';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      results.push({ phoneNumber, success: true });
+    }
     
-    return { success: true, message: 'WhatsApp notification sent automatically' };
+    return { 
+      success: true, 
+      message: `WhatsApp notification sent automatically to ${results.length} number(s)`,
+      results 
+    };
   } catch (error) {
     console.error('Error sending automatic WhatsApp:', error);
     return { success: false, error: error.message };
