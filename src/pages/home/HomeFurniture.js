@@ -7,7 +7,6 @@ import ProductSection from "../../wrappers/product/ProductSection";
 import RecurringCountDown from "../../wrappers/countdown/RecurringCountDown";
 import FeatureIconTwo from "../../wrappers/feature-icon/FeatureIconTwo";
 
-
 const HomeFurniture = () => {
   return (
     <Fragment>
@@ -23,24 +22,24 @@ const HomeFurniture = () => {
         <BannerTwentySeven spaceTopClass="pt-80" spaceBottomClass="pb-60" />
 
         {/* mobile accessories section */}
-        <ProductSection 
-          spaceBottomClass="pb-100" 
-          category="mobileaccessories" 
-          title="MOBILE ACCESSORIES" 
+        <ProductSection
+          spaceBottomClass="pb-100"
+          category="mobileaccessories"
+          title="MOBILE ACCESSORIES"
         />
 
         {/* cosmetics section */}
-        <ProductSection 
-          spaceBottomClass="pb-100" 
-          category="cosmetic" 
-          title="COSMETICS" 
+        <ProductSection
+          spaceBottomClass="pb-100"
+          category="cosmetic"
+          title="COSMETICS"
         />
 
         {/* electronics section */}
-        <ProductSection 
-          spaceBottomClass="pb-100" 
-          category="electronic" 
-          title="ELECTRONICS" 
+        <ProductSection
+          spaceBottomClass="pb-100"
+          category="electronics"
+          title="ELECTRONICS"
         />
 
         {/* countdown */}
@@ -53,7 +52,6 @@ const HomeFurniture = () => {
 
         {/* feature icon */}
         <FeatureIconTwo spaceTopClass="pt-100" spaceBottomClass="pb-60" />
-
       </LayoutOne>
     </Fragment>
   );

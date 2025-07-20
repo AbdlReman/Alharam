@@ -36,21 +36,21 @@ const ElectronicPage = () => {
     setFilterSortType(type);
     setFilterSortValue(value);
   };
-  
+
   // Handle search
   const handleSearch = (term) => {
     setSearchTerm(term);
     setOffset(0);
     setCurrentPage(1);
   };
-  
+
   // Handle color filter
   const handleColorFilter = (color) => {
     setSelectedColor(color);
     setOffset(0);
     setCurrentPage(1);
   };
-  
+
   // Clear all filters
   const clearAllFilters = () => {
     setSearchTerm("");
@@ -69,36 +69,40 @@ const ElectronicPage = () => {
       try {
         setLoading(true);
         const entries = await client.getEntries({ content_type: "product" });
-        
+
         const items = entries.items.map((item) => {
           const fields = item.fields;
-          
+
           // Handle category field - it might be a string, array, or object
           let categoryArray = [];
           if (fields.category) {
             if (Array.isArray(fields.category)) {
               categoryArray = fields.category;
-            } else if (typeof fields.category === 'string') {
+            } else if (typeof fields.category === "string") {
               categoryArray = [fields.category];
             } else if (fields.category.fields) {
               // If it's a Contentful reference
-              categoryArray = [fields.category.fields.name || fields.category.fields.title];
+              categoryArray = [
+                fields.category.fields.name || fields.category.fields.title,
+              ];
             }
           }
-          
+
           // Handle color field - it might be a string, array, or object
           let colorArray = [];
           if (fields.color) {
             if (Array.isArray(fields.color)) {
               colorArray = fields.color;
-            } else if (typeof fields.color === 'string') {
+            } else if (typeof fields.color === "string") {
               colorArray = [fields.color];
             } else if (fields.color.fields) {
               // If it's a Contentful reference
-              colorArray = [fields.color.fields.name || fields.color.fields.title];
+              colorArray = [
+                fields.color.fields.name || fields.color.fields.title,
+              ];
             }
           }
-          
+
           return {
             id: item.sys.id,
             name: fields.name,
@@ -106,7 +110,9 @@ const ElectronicPage = () => {
             price: parseFloat(fields.price) || 0,
             discount: parseFloat(fields.discount) || 0,
             shortDescription: fields.shortDescription,
-            fullDescription: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",
+            fullDescription: fields.fullDescription
+              ? documentToHtmlString(fields.fullDescription)
+              : "",
             category: categoryArray,
             tag: fields.tag || [],
             images: fields.images?.map((img) => img.fields.file.url) || [],
@@ -120,17 +126,21 @@ const ElectronicPage = () => {
             title: fields.name,
             description: fields.shortDescription,
             // Add variation structure if colors/sizes exist
-            variation: colorArray.length > 0 ? 
-              colorArray.map(color => ({
-                color: color,
-                size: fields.size ? fields.size.map(size => ({
-                  name: size,
-                  stock: fields.stock || 0
-                })) : []
-              })) : null
+            variation:
+              colorArray.length > 0
+                ? colorArray.map((color) => ({
+                    color: color,
+                    size: fields.size
+                      ? fields.size.map((size) => ({
+                          name: size,
+                          stock: fields.stock || 0,
+                        }))
+                      : [],
+                  }))
+                : null,
           };
         });
-        
+
         setProducts(items);
       } catch (error) {
         console.error("Failed to fetch products from Contentful", error);
@@ -144,37 +154,51 @@ const ElectronicPage = () => {
   // Sort + paginate when data or filters change
   useEffect(() => {
     let filtered = [...products];
-    
+
     // Filter by electronic category
-    filtered = filtered.filter(product =>
-      product.category && 
-      (Array.isArray(product.category) ? 
-        product.category.includes('electronic') : 
-        product.category === 'electronic')
+    filtered = filtered.filter(
+      (product) =>
+        product.category &&
+        (Array.isArray(product.category)
+          ? product.category.includes("electronics")
+          : product.category === "electronics")
     );
-    
+
     // Apply search filter
     if (searchTerm) {
-      filtered = filtered.filter(product => {
-        const nameMatch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const descMatch = product.shortDescription?.toLowerCase().includes(searchTerm.toLowerCase());
+      filtered = filtered.filter((product) => {
+        const nameMatch = product.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+        const descMatch = product.shortDescription
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase());
         return nameMatch || descMatch;
       });
     }
-    
+
     // Apply color filter
     if (selectedColor) {
-      filtered = filtered.filter(product =>
-        product.color && product.color.includes(selectedColor)
+      filtered = filtered.filter(
+        (product) => product.color && product.color.includes(selectedColor)
       );
     }
-    
+
     // Apply sorting
     let sorted = getSortedProducts(filtered, sortType, sortValue);
     sorted = getSortedProducts(sorted, filterSortType, filterSortValue);
     setSortedProducts(sorted);
     setCurrentData(sorted.slice(offset, offset + pageLimit));
-  }, [products, offset, sortType, sortValue, filterSortType, filterSortValue, searchTerm, selectedColor]);
+  }, [
+    products,
+    offset,
+    sortType,
+    sortValue,
+    filterSortType,
+    filterSortValue,
+    searchTerm,
+    selectedColor,
+  ]);
 
   if (loading) {
     return (
@@ -190,22 +214,27 @@ const ElectronicPage = () => {
 
   return (
     <Fragment>
-      <SEO 
-        titleTemplate="Electronics - Alharam" 
-        description="Shop premium electronics at Alharam. Quality electronic appliances with excellent service and reliability." 
+      <SEO
+        titleTemplate="Electronics - Alharam"
+        description="Shop premium electronics at Alharam. Quality electronic appliances with excellent service and reliability."
       />
       <LayoutOne headerTop="visible">
         <Breadcrumb
           pages={[
             { label: "Home", path: process.env.PUBLIC_URL + "/" },
-            { label: "Electronics", path: process.env.PUBLIC_URL + "/electronic" },
+            {
+              label: "Electronics",
+              path: process.env.PUBLIC_URL + "/electronic",
+            },
           ]}
         />
         <div className="shop-area pt-95 pb-100">
           <div className="container">
             {products.length === 0 ? (
               <div className="text-center">
-                <p>No products found. Please check your Contentful configuration.</p>
+                <p>
+                  No products found. Please check your Contentful configuration.
+                </p>
               </div>
             ) : (
               <div className="row">
@@ -229,27 +258,28 @@ const ElectronicPage = () => {
                     productCount={products.length}
                     sortedProductCount={sortedProducts.length}
                   />
-                  
+
                   {/* Category Header */}
                   <div className="category-header mb-4">
                     <div className="row">
                       <div className="col-12">
                         <h1 className="category-title">Electronics</h1>
                         <p className="category-description">
-                          Discover our premium collection of electronics. 
+                          Discover our premium collection of electronics.
                           Quality electronic appliances with excellent service.
                         </p>
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Search Results Summary */}
                   {(searchTerm || selectedColor) && (
                     <div className="search-results-summary mb-4">
                       <div className="row">
                         <div className="col-12">
                           <div className="alert alert-info">
-                            <strong>Filtered Results:</strong> {sortedProducts.length} products found
+                            <strong>Filtered Results:</strong>{" "}
+                            {sortedProducts.length} products found
                             {searchTerm && (
                               <span className="ml-2">
                                 <strong>Search:</strong> "{searchTerm}"
@@ -265,7 +295,7 @@ const ElectronicPage = () => {
                       </div>
                     </div>
                   )}
-                  
+
                   <ShopProducts layout={layout} products={currentData} />
                   <div className="pro-pagination-style text-center mt-30">
                     <Paginator
@@ -290,4 +320,4 @@ const ElectronicPage = () => {
   );
 };
 
-export default ElectronicPage; 
+export default ElectronicPage;

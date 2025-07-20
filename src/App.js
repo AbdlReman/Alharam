@@ -14,7 +14,9 @@ const Product = lazy(() => import("./pages/shop-product/Product"));
 
 // category pages
 const CosmeticPage = lazy(() => import("./pages/category/CosmeticPage"));
-const MobileAccessoriesPage = lazy(() => import("./pages/category/MobileAccessoriesPage"));
+const MobileAccessoriesPage = lazy(() =>
+  import("./pages/category/MobileAccessoriesPage")
+);
 const ElectronicPage = lazy(() => import("./pages/category/ElectronicPage"));
 
 // blog pages
@@ -80,7 +82,7 @@ const App = () => {
               element={<MobileAccessoriesPage />}
             />
             <Route
-              path={process.env.PUBLIC_URL + "/electronic"}
+              path={process.env.PUBLIC_URL + "/electronics"}
               element={<ElectronicPage />}
             />
 
