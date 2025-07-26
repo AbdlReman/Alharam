@@ -28,6 +28,13 @@ const HomeFurniture = () => {
           title="MOBILE ACCESSORIES"
         />
 
+ {/* electronics section */}
+ <ProductSection
+          spaceBottomClass="pb-100"
+          category="electronics"
+          title="ELECTRONICS"
+        />
+        
         {/* cosmetics section */}
         <ProductSection
           spaceBottomClass="pb-100"
@@ -35,12 +42,7 @@ const HomeFurniture = () => {
           title="COSMETICS"
         />
 
-        {/* electronics section */}
-        <ProductSection
-          spaceBottomClass="pb-100"
-          category="electronics"
-          title="ELECTRONICS"
-        />
+       
 
         {/* countdown */}
         <RecurringCountDown

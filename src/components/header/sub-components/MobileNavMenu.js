@@ -34,7 +34,7 @@ const MobileNavMenu = () => {
               </Link>
             </li>
             <li>
-              <Link to={process.env.PUBLIC_URL + "/electronic"}>
+              <Link to={process.env.PUBLIC_URL + "/electronics"}>
                 Electronics
               </Link>
             </li>

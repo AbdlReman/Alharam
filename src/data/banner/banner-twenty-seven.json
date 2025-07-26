@@ -2,17 +2,17 @@
   {
     "id": 1,
     "image": "/assets/img/banner/banner-39.jpg",
-    "title": "Featured Products",
-    "subtitle": "Choose Your Products Here",
-    "link": "/shop",
+    "title": "Combo Deal",
+    "subtitle": "Limited Time Only! Save Rs 40,000",
+    "link": "/product/dawlance-inverter-refrigerator-9173-20l-microwave-oven-or-power-combo-deal",
     "textAlign": "right"
   },
   {
     "id": 2,
     "image": "/assets/img/banner/banner-40.jpg",
-    "title": "New Products",
-    "subtitle": "Choose Your Products Here",
-    "link": "/shop",
+    "title": "Charging Combo",
+    "subtitle": "Cable-Free - Save 25% Today",
+    "link": "/product/apple-fast-charging-combo-20w-adapter-type-c-to-lightning-cable-1m",
     "textAlign": "left"
   }
 ]
