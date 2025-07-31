@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import ScrollToTop from "./helpers/scroll-top";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 // home pages
 
@@ -44,6 +45,7 @@ const NotFound = lazy(() => import("./pages/other/NotFound"));
 const App = () => {
   return (
     <Router>
+      <GoogleAnalytics />
       <ScrollToTop>
         <Suspense
           fallback={
