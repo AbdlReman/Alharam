@@ -154,11 +154,12 @@ const Checkout = () => {
     });
 
     try {
-      // Send email notification
+      // Send email notification to both admin and customer
       const result = await emailjs.send(
         EMAILJS_CONFIG.SERVICE_ID, // Your service ID
         EMAILJS_CONFIG.ORDER_TEMPLATE_ID, // Your template ID
         {
+          to_email: `ahmedbhaijani123@gmail.com, ${formData.email}`, // Send to both admin and customer
           brandName: "Alharam",
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -182,7 +183,7 @@ const Checkout = () => {
         },
         EMAILJS_CONFIG.PUBLIC_KEY // Your user ID
       );
-      console.log("Email sent successfully:", result);
+      console.log("Email sent successfully to both admin and customer:", result);
 
       // Send WhatsApp notification
       const whatsappResult = await sendOrderNotification({
@@ -230,8 +231,8 @@ const Checkout = () => {
         transactionId: "",
       });
 
-      // Show success notification with WhatsApp info
-      toast.success("Order completed successfully! WhatsApp notification sent.", {
+      // Show success notification with email and WhatsApp info
+      toast.success("Order completed successfully!", {
         position: "top-center",
         autoClose: 4000,
         hideProgressBar: false,
@@ -504,7 +505,7 @@ const Checkout = () => {
                               </div>
                             </div>
 
-                            <div className="payment-option mb-20">
+                            {/* <div className="payment-option mb-20">
                               <div className="radio-wrapper">
                                 <input
                                   type="radio"
@@ -603,7 +604,7 @@ const Checkout = () => {
                                   </p>
                                 </div>
                               )}
-                            </div>
+                            </div> */}
                           </div>
 
                           {/* Transaction ID Field for Online Payments */}
