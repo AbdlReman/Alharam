@@ -13,12 +13,6 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.alharam.store/cosmetic</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://www.alharam.store/mobileaccessories</loc>
     <lastmod>2025-07-31</lastmod>
     <changefreq>weekly</changefreq>
@@ -212,66 +206,6 @@
   </url>
   <url>
     <loc>https://www.alharam.store/product/table-fan-oscillating</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/ac-inverter-1-ton</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/ac-portable-12000-btu</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/freezer-upright-20-cubic-feet</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/refrigerator-french-door</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/dishwasher-built-in</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/oven-electric-convection</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/dryer-front-load</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/dehumidifier-50-pint</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/humidifier-ultrasonic</loc>
-    <lastmod>2025-07-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.alharam.store/product/air-conditioner-mini-split</loc>
     <lastmod>2025-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
