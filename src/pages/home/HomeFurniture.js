@@ -35,12 +35,7 @@ const HomeFurniture = () => {
           title="ELECTRONICS"
         />
         
-        {/* cosmetics section */}
-        <ProductSection
-          spaceBottomClass="pb-100"
-          category="cosmetic"
-          title="COSMETICS"
-        />
+
 
        
 

@@ -34,9 +34,7 @@ const NavMenu = ({ menuWhiteClass, sidebarMenu }) => {
               <li>
                 <Link to={process.env.PUBLIC_URL + "/shop"}>All Products</Link>
               </li>
-              <li>
-                <Link to={process.env.PUBLIC_URL + "/cosmetic"}>Cosmetics</Link>
-              </li>
+
               <li>
                 <Link to={process.env.PUBLIC_URL + "/mobileaccessories"}>Mobile Accessories</Link>
               </li>

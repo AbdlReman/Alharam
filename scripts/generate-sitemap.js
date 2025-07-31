@@ -19,12 +19,7 @@ const staticPages = [
     changefreq: 'weekly',
     priority: '0.9'
   },
-  {
-    url: '/cosmetic',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.8'
-  },
+
   {
     url: '/mobileaccessories',
     lastmod: new Date().toISOString().split('T')[0],
