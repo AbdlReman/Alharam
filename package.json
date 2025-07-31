@@ -56,7 +56,9 @@
     "eject": "react-scripts eject",
     "vercel-build": "npm run build",
     "generate-sitemap": "node scripts/generate-sitemap.js",
-    "build-with-sitemap": "npm run build && npm run generate-sitemap"
+    "generate-sitemap-advanced": "node scripts/generate-sitemap-advanced.js",
+    "build-with-sitemap": "npm run build && npm run generate-sitemap",
+    "build-with-sitemap-advanced": "npm run build && npm run generate-sitemap-advanced"
   },
   "eslintConfig": {
     "extends": [

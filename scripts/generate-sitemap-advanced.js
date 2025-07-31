@@ -5,6 +5,10 @@ const path = require('path');
 const BASE_URL = 'https://www.alharam.store'; // Alharam Electronics Store
 const OUTPUT_PATH = path.join(__dirname, '../public/sitemap.xml');
 
+// Contentful configuration (you'll need to add your Contentful credentials)
+const CONTENTFUL_SPACE_ID = process.env.CONTENTFUL_SPACE_ID || 'your-space-id';
+const CONTENTFUL_ACCESS_TOKEN = process.env.CONTENTFUL_ACCESS_TOKEN || 'your-access-token';
+
 // Define your site structure - Static Pages
 const staticPages = [
   {
@@ -105,50 +109,95 @@ const staticPages = [
   }
 ];
 
-// Sample product slugs (you can replace these with actual product slugs from your Contentful CMS)
-// In a real implementation, you would fetch these from your CMS or API
-const sampleProductSlugs = [
-  'premium-ac-unit-1-ton',
-  'split-ac-1-5-ton',
-  'window-ac-2-ton',
-  'freezer-15-cubic-feet',
-  'refrigerator-side-by-side',
-  'washing-machine-front-load',
-  'microwave-oven-convection',
-  'air-purifier-hepa-filter',
-  'water-dispenser-cold-hot',
-  'electric-kettle-stainless-steel',
-  'blender-mixer-grinder',
-  'food-processor-multi-function',
-  'toaster-4-slice',
-  'coffee-maker-automatic',
-  'rice-cooker-fuzzy-logic',
-  'electric-pressure-cooker',
-  'steam-iron-non-stick',
-  'vacuum-cleaner-bagless',
-  'ceiling-fan-remote-control',
-  'table-fan-oscillating'
-];
+// Fetch product slugs from Contentful CMS
+async function fetchProductSlugs() {
+  try {
+    // If Contentful credentials are not configured, use sample data
+    if (CONTENTFUL_SPACE_ID === 'your-space-id' || CONTENTFUL_ACCESS_TOKEN === 'your-access-token') {
+      console.log('⚠️  Contentful credentials not configured. Using sample product slugs.');
+      return getSampleProductSlugs();
+    }
+
+    const response = await fetch(
+      `https://cdn.contentful.com/spaces/${CONTENTFUL_SPACE_ID}/entries?content_type=product&select=fields.slug&limit=1000`,
+      {
+        headers: {
+          'Authorization': `Bearer ${CONTENTFUL_ACCESS_TOKEN}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Contentful API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const slugs = data.items.map(item => item.fields.slug).filter(Boolean);
+    
+    console.log(`✅ Fetched ${slugs.length} product slugs from Contentful`);
+    return slugs;
+  } catch (error) {
+    console.error('❌ Error fetching product slugs from Contentful:', error.message);
+    console.log('🔄 Falling back to sample product slugs...');
+    return getSampleProductSlugs();
+  }
+}
+
+// Sample product slugs for fallback
+function getSampleProductSlugs() {
+  return [
+    'premium-ac-unit-1-ton',
+    'split-ac-1-5-ton',
+    'window-ac-2-ton',
+    'freezer-15-cubic-feet',
+    'refrigerator-side-by-side',
+    'washing-machine-front-load',
+    'microwave-oven-convection',
+    'air-purifier-hepa-filter',
+    'water-dispenser-cold-hot',
+    'electric-kettle-stainless-steel',
+    'blender-mixer-grinder',
+    'food-processor-multi-function',
+    'toaster-4-slice',
+    'coffee-maker-automatic',
+    'rice-cooker-fuzzy-logic',
+    'electric-pressure-cooker',
+    'steam-iron-non-stick',
+    'vacuum-cleaner-bagless',
+    'ceiling-fan-remote-control',
+    'table-fan-oscillating',
+    'ac-inverter-1-ton',
+    'ac-portable-12000-btu',
+    'freezer-upright-20-cubic-feet',
+    'refrigerator-french-door',
+    'dishwasher-built-in',
+    'oven-electric-convection',
+    'dryer-front-load',
+    'dehumidifier-50-pint',
+    'humidifier-ultrasonic',
+    'air-conditioner-mini-split'
+  ];
+}
 
 // Generate product pages for sitemap
-const generateProductPages = () => {
-  return sampleProductSlugs.map(slug => ({
+function generateProductPages(productSlugs) {
+  return productSlugs.map(slug => ({
     url: `/product/${slug}`,
     lastmod: new Date().toISOString().split('T')[0],
     changefreq: 'weekly',
     priority: '0.8'
   }));
-};
+}
 
 // Combine static pages and product pages
-const getAllPages = () => {
-  const productPages = generateProductPages();
+function getAllPages(productSlugs) {
+  const productPages = generateProductPages(productSlugs);
   return [...staticPages, ...productPages];
-};
+}
 
 // Generate sitemap XML
-function generateSitemapXML() {
-  const allPages = getAllPages();
+function generateSitemapXML(productSlugs) {
+  const allPages = getAllPages(productSlugs);
   
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
@@ -168,15 +217,33 @@ function generateSitemapXML() {
 }
 
 // Write sitemap to file
-function writeSitemap() {
+async function writeSitemap() {
   try {
-    const sitemapXML = generateSitemapXML();
-    const allPages = getAllPages();
+    console.log('🚀 Generating sitemap...');
+    console.log('📡 Fetching product slugs...');
+    
+    const productSlugs = await fetchProductSlugs();
+    const sitemapXML = generateSitemapXML(productSlugs);
+    const allPages = getAllPages(productSlugs);
+    
     fs.writeFileSync(OUTPUT_PATH, sitemapXML, 'utf8');
+    
     console.log(`✅ Sitemap generated successfully at: ${OUTPUT_PATH}`);
     console.log(`📊 Total pages: ${allPages.length}`);
-    console.log(`🏪 Product pages: ${sampleProductSlugs.length}`);
+    console.log(`🏪 Product pages: ${productSlugs.length}`);
     console.log(`📄 Static pages: ${staticPages.length}`);
+    
+    // Show some sample product URLs
+    if (productSlugs.length > 0) {
+      console.log('\n📋 Sample product URLs:');
+      productSlugs.slice(0, 5).forEach(slug => {
+        console.log(`   ${BASE_URL}/product/${slug}`);
+      });
+      if (productSlugs.length > 5) {
+        console.log(`   ... and ${productSlugs.length - 5} more`);
+      }
+    }
+    
   } catch (error) {
     console.error('❌ Error generating sitemap:', error);
     process.exit(1);
@@ -185,8 +252,12 @@ function writeSitemap() {
 
 // Run the script
 if (require.main === module) {
-  console.log('🚀 Generating sitemap...');
   writeSitemap();
 }
 
-module.exports = { generateSitemapXML, writeSitemap }; 
+module.exports = { 
+  generateSitemapXML, 
+  writeSitemap, 
+  fetchProductSlugs,
+  getAllPages 
+}; 
