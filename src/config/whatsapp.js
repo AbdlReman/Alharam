@@ -1,7 +1,7 @@
 export const WHATSAPP_CONFIG = {
   // WhatsApp Business API configuration
-  PHONE_NUMBERS: ['+923020058237', '+923342743554'], // Multiple WhatsApp numbers
-  PRIMARY_PHONE: '+923020058237', // Primary number for backward compatibility
+  PHONE_NUMBERS: ['+923342743554'], // Multiple WhatsApp numbers
+  PRIMARY_PHONE: '+923342743554', // Primary number for backward compatibility
   API_URL: 'https://api.whatsapp.com/send', // WhatsApp API URL
   BUSINESS_NAME: 'Alharam Store',
   // Alternative webhook service for more reliable delivery

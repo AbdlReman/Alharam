@@ -2,7 +2,7 @@
 
 ## Current Implementation
 
-Your checkout system now includes WhatsApp notifications that will send order details to your WhatsApp number (+923020058237) whenever a customer completes an order.
+Your checkout system now includes WhatsApp notifications that will send order details to your WhatsApp number (+923342743554) whenever a customer completes an order.
 
 ## How It Works
 
@@ -70,7 +70,7 @@ You can customize the WhatsApp message format by editing the `formatOrderForWhat
 1. Check browser console for errors
 2. Ensure WhatsApp is installed on your device
 3. Try the fallback methods
-4. Check your phone number format (+923020058237)
+4. Check your phone number format (+923342743554)
 
 ### To disable WhatsApp notifications:
 Comment out the WhatsApp notification code in `src/pages/other/Checkout.js` around line 180-200.
