@@ -29,7 +29,7 @@ const ShippingReturnsFeatures = () => {
                 <div style={{
                   width: '50px',
                   height: '50px',
-                  backgroundColor: '#E36C35',
+                  backgroundColor: '#B79346',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
@@ -72,7 +72,7 @@ const ShippingReturnsFeatures = () => {
                 <div style={{
                   width: '50px',
                   height: '50px',
-                  backgroundColor: '#E36C35',
+                  backgroundColor: '#B79346',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
@@ -115,7 +115,7 @@ const ShippingReturnsFeatures = () => {
                 <div style={{
                   width: '50px',
                   height: '50px',
-                  backgroundColor: '#E36C35',
+                  backgroundColor: '#B79346',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
@@ -158,7 +158,7 @@ const ShippingReturnsFeatures = () => {
                 <div style={{
                   width: '50px',
                   height: '50px',
-                  backgroundColor: '#E36C35',
+                  backgroundColor: '#B79346',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',

@@ -50,7 +50,7 @@ const SEO = ({
                 <meta name="robots" content="index, follow" />
                 <meta name="author" content="Alharam" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <meta name="theme-color" content="#000000" />
+                <meta name="theme-color" content="#B79346" />
                 
                 {/* Structured Data for Organization */}
                 <script type="application/ld+json">
