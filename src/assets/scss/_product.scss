@@ -731,14 +731,15 @@
     }
 
     .pro-details-color-wrap {
-      margin-right: 20px;
+      margin-right: 10px;
+      margin-bottom: 20px;
 
       @media #{$xs-layout} {
         margin-bottom: 20px;
       }
 
       @media #{$sm-layout} {
-        margin-bottom: 0;
+        margin-bottom: 20px;
       }
 
       span {
@@ -747,7 +748,7 @@
 
         display: block;
 
-        margin: 0 0 15px;
+        margin: 0 0 8px;
       }
 
       .pro-details-color-content {
@@ -917,94 +918,204 @@
           }
         }
       }
+
+      // Simple rectangular color box styles
+      .pro-details-color-content-boxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .pro-details-color-box {
+          position: relative;
+          display: inline-block;
+          min-width: 120px;
+          height: 40px;
+          border: 1px solid #ddd;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          background-color: #fff;
+
+          input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+          }
+
+          .color-box-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            text-transform: capitalize;
+          }
+
+          &.selected {
+            border: 2px solid $theme-color;
+            background-color: $theme-color;
+
+            .color-box-text {
+              color: #fff;
+            }
+          }
+
+          &:hover:not(.selected) {
+            border-color: #999;
+            background-color: #f8f9fa;
+          }
+        }
+      }
     }
 
-    .pro-details-size {
+    .pro-details-size-wrap {
+      margin-right: 10px;
+      margin-bottom: 20px;
+
+      @media #{$xs-layout} {
+        margin-bottom: 20px;
+      }
+
+      @media #{$sm-layout} {
+        margin-bottom: 20px;
+      }
+
       span {
         font-size: 15px;
         font-weight: 500;
 
         display: block;
 
-        margin: 0 0 10px;
+        margin: 0 0 8px;
       }
 
-      .pro-details-size-content {
-        ul {
-          li {
-            display: inline-block;
+      .pro-details-size-content-boxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
 
-            margin: 0 2px 0 0;
-
-            list-style: outside none none;
-
-            a {
-              font-size: 12px;
-              line-height: 1;
-
-              display: inline-block;
-
-              padding: 6px 9px 7px;
-
-              text-transform: uppercase;
-
-              color: #000;
-              background-color: #f1f2f6;
-
-              &:hover {
-                color: #fff;
-                background-color: $theme-color;
-              }
-            }
-          }
-        }
-
-        &--single {
-          font-size: 12px;
-          line-height: 1;
-
+        .pro-details-size-box {
           position: relative;
-
           display: inline-block;
-
-          margin: 0 5px 0 0;
-
-          text-transform: uppercase;
-
-          color: #000;
-          background-color: #f1f2f6;
-
-          &:hover {
-            color: #fff;
-            background-color: $theme-color;
-          }
+          min-width: 80px;
+          height: 40px;
+          border: 1px solid #ddd;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          background-color: #fff;
 
           input {
             position: absolute;
-            top: 0;
-            left: 0;
-
-            height: 100%;
-
-            cursor: pointer;
-
             opacity: 0;
+            cursor: pointer;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+          }
 
-            &:checked {
-              &~.size-name {
-                color: $white;
-                background-color: $theme-color;
-              }
+          .size-box-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            text-transform: uppercase;
+          }
+
+          &.selected {
+            border: 2px solid $theme-color;
+            background-color: $theme-color;
+
+            .size-box-text {
+              color: #fff;
             }
           }
 
-          .size-name {
-            font-size: 12px;
-            font-weight: 400;
+          &:hover:not(.selected) {
+            border-color: #999;
+            background-color: #f8f9fa;
+          }
+        }
+      }
+    }
 
+    .pro-details-model-wrap {
+      margin-right: 10px;
+      margin-bottom: 20px;
+
+      @media #{$xs-layout} {
+        margin-bottom: 20px;
+      }
+
+      @media #{$sm-layout} {
+        margin-bottom: 20px;
+      }
+
+      span {
+        font-size: 15px;
+        font-weight: 500;
+
+        display: block;
+
+        margin: 0 0 8px;
+      }
+
+      .pro-details-model-content-boxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .pro-details-model-box {
+          position: relative;
+          display: inline-block;
+          min-width: 120px;
+          height: 40px;
+          border: 1px solid #ddd;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          background-color: #fff;
+
+          input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 100%;
             width: 100%;
-            margin-bottom: 0;
-            padding: 8px;
+            margin: 0;
+          }
+
+          .model-box-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            text-transform: capitalize;
+          }
+
+          &.selected {
+            border: 2px solid $theme-color;
+            background-color: $theme-color;
+
+            .model-box-text {
+              color: #fff;
+            }
+          }
+
+          &:hover:not(.selected) {
+            border-color: #999;
+            background-color: #f8f9fa;
           }
         }
       }

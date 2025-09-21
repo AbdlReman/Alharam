@@ -23,6 +23,7 @@ const ProductDescriptionInfo = ({
   
   const [selectedProductColor, setSelectedProductColor] = useState("");
   const [selectedProductSize, setSelectedProductSize] = useState("");
+  const [selectedProductModel, setSelectedProductModel] = useState("");
   const [productStock, setProductStock] = useState(0);
   const [quantityCount, setQuantityCount] = useState(1);
   
@@ -35,6 +36,11 @@ const ProductDescriptionInfo = ({
       
       if (product.variation && product.variation[0] && product.variation[0].size && product.variation[0].size[0]) {
         setSelectedProductSize(product.variation[0].size[0].name || "");
+      }
+      
+      // Set initial model if available
+      if (product.model && product.model.length > 0) {
+        setSelectedProductModel(product.model[0] || "");
       }
       
       const stock = product.variation && product.variation[0] && product.variation[0].size && product.variation[0].size[0] 
@@ -57,7 +63,8 @@ const ProductDescriptionInfo = ({
     cartItems,
     product,
     selectedProductColor,
-    selectedProductSize
+    selectedProductSize,
+    selectedProductModel
   );
 
   const handleAddToCart = () => {
@@ -65,7 +72,8 @@ const ProductDescriptionInfo = ({
       ...product,
       quantity: quantityCount,
       selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
-      selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null
+      selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null,
+      selectedProductModel: selectedProductModel ? selectedProductModel : product.selectedProductModel ? product.selectedProductModel : null
     }));
   };
 
@@ -76,6 +84,7 @@ const ProductDescriptionInfo = ({
       quantity: quantityCount,
       selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
       selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null,
+      selectedProductModel: selectedProductModel ? selectedProductModel : product.selectedProductModel ? product.selectedProductModel : null,
       suppressToast: true
     }));
     
@@ -111,16 +120,51 @@ const ProductDescriptionInfo = ({
         <p>{product.shortDescription}</p>
       </div>
 
+      {/* Display models if available */}
+      {product.model && product.model.length > 0 && (
+        <div className="pro-details-size-color">
+          <div className="pro-details-model-wrap">
+            <span>Model</span>
+            <div className="pro-details-model-content-boxes">
+              {product.model.map((model, key) => {
+                return (
+                  <label
+                    className={`pro-details-model-box ${model === selectedProductModel ? 'selected' : ''}`}
+                    key={key}
+                  >
+                    <input
+                      type="radio"
+                      value={model}
+                      name="product-model"
+                      checked={
+                        model === selectedProductModel
+                          ? "checked"
+                          : ""
+                      }
+                      onChange={() => {
+                        setSelectedProductModel(model);
+                        setQuantityCount(1);
+                      }}
+                    />
+                    <span className="model-box-text">{model}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Display colors if available */}
       {product.color && product.color.length > 0 && (
         <div className="pro-details-size-color">
           <div className="pro-details-color-wrap">
             <span>Color</span>
-            <div className="pro-details-color-content">
+            <div className="pro-details-color-content-boxes">
               {product.color.map((color, key) => {
                 return (
                   <label
-                    className={`pro-details-color-content--single ${color}`}
+                    className={`pro-details-color-box ${color === selectedProductColor ? 'selected' : ''}`}
                     key={key}
                   >
                     <input
@@ -135,7 +179,7 @@ const ProductDescriptionInfo = ({
                         setQuantityCount(1);
                       }}
                     />
-                    <span className="checkmark"></span>
+                    <span className="color-box-text">{color}</span>
                   </label>
                 );
               })}
@@ -146,32 +190,35 @@ const ProductDescriptionInfo = ({
 
       {/* Display sizes if available */}
       {product.size && product.size.length > 0 && (
-        <div className="pro-details-size">
-          <span>Size</span>
-          <div className="pro-details-size-content">
-            {product.size.map((size, key) => {
-              return (
-                <label
-                  className={`pro-details-size-content--single`}
-                  key={key}
-                >
-                  <input
-                    type="radio"
-                    value={size}
-                    checked={
-                      size === selectedProductSize
-                        ? "checked"
-                        : ""
-                    }
-                    onChange={() => {
-                      setSelectedProductSize(size);
-                      setQuantityCount(1);
-                    }}
-                  />
-                  <span className="size-name">{size}</span>
-                </label>
-              );
-            })}
+        <div className="pro-details-size-color">
+          <div className="pro-details-size-wrap">
+            <span>Size</span>
+            <div className="pro-details-size-content-boxes">
+              {product.size.map((size, key) => {
+                return (
+                  <label
+                    className={`pro-details-size-box ${size === selectedProductSize ? 'selected' : ''}`}
+                    key={key}
+                  >
+                    <input
+                      type="radio"
+                      value={size}
+                      name="product-size"
+                      checked={
+                        size === selectedProductSize
+                          ? "checked"
+                          : ""
+                      }
+                      onChange={() => {
+                        setSelectedProductSize(size);
+                        setQuantityCount(1);
+                      }}
+                    />
+                    <span className="size-box-text">{size}</span>
+                  </label>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
