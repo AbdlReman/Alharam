@@ -123,8 +123,8 @@ const LatestProductsSection = ({ spaceBottomClass, spaceTopClass }) => {
         </div>
 
         <div className="row align-items-center" style={{ position: "relative", zIndex: 2 }}>
-          {/* Left side - Banner */}
-          <div className="col-lg-7 col-md-12 mb-5 mb-lg-0">
+          {/* Left side - Banner (hidden on mobile, shown on desktop) */}
+          <div className="col-lg-7 col-md-12 mb-5 mb-lg-0 d-none d-lg-block">
             <div 
               style={{
                 backgroundImage: "url('/assets/img/banner/latestProduct.png')",
@@ -279,6 +279,45 @@ const LatestProductsSection = ({ spaceBottomClass, spaceTopClass }) => {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Banner - shown only on mobile devices */}
+        <div className="row d-lg-none mt-5" style={{ position: "relative", zIndex: 2 }}>
+          <div className="col-12">
+            <div 
+              style={{
+                backgroundImage: "url('/assets/img/banner/latestProduct.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                height: "300px",
+                borderRadius: "20px",
+                position: "relative",
+                overflow: "hidden",
+                cursor: "pointer",
+                transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                boxShadow: "0 15px 40px rgba(0,0,0,0.2)"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px) scale(1.01)";
+                e.currentTarget.style.boxShadow = "0 20px 50px rgba(0,0,0,0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 15px 40px rgba(0,0,0,0.2)";
+              }}
+              onClick={() => window.location.href = process.env.PUBLIC_URL + "/shop"}
+            >
+              {/* Overlay */}
+              <div style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)"
+              }}></div>
             </div>
           </div>
         </div>
