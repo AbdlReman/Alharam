@@ -127,7 +127,7 @@ const LatestProductsSection = ({ spaceBottomClass, spaceTopClass }) => {
           <div className="col-lg-7 col-md-12 mb-5 mb-lg-0 d-none d-lg-block">
             <div 
               style={{
-                backgroundImage: "url('/assets/img/banner/latestProduct.png')",
+                backgroundImage: "url('/assets/img/banner/latestProduct.jpeg')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 height: "600px",
