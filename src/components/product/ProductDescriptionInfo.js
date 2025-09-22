@@ -17,6 +17,7 @@ const ProductDescriptionInfo = ({
   cartItems,
   wishlistItem,
   compareItem,
+  onColorChange,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -175,8 +176,14 @@ const ProductDescriptionInfo = ({
                         color === selectedProductColor ? "checked" : ""
                       }
                       onChange={() => {
+                        console.log('Color selected:', color);
                         setSelectedProductColor(color);
                         setQuantityCount(1);
+                        // Notify parent component about color change
+                        if (onColorChange) {
+                          console.log('Calling onColorChange with:', color);
+                          onColorChange(color);
+                        }
                       }}
                     />
                     <span className="color-box-text">{color}</span>
@@ -359,6 +366,7 @@ ProductDescriptionInfo.propTypes = {
   finalProductPrice: PropTypes.number,
   product: PropTypes.shape({}),
   wishlistItem: PropTypes.shape({}),
+  onColorChange: PropTypes.func,
 };
 
 export default ProductDescriptionInfo;

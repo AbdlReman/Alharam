@@ -48,7 +48,11 @@ const Product = () => {
             fullDescription: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",
             category: fields.category || [],
             tag: fields.tag || [],
-            images: fields.images?.map(img => img.fields.file.url) || [],
+            images: fields.images?.map(img => ({
+              url: img.fields.file.url,
+              title: img.fields.title || '',
+              filename: img.fields.file.fileName || ''
+            })) || [],
             color: fields.color || [],
             size: fields.size || [],
             model: fields.model || [],
@@ -57,8 +61,12 @@ const Product = () => {
             stock: fields.stock || 0,
             // For backward compatibility with existing components
             image: fields.images?.[0]?.fields?.file?.url,
+            // Create simple URL array for backward compatibility
+            imageUrls: fields.images?.map(img => img.fields.file.url) || [],
             title: fields.name || "Product",
             description: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",
+            // Add color-specific images mapping
+            colorImages: fields.colorImages || {},
             // Add variation structure if colors/sizes exist
             variation: fields.color && fields.color.length > 0 ? 
               fields.color.map(color => ({
