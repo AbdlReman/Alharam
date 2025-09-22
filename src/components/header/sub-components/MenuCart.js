@@ -70,6 +70,11 @@ const MenuCart = () => {
                         <span>Size: {item.selectedProductSize}</span>
                       </div>
                     )}
+                    {item.selectedProductModel && (
+                      <div className="cart-item-variation">
+                        <span>Model: {item.selectedProductModel}</span>
+                      </div>
+                    )}
                   </div>
                   <div className="shopping-cart-delete">
                     <button onClick={() => dispatch(deleteFromCart(item.cartItemId))}>

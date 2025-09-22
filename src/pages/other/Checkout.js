@@ -104,6 +104,9 @@ const Checkout = () => {
         quantity: item.quantity,
         price: finalDiscountedPrice,
         total: itemTotal,
+        color: item.selectedProductColor || "",
+        size: item.selectedProductSize || "",
+        model: item.selectedProductModel || (Array.isArray(item.model) ? (item.model[0] || "") : (item.model || ""))
       };
     });
 
@@ -119,12 +122,18 @@ const Checkout = () => {
     const quantities = orderSummary.map((item) => item.quantity);
     const prices = orderSummary.map((item) => `${"Rs "}${item.price}`);
     const totals = orderSummary.map((item) => `${"Rs "}${item.total}`);
+    const colors = orderSummary.map((item) => item.color || "-");
+    const sizes = orderSummary.map((item) => item.size || "-");
+    const models = orderSummary.map((item) => item.model || "-");
     
     // Join arrays with line breaks for display
     const formattedProductNames = productNames.join("\n");
     const formattedQuantities = quantities.join("\n");
     const formattedPrices = prices.join("\n");
     const formattedTotals = totals.join("\n");
+    const formattedColors = colors.join("\n");
+    const formattedSizes = sizes.join("\n");
+    const formattedModels = models.join("\n");
 
     // Get payment method display name
     const getPaymentMethodName = (method) => {
@@ -150,6 +159,9 @@ const Checkout = () => {
       prices: formattedPrices,
       totals: formattedTotals,
       total,
+      colors: formattedColors,
+      sizes: formattedSizes,
+      models: formattedModels,
       paymentMethod: getPaymentMethodName(formData.paymentMethod),
     });
 
@@ -180,6 +192,9 @@ const Checkout = () => {
           prices: formattedPrices,
           totals: formattedTotals,
           total: total,
+          colors: formattedColors,
+          sizes: formattedSizes,
+          models: formattedModels,
         },
         EMAILJS_CONFIG.PUBLIC_KEY // Your user ID
       );
@@ -205,6 +220,9 @@ const Checkout = () => {
         prices: formattedPrices,
         totals: formattedTotals,
         total: total,
+        colors: formattedColors,
+        sizes: formattedSizes,
+        models: formattedModels,
       });
       console.log("WhatsApp notification result:", whatsappResult);
 
