@@ -9,7 +9,6 @@ import emailjs from "emailjs-com";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { deleteAllFromCart } from "../../store/slices/cart-slice";
 import { EMAILJS_CONFIG } from "../../config/emailjs";
-import { sendOrderNotification } from "../../config/whatsapp";
 
 // Initialize EmailJS with your brand configuration
 emailjs.init("uOGdgPbVqeIsG8gD8");
@@ -200,32 +199,6 @@ const Checkout = () => {
         EMAILJS_CONFIG.PUBLIC_KEY // Your user ID
       );
       console.log("Email sent successfully to both admin and customer:", result);
-
-      // Send WhatsApp notification
-      const whatsappResult = await sendOrderNotification({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        companyName: formData.companyName,
-        country: formData.country,
-        streetAddress: formData.streetAddress,
-        city: formData.city,
-        state: formData.state,
-        postcode: formData.postcode,
-        phone: formData.phone,
-        email: formData.email,
-        orderNotes: formData.orderNotes,
-        paymentMethod: getPaymentMethodName(formData.paymentMethod),
-        transactionId: formData.transactionId,
-        productNames: formattedProductNames,
-        quantities: formattedQuantities,
-        prices: formattedPrices,
-        totals: formattedTotals,
-        total: total,
-        colors: formattedColors,
-        sizes: formattedSizes,
-        models: formattedModels,
-      });
-      console.log("WhatsApp notification result:", whatsappResult);
 
       // Dismiss loading toast and show success
       toast.dismiss(loadingToast);
