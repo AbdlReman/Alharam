@@ -137,7 +137,7 @@ const getIndividualItemArray = array => {
 export const getIndividualCategories = products => {
   let productCategories = [];
   products &&
-    products.map(product => {
+    products.forEach(product => {
       if (product.category) {
         if (Array.isArray(product.category)) {
           product.category.forEach(single => {
@@ -157,13 +157,12 @@ export const getIndividualCategories = products => {
 export const getIndividualTags = products => {
   let productTags = [];
   products &&
-    products.map(product => {
-      return (
-        product.tag &&
-        product.tag.map(single => {
-          return productTags.push(single);
-        })
-      );
+    products.forEach(product => {
+      if (product.tag) {
+        product.tag.forEach(single => {
+          productTags.push(single);
+        });
+      }
     });
   const individualProductTags = getIndividualItemArray(productTags);
   return individualProductTags;
@@ -173,13 +172,12 @@ export const getIndividualTags = products => {
 export const getIndividualColors = products => {
   let productColors = [];
   products &&
-    products.map(product => {
-      return (
-        product.color &&
-        product.color.map(single => {
-          return productColors.push(single);
-        })
-      );
+    products.forEach(product => {
+      if (product.color) {
+        product.color.forEach(single => {
+          productColors.push(single);
+        });
+      }
     });
   const individualProductColors = getIndividualItemArray(productColors);
   return individualProductColors;
@@ -189,15 +187,14 @@ export const getIndividualColors = products => {
 export const getProductsIndividualSizes = products => {
   let productSizes = [];
   products &&
-    products.map(product => {
-      return (
-        product.variation &&
-        product.variation.map(single => {
-          return single.size.map(single => {
-            return productSizes.push(single.name);
+    products.forEach(product => {
+      if (product.variation) {
+        product.variation.forEach(single => {
+          single.size.forEach(single => {
+            productSizes.push(single.name);
           });
-        })
-      );
+        });
+      }
     });
   const individualProductSizes = getIndividualItemArray(productSizes);
   return individualProductSizes;
@@ -207,13 +204,12 @@ export const getProductsIndividualSizes = products => {
 export const getIndividualSizes = product => {
   let productSizes = [];
   product.variation &&
-    product.variation.map(singleVariation => {
-      return (
-        singleVariation.size &&
-        singleVariation.size.map(singleSize => {
-          return productSizes.push(singleSize.name);
-        })
-      );
+    product.variation.forEach(singleVariation => {
+      if (singleVariation.size) {
+        singleVariation.size.forEach(singleSize => {
+          productSizes.push(singleSize.name);
+        });
+      }
     });
   const individualSizes = getIndividualItemArray(productSizes);
   return individualSizes;

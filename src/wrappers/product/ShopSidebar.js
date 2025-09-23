@@ -2,9 +2,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import {
   getIndividualCategories,
-  getIndividualTags,
-  getIndividualColors,
-  getProductsIndividualSizes
+  getIndividualColors
 } from "../../helpers/product";
 import ShopSearch from "../../components/product/ShopSearch";
 import ShopCategories from "../../components/product/ShopCategories";

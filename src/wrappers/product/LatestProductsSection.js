@@ -2,21 +2,18 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import client from "../../data/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cart-slice";
-import { addToWishlist } from "../../store/slices/wishlist-slice";
+// import { addToWishlist } from "../../store/slices/wishlist-slice";
 
 const LatestProductsSection = ({ spaceBottomClass, spaceTopClass }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const currency = useSelector((state) => state.currency);
-  const { cartItems } = useSelector((state) => state.cart);
-  const { wishlistItems } = useSelector((state) => state.wishlist);
-  const { compareItems } = useSelector((state) => state.compare);
+  // Using only currency from store in this component
 
   useEffect(() => {
     const fetchLatestProducts = async () => {
@@ -74,7 +71,7 @@ const LatestProductsSection = ({ spaceBottomClass, spaceTopClass }) => {
 
   if (loading) {
     return (
-      <div className={clsx("product-area", spaceTopClass, spaceBottomClass)}>
+      <div className={clsx("product-area", spaceBottomClass)}>
         <div className="container">
           <div className="text-center py-5">
             <p>Loading products...</p>
@@ -105,7 +102,7 @@ const LatestProductsSection = ({ spaceBottomClass, spaceTopClass }) => {
         <div className="text-center mb-5" style={{ position: "relative", zIndex: 2 }}>
           <h2 style={{
             fontSize: "4rem",
-            fontWeight: "700",
+            fontWeight: "600",
             color: "black",
             marginBottom: "1rem",
             textShadow: "0 4px 20px rgba(0,0,0,0.3)",
@@ -115,7 +112,7 @@ const LatestProductsSection = ({ spaceBottomClass, spaceTopClass }) => {
           </h2>
           <p style={{
             fontSize: "1.4rem",
-            color: "rgba(255,255,255,0.9)",
+          
             fontWeight: "300"
           }}>
             Discover Our Premium Collection

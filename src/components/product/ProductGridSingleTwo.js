@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import clsx from "clsx";
 import { getDiscountPrice, truncateTitle } from "../../helpers/product";
 import ProductModal from "./ProductModal";
 import { addToWishlist } from "../../store/slices/wishlist-slice";
 import { addToCompare } from "../../store/slices/compare-slice";
 import { addToCart } from "../../store/slices/cart-slice";
-import ProductImageGallery from "./ProductImageGallery";
+// import ProductImageGallery from "./ProductImageGallery";
 
 const ProductGridSingleTwo = ({
   product,
@@ -22,8 +22,7 @@ const ProductGridSingleTwo = ({
 }) => {
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useDispatch();
-  const { wishlistItems } = useSelector((state) => state.wishlist);
-  const { compareItems } = useSelector((state) => state.compare);
+  // Using props to determine wishlist/compare state; store selections not needed here
 
   const discountedPrice = getDiscountPrice(product.price, product.discount);
   const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);

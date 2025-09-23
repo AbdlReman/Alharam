@@ -18,7 +18,6 @@ const Contact = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState('');
 
   // Initialize EmailJS
   useEffect(() => {
@@ -36,11 +35,9 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus('');
 
     // Check if EmailJS is properly configured
     if (!EMAILJS_CONFIG.SERVICE_ID || !EMAILJS_CONFIG.CONTACT_TEMPLATE_ID || !EMAILJS_CONFIG.PUBLIC_KEY) {
-      setSubmitStatus('error');
       setIsSubmitting(false);
       toast.error('EmailJS is not properly configured. Please check your configuration.');
       return;
@@ -60,7 +57,6 @@ const Contact = () => {
       );
 
       if (result.status === 200) {
-        setSubmitStatus('success');
         setFormData({
           name: '',
           email: '',
@@ -71,7 +67,6 @@ const Contact = () => {
       }
     } catch (error) {
       console.error('EmailJS Error:', error);
-      setSubmitStatus('error');
       toast.error('Sorry! There was an error sending your message. Please try again.');
     } finally {
       setIsSubmitting(false);

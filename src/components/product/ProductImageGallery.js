@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { EffectFade, Thumbs } from 'swiper';
+import { EffectFade } from 'swiper';
 import AnotherLightbox from "yet-another-react-lightbox";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -8,7 +8,6 @@ import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Swiper, { SwiperSlide } from "../../components/swiper";
 
 const ProductImageGallery = ({ product, selectedColor }) => {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [index, setIndex] = useState(-1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   

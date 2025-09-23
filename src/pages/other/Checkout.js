@@ -45,7 +45,8 @@ const Checkout = () => {
         `Welcome to checkout! You have ${cartItems.length} item(s) in your cart.`
       );
     }
-  }, []); // Empty dependency array - only runs once on mount
+    // We intentionally want to re-run this when cartItems changes to keep message in sync
+  }, [cartItems]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

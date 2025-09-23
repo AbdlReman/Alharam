@@ -20,14 +20,14 @@ const HomeFurniture = () => {
       <LayoutOne headerTop="visible">
         {/* hero slider */}
        <BannerSlider/>
-     
-       <BannerTwentySeven spaceTopClass="pt-80" spaceBottomClass="pb-60" />
+{/*      
+       <BannerTwentySeven spaceTopClass="pt-80" spaceBottomClass="pb-60" /> */}
         {/* shipping and returns features */}
         <ShippingReturnsFeatures />
 
         {/* latest products section */}
         <LatestProductsSection 
-          spaceTopClass="pt-60" 
+          spaceTopClass="pt-5" 
           spaceBottomClass="pb-60" 
         />
 
