@@ -36,10 +36,10 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType,
   const compareItem = compareItems.find(item => item.id === product.id);
 
   const discountedPrice = getDiscountPrice(product.price, product.discount);
-  const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);
-  const finalDiscountedPrice = +(
+  const finalProductPrice = Math.round(product.price * currency.currencyRate);
+  const finalDiscountedPrice = Math.round(
     discountedPrice * currency.currencyRate
-  ).toFixed(2);
+  );
 
   // Handle color change from ProductDescriptionInfo
   const handleColorChange = (color) => {

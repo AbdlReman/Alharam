@@ -124,7 +124,7 @@ const ShopGridStandard = () => {
             id: item.sys.id,
             name: fields.name,
             slug: fields.slug,
-            price: parseFloat(fields.price) || 0,
+            price: Math.round(parseFloat(fields.price) || 0),
             discount: parseFloat(fields.discount) || 0,
             shortDescription: fields.shortDescription,
             fullDescription: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",

@@ -88,17 +88,17 @@ const Cart = () => {
                           item.price,
                           item.discount
                         );
-                        const finalProductPrice = (
+                        const finalProductPrice = Math.round(
                           item.price * currency.currencyRate
-                        ).toFixed(2);
+                        );
                         const finalDiscountedPrice = discountedPrice
-                          ? (discountedPrice * currency.currencyRate).toFixed(2)
+                          ? Math.round(discountedPrice * currency.currencyRate)
                           : null;
 
                         const price = discountedPrice
                           ? finalDiscountedPrice
                           : finalProductPrice;
-                        const subtotal = (price * item.quantity).toFixed(2);
+                        const subtotal = Math.round(price * item.quantity);
 
                         cartTotalPrice += parseFloat(price) * item.quantity;
 
@@ -136,11 +136,11 @@ const Cart = () => {
                               {discountedPrice ? (
                                 <Fragment>
                                   <span className="amount old">
-                                    {"Rs " +
+                                  {"Rs " +
                                       finalProductPrice}
                                   </span>
                                   <span className="amount">
-                                    {"Rs " +
+                                  {"Rs " +
                                       finalDiscountedPrice}
                                   </span>
                                 </Fragment>
@@ -221,13 +221,13 @@ const Cart = () => {
                   <h5>
                     Total products:{" "}
                     <span>
-                      {"Rs " + cartTotalPrice.toFixed(2)}
+                      {"Rs " + Math.round(cartTotalPrice)}
                     </span>
                   </h5>
                   <h4>
                     Grand Total:{" "}
                     <span>
-                      {"Rs " + cartTotalPrice.toFixed(2)}
+                      {"Rs " + Math.round(cartTotalPrice)}
                     </span>
                   </h4>
                   <Link to="/checkout" className="btn btn-primary">

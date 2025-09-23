@@ -91,13 +91,13 @@ const Checkout = () => {
 
     // Create order summary with proper discount calculation
     const orderSummary = cartItems.map((item) => {
-      const finalProductPrice = (item.price * currency.currencyRate).toFixed(2);
+      const finalProductPrice = Math.round(item.price * currency.currencyRate);
       const discountedPrice = getDiscountPrice(item.price, item.discount);
       const finalDiscountedPrice = discountedPrice 
-        ? (discountedPrice * currency.currencyRate).toFixed(2)
+        ? Math.round(discountedPrice * currency.currencyRate)
         : finalProductPrice;
       
-      const itemTotal = (finalDiscountedPrice * item.quantity).toFixed(2);
+      const itemTotal = Math.round(finalDiscountedPrice * item.quantity);
       
       return {
         productName: item.name,
@@ -111,8 +111,7 @@ const Checkout = () => {
     });
 
     const total = orderSummary
-      .reduce((sum, item) => sum + parseFloat(item.total), 0)
-      .toFixed(2);
+      .reduce((sum, item) => sum + parseFloat(item.total), 0);
 
     // Create separate arrays for each column
     const productNames = orderSummary.map((item) => {
@@ -421,12 +420,12 @@ const Checkout = () => {
                                   cartItem.price,
                                   cartItem.discount
                                 );
-                                const finalProductPrice = (
+                                const finalProductPrice = Math.round(
                                   cartItem.price * currency.currencyRate
-                                ).toFixed(2);
-                                const finalDiscountedPrice = (
+                                );
+                                const finalDiscountedPrice = Math.round(
                                   discountedPrice * currency.currencyRate
-                                ).toFixed(2);
+                                );
 
                                 discountedPrice != null
                                   ? (cartTotalPrice +=
@@ -441,15 +440,15 @@ const Checkout = () => {
                                     <span className="order-price">
                                       {discountedPrice !== null
                                         ? "Rs " +
-                                          (
+                                          Math.round(
                                             finalDiscountedPrice *
                                             cartItem.quantity
-                                          ).toFixed(2)
+                                          )
                                         : "Rs " +
-                                          (
+                                          Math.round(
                                             finalProductPrice *
                                             cartItem.quantity
-                                          ).toFixed(2)}
+                                          )}
                                     </span>
                                   </li>
                                 );
@@ -465,7 +464,7 @@ const Checkout = () => {
                           <div className="your-order-total">
                             <ul>
                               <li className="order-total">Total</li>
-                              <li>{"Rs " + cartTotalPrice.toFixed(2)}</li>
+                              <li>{"Rs " + Math.round(cartTotalPrice)}</li>
                             </ul>
                           </div>
                         </div>

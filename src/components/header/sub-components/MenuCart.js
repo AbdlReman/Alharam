@@ -25,11 +25,11 @@ const MenuCart = () => {
                 item.price,
                 item.discount
               );
-              const finalProductPrice = (
+              const finalProductPrice = Math.round(
                 item.price * currency.currencyRate
-              ).toFixed(2);
+              );
               const finalDiscountedPrice = discountedPrice ? 
-                (discountedPrice * currency.currencyRate).toFixed(2) : 
+                Math.round(discountedPrice * currency.currencyRate) : 
                 finalProductPrice;
 
               const itemPrice = discountedPrice ? finalDiscountedPrice : finalProductPrice;
@@ -89,7 +89,7 @@ const MenuCart = () => {
             <h4>
               Total :{" "}
               <span className="shop-total">
-                                              {"Rs "+ cartTotalPrice.toFixed(2)}
+                                              {"Rs "+ Math.round(cartTotalPrice)}
               </span>
             </h4>
           </div>
