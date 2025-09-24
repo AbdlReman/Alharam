@@ -75,11 +75,6 @@ const HomeFurniture = () => {
           category="electronics"
           title="ELECTRONICS"
         />
-        
-
-
-       
-
         {/* countdown */}
         <RecurringCountDown
           spaceTopClass="pt-115"
