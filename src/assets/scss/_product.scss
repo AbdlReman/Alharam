@@ -2,6 +2,43 @@
 .product-area {
   position: relative;
 
+  &.bg-brand {
+
+    .section-title h2,
+    .section-title p,
+    .view-more a {
+      color: #000;
+    }
+
+    .single-product-wrap,
+    .product-wrap,
+    .product-wrap-2,
+    .product-wrap-3,
+    .product-wrap-4,
+    .product-wrap-5,
+    .product-wrap-6,
+    .product-wrap-7,
+    .product-wrap-8,
+    .product-wrap-9,
+    .product-wrap-10,
+    .product-list-image-wrap {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      padding: 12px;
+    }
+
+    .product-content h3 a,
+    .product-content-2 .title-price-wrap-2 h3 a {
+      color: #000;
+    }
+
+    .view-more a {
+      color: #000;
+      border-color: rgba(0, 0, 0, 0.35);
+    }
+  }
+
   .row {
     &.three-column {
       .col-xl-3 {

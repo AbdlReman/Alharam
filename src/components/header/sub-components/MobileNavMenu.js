@@ -34,6 +34,21 @@ const MobileNavMenu = () => {
                 Electronics
               </Link>
             </li>
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/onlycase"}>
+                OnlyCase
+              </Link>
+            </li>
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/onlyglass"}>
+                OnlyGlass
+              </Link>
+            </li>
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/allinonekit"}>
+                All In One Kit
+              </Link>
+            </li>
           </ul>
         </li>
         

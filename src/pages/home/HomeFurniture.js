@@ -40,6 +40,29 @@ const HomeFurniture = () => {
           category="mobileaccessories"
           title="MOBILE ACCESSORIES"
         />
+         {/* All In One Kit section */}
+         <ProductSection
+          spaceBottomClass="pb-100"
+          category="allinonekit"
+          title="ALL IN ONE KIT"
+          backgroundClass="bg-brand"
+          contentClass="content-black"
+          sectionTitleSpaceClass="mt-40"
+        />
+        {/* OnlyCase section */}
+        <br/>
+        <ProductSection
+          spaceBottomClass="pb-100"
+          category="onlycase"
+          title="ONLYCASE"
+        />
+        {/* OnlyGlass section */}
+        <ProductSection
+          spaceBottomClass="pb-100"
+          category="onlyglass"
+          title="ONLYGLASS"
+        />
+       
         {/* video section */}
         <VideoSection 
           spaceTopClass="pt-80" 

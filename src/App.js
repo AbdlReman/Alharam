@@ -18,6 +18,9 @@ const MobileAccessoriesPage = lazy(() =>
   import("./pages/category/MobileAccessoriesPage")
 );
 const ElectronicPage = lazy(() => import("./pages/category/ElectronicPage"));
+const OnlyCasePage = lazy(() => import("./pages/category/OnlyCasePage"));
+const OnlyGlassPage = lazy(() => import("./pages/category/OnlyGlassPage"));
+const AllInOneKitPage = lazy(() => import("./pages/category/AllInOneKitPage"));
 
 // blog pages
 const BlogStandard = lazy(() => import("./pages/blog/BlogStandard"));
@@ -92,6 +95,18 @@ const App = () => {
             <Route
               path={process.env.PUBLIC_URL + "/electronics"}
               element={<ElectronicPage />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/onlycase"}
+              element={<OnlyCasePage />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/onlyglass"}
+              element={<OnlyGlassPage />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/allinonekit"}
+              element={<AllInOneKitPage />}
             />
 
             {/* Blog pages */}

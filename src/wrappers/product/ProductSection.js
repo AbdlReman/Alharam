@@ -7,7 +7,7 @@ import ProductGridTwo from "./ProductGridTwo";
 import client from "../../data/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
-const ProductSection = ({ spaceBottomClass, category, title }) => {
+const ProductSection = ({ spaceBottomClass, category, title, backgroundClass, contentClass, sectionTitleSpaceClass }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -78,9 +78,11 @@ const ProductSection = ({ spaceBottomClass, category, title }) => {
   }
 
   return (
-    <div className={clsx("product-area", spaceBottomClass)}>
+    <div className={clsx("product-area", backgroundClass, contentClass, spaceBottomClass)}>
+
       <div className="container">
-        <SectionTitle titleText={title} positionClass="text-center" />
+        <br/>
+        <SectionTitle titleText={title} positionClass="text-center" spaceClass={sectionTitleSpaceClass} />
         <div className="row four-column">
           <ProductGridTwo
             products={categoryProducts}
@@ -103,7 +105,10 @@ const ProductSection = ({ spaceBottomClass, category, title }) => {
 ProductSection.propTypes = {
   category: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  spaceBottomClass: PropTypes.string
+  spaceBottomClass: PropTypes.string,
+  backgroundClass: PropTypes.string,
+  contentClass: PropTypes.string,
+  sectionTitleSpaceClass: PropTypes.string
 };
 
 export default ProductSection; 

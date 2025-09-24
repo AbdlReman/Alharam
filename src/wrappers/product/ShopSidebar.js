@@ -45,12 +45,14 @@ const ShopSidebar = ({
         />
       )}
 
-      {/* filter by color */}
-      <ShopColor 
-        colors={uniqueColors} 
-        handleColorFilter={handleColorFilter}
-        selectedColor={selectedColor}
-      />
+      {/* filter by color (only show when colors exist) */}
+      {uniqueColors && uniqueColors.length > 0 && (
+        <ShopColor 
+          colors={uniqueColors} 
+          handleColorFilter={handleColorFilter}
+          selectedColor={selectedColor}
+        />
+      )}
       
       {/* Clear filters button */}
       {(searchTerm || selectedCategory || selectedColor) && (
