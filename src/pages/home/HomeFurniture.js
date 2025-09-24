@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
-import BannerTwentySeven from "../../wrappers/banner/BannerTwentySeven";
 import ProductSection from "../../wrappers/product/ProductSection";
 import RecurringCountDown from "../../wrappers/countdown/RecurringCountDown";
 import FeatureIconTwo from "../../wrappers/feature-icon/FeatureIconTwo";
