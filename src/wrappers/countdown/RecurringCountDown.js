@@ -18,7 +18,7 @@ const RecurringCountDown = ({
         <div className="row">
           <div className="col-lg-6 ms-auto">
             <div className="funfact-content text-center">
-              <h2>Deal of the day</h2>
+              <h2>Deal of the month</h2>
               <div className="timer">
                 <RecurringCountdownTimer cycleDays={cycleDays} />
               </div>
