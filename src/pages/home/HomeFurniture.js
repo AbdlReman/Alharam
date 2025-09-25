@@ -18,7 +18,8 @@ const HomeFurniture = () => {
         titleTemplate="Alharam - Premium Electronics Store"
         description="Discover premium electronic appliances at Alharam. Quality AC, Freezer, and other electronic products for your home and business."
       />
-      <LayoutOne headerTop="visible">
+      
+      <LayoutOne >
         {/* hero slider */}
        <BannerSlider/>
 {/*      
