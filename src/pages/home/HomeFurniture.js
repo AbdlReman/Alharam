@@ -9,6 +9,7 @@ import ShippingReturnsFeatures from "../../components/features/ShippingReturnsFe
 import LatestProductsSection from "../../wrappers/product/LatestProductsSection";
 import VideoSection from "../../wrappers/video/VideoSection";
 import HomeLastcomp from "../../components/HomeLastcomp";
+import TopSlider from "../../components/topSlider";
 
 
 const HomeFurniture = () => {
@@ -18,7 +19,7 @@ const HomeFurniture = () => {
         titleTemplate="Alharam - Premium Electronics Store"
         description="Discover premium electronic appliances at Alharam. Quality AC, Freezer, and other electronic products for your home and business."
       />
-      
+      <TopSlider/>
       <LayoutOne >
         {/* hero slider */}
        <BannerSlider/>
