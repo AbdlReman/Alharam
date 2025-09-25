@@ -109,7 +109,7 @@ const Contact = () => {
                       <i className="fa fa-phone" />
                     </div>
                     <div className="contact-info-dec">
-                      <p>+923310164313</p>
+                     
                       <p>+923342743554</p>
                     </div>
                   </div>

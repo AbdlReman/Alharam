@@ -93,12 +93,9 @@ const FooterOne = ({
                 <ul>
                   <li>
                     <i className="fa fa-phone"></i>{" "}
-                    <a href="tel://+923310164313">+923310164313</a>
-                  </li>
-                  <li>
-                    <i className="fa fa-phone"></i>{" "}
                     <a href="tel://+923342743554">+923342743554</a>
                   </li>
+                  
                   <li>
                     <i className="fa fa-envelope"></i>{" "}
                     <a href="mailto:info@alharam.store">info@alharam.store</a>

@@ -4,7 +4,7 @@ const LanguageCurrencyChanger = ({ currency }) => {
   return (
     <div className="language-currency-wrap">
       <div className="same-language-currency">
-        <p>Call Us +923310164313</p>
+        <p>Call Us +923342743554</p>
       </div>
     </div>
   );
