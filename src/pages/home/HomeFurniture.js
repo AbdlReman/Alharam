@@ -8,6 +8,8 @@ import BannerSlider from "../../components/banner/BannerSlider";
 import ShippingReturnsFeatures from "../../components/features/ShippingReturnsFeatures";
 import LatestProductsSection from "../../wrappers/product/LatestProductsSection";
 import VideoSection from "../../wrappers/video/VideoSection";
+import HomeLastcomp from "../../components/HomeLastcomp";
+
 
 const HomeFurniture = () => {
   return (
@@ -33,12 +35,7 @@ const HomeFurniture = () => {
         
 
 
-        {/* mobile accessories section */}
-        <ProductSection
-          spaceBottomClass="pb-100"
-          category="mobileaccessories"
-          title="MOBILE ACCESSORIES"
-        />
+       
          {/* All In One Kit section */}
          <ProductSection
           spaceBottomClass="pb-100"
@@ -68,7 +65,12 @@ const HomeFurniture = () => {
           spaceBottomClass="pb-80" 
         />
         <br/>
-
+ {/* mobile accessories section */}
+ <ProductSection
+          spaceBottomClass="pb-100"
+          category="mobileaccessories"
+          title="MOBILE ACCESSORIES"
+        />
  {/* electronics section */}
  <ProductSection
           spaceBottomClass="pb-100"
@@ -84,7 +86,10 @@ const HomeFurniture = () => {
         />
 
         {/* feature icon */}
-        <FeatureIconTwo spaceTopClass="pt-100" spaceBottomClass="pb-60" />
+        {/* <FeatureIconTwo spaceTopClass="pt-100" spaceBottomClass="pb-60" /> */}
+
+        {/* about content */}
+        <HomeLastcomp />
       </LayoutOne>
     </Fragment>
   );
