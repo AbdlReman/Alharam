@@ -22,41 +22,81 @@ const LatestProductsSection = ({ spaceBottomClass, spaceTopClass }) => {
         // Fetch latest products ordered by creation date
         const entries = await client.getEntries({ 
           content_type: "product",
-          order: "-sys.createdAt", // Order by creation date descending (newest first)
+          order: "-sys.updatedAt", // Show most recently updated first (more intuitive "latest")
           limit: 4
         });
         
+        const normalizeAssetUrl = (url) => {
+          if (!url) return url;
+          if (url.startsWith("//")) return `https:${url}`;
+          if (url.startsWith("/")) return url; // public assets
+          return url;
+        };
+
         const items = entries.items.map((item) => {
           const fields = item.fields;
+
+          // Category can be string | string[] | reference
+          let categoryArray = [];
+          if (fields.category) {
+            if (Array.isArray(fields.category)) {
+              categoryArray = fields.category;
+            } else if (typeof fields.category === "string") {
+              categoryArray = [fields.category];
+            } else if (fields.category.fields) {
+              categoryArray = [
+                fields.category.fields.name || fields.category.fields.title,
+              ].filter(Boolean);
+            }
+          }
+
+          // Color can be string | string[] | reference
+          let colorArray = [];
+          if (fields.color) {
+            if (Array.isArray(fields.color)) {
+              colorArray = fields.color;
+            } else if (typeof fields.color === "string") {
+              colorArray = [fields.color];
+            } else if (fields.color.fields) {
+              colorArray = [
+                fields.color.fields.name || fields.color.fields.title,
+              ].filter(Boolean);
+            }
+          }
+
+          const imageUrls = (fields.images?.map((img) => normalizeAssetUrl(img?.fields?.file?.url)) || []).filter(Boolean);
+          const primaryImage = normalizeAssetUrl(fields.images?.[0]?.fields?.file?.url) || "/assets/img/product/default-product.jpg";
+
           return {
             id: item.sys.id,
             name: fields.name,
             slug: fields.slug,
-            price: parseFloat(fields.price) || 0,
+            price: Math.round(parseFloat(fields.price) || 0),
             discount: parseFloat(fields.discount) || 0,
             shortDescription: fields.shortDescription,
             fullDescription: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",
-            category: fields.category || [],
+            category: categoryArray,
             tag: fields.tag || [],
-            images: fields.images?.map((img) => img.fields.file.url) || [],
-            color: fields.color || [],
+            images: imageUrls,
+            color: colorArray,
             size: fields.size || [],
             metaTitle: fields.metaTitle || "",
             metaDescription: fields.metaDescription || "",
             stock: fields.stock || 0,
-            // For backward compatibility
-            image: fields.images?.[0]?.fields?.file?.url,
+            // Backward compatibility and local usage
+            image: primaryImage,
             title: fields.name,
             description: fields.shortDescription,
-            // Add variation structure if colors/sizes exist
-            variation: fields.color && fields.color.length > 0 ? 
-              fields.color.map(color => ({
-                color: color,
-                size: fields.size ? fields.size.map(size => ({
-                  name: size,
-                  stock: fields.stock || 0
-                })) : []
-              })) : null
+            variation:
+              colorArray.length > 0
+                ? colorArray.map((color) => ({
+                    color,
+                    size: (fields.size || []).map((size) => ({
+                      name: size,
+                      stock: fields.stock || 0,
+                    })),
+                  }))
+                : null,
           };
         });
         setProducts(items);
