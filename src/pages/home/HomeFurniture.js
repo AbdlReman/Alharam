@@ -34,9 +34,6 @@ const HomeFurniture = () => {
           spaceBottomClass="pb-60" 
         />
 
-        
-
-
        
          {/* All In One Kit section */}
          <ProductSection
