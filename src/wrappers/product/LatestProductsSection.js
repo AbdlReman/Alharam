@@ -325,7 +325,7 @@ const LatestProductsSection = ({ spaceBottomClass, spaceTopClass }) => {
           <div className="col-12">
             <div 
               style={{
-                backgroundImage: "url('/assets/img/banner/latestProduct.png')",
+                backgroundImage: "url('/assets/img/banner/latestProduct.jpeg')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 height: "300px",
