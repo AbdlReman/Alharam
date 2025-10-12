@@ -289,6 +289,26 @@ const ShopGridStandard = () => {
                   />
                 </div>
                 <div className="col-lg-9 order-1 order-lg-2">
+                  {/* Mobile Search Bar */}
+                  <div className="mobile-search-bar mb-4 d-lg-none">
+                    <div className="search-wrapper">
+                      <input
+                        type="text"
+                        placeholder="Search products..."
+                        value={searchTerm}
+                        onChange={(e) => handleSearch(e.target.value)}
+                        className="form-control"
+                        style={{
+                          padding: "12px 20px",
+                          fontSize: "14px",
+                          border: "1px solid #e5e5e5",
+                          borderRadius: "5px",
+                          width: "100%"
+                        }}
+                      />
+                    </div>
+                  </div>
+                  
                   <ShopTopbar
                     productCount={products.length}
                     sortedProductCount={sortedProducts.length}

@@ -26,7 +26,7 @@ const ShopTopAction = ({
       </div>
 
       <div className="shop-tab">
-        <button
+        {/* <button
           onClick={e => {
             getLayout("grid two-column");
             setActiveLayout(e);
@@ -49,7 +49,7 @@ const ShopTopAction = ({
           }}
         >
           <i className="fa fa-list-ul" />
-        </button>
+        </button> */}
       </div>
     </div>
   );
