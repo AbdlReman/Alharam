@@ -4,7 +4,7 @@ import LayoutOne from "../../layouts/LayoutOne";
 import FeatureIconTwo from "../../wrappers/feature-icon/FeatureIconTwo";
 import LatestProductSection from "../../wrappers/product/LatestProductSection";
 import HeroBanner from "../../components/hero/HeroBanner";
-import TopSlider from "../../components/TopSlider";
+import TopSlider from "../../components/TopSlider.jsx";
 import ShopProducts from "../../wrappers/product/ShopProducts";
 import SectionTitle from "../../components/section-title/SectionTitle";
 import ShippingReturnsFeatures from "../../components/features/ShippingReturnsFeatures";
