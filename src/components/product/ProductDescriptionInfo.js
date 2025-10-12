@@ -23,6 +23,7 @@ const ProductDescriptionInfo = ({
   
   const [selectedProductColor, setSelectedProductColor] = useState("");
   const [selectedProductSize, setSelectedProductSize] = useState("");
+  const [selectedProductModel, setSelectedProductModel] = useState("");
   const [productStock, setProductStock] = useState(0);
   const [quantityCount, setQuantityCount] = useState(1);
   const [includeGiftBox, setIncludeGiftBox] = useState(false);
@@ -55,7 +56,8 @@ const ProductDescriptionInfo = ({
     cartItems,
     product,
     selectedProductColor,
-    selectedProductSize
+    selectedProductSize,
+    selectedProductModel
   );
 
   // Calculate quantity discount
@@ -70,6 +72,7 @@ const ProductDescriptionInfo = ({
       quantity: quantityCount,
       selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
       selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null,
+      selectedProductModel: selectedProductModel ? selectedProductModel : product.selectedProductModel ? product.selectedProductModel : null,
       includeGiftBox: showGiftBoxOption ? includeGiftBox : false,
       giftBoxPrice: showGiftBoxOption ? giftBoxUnitPrice : 0
     }));
@@ -82,6 +85,7 @@ const ProductDescriptionInfo = ({
       quantity: quantityCount,
       selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
       selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null,
+      selectedProductModel: selectedProductModel ? selectedProductModel : product.selectedProductModel ? product.selectedProductModel : null,
       includeGiftBox: showGiftBoxOption ? includeGiftBox : false,
       giftBoxPrice: showGiftBoxOption ? giftBoxUnitPrice : 0,
       suppressToast: true
@@ -296,6 +300,40 @@ const ProductDescriptionInfo = ({
                     />
                     <span className="checkmark"></span>
                     <span className="color-text">{size}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Display models if available */}
+      {product.model && product.model.length > 0 && (
+        <div className="pro-details-size-color">
+          <div className="pro-details-color-wrap">
+            <span>Model</span>
+            <div className="pro-details-color-content">
+                             {product.model.map((model, key) => {
+                 return (
+                   <label
+                     className={`pro-details-color-content--single ${model === selectedProductModel ? 'selected' : ''}`}
+                     key={key}
+                   >
+                    <input
+                      type="radio"
+                      value={model}
+                      name="product-model"
+                      checked={
+                        model === selectedProductModel ? "checked" : ""
+                      }
+                      onChange={() => {
+                        setSelectedProductModel(model);
+                        setQuantityCount(1);
+                      }}
+                    />
+                    <span className="checkmark"></span>
+                    <span className="color-text">{model}</span>
                   </label>
                 );
               })}

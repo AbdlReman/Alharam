@@ -16,6 +16,7 @@ function ProductModal({ product, currency, discountedPrice, finalProductPrice, f
 
   const [selectedProductColor, setSelectedProductColor] = useState("");
   const [selectedProductSize, setSelectedProductSize] = useState("");
+  const [selectedProductModel, setSelectedProductModel] = useState("");
   const [productStock, setProductStock] = useState(0);
   const [quantityCount, setQuantityCount] = useState(1);
   
@@ -46,7 +47,8 @@ function ProductModal({ product, currency, discountedPrice, finalProductPrice, f
     cartItems,
     product,
     selectedProductColor,
-    selectedProductSize
+    selectedProductSize,
+    selectedProductModel
   );
 
   // Handle images from Contentful - ensure we have at least one image
@@ -85,7 +87,8 @@ function ProductModal({ product, currency, discountedPrice, finalProductPrice, f
       ...product,
       quantity: quantityCount,
       selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
-      selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null
+      selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null,
+      selectedProductModel: selectedProductModel ? selectedProductModel : product.selectedProductModel ? product.selectedProductModel : null
     }));
   };
 
@@ -270,6 +273,40 @@ function ProductModal({ product, currency, discountedPrice, finalProductPrice, f
                             />
                             <span className="size-name">
                               {size}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Display models if available */}
+                {product.model && product.model.length > 0 && (
+                  <div className="pro-details-size">
+                    <span>Model</span>
+                    <div className="pro-details-size-content">
+                      {product.model.map((model, key) => {
+                        return (
+                          <label
+                            className={`pro-details-size-content--single`}
+                            key={key}
+                          >
+                            <input
+                              type="radio"
+                              value={model}
+                              checked={
+                                model === selectedProductModel
+                                  ? "checked"
+                                  : ""
+                              }
+                              onChange={() => {
+                                setSelectedProductModel(model);
+                                setQuantityCount(1);
+                              }}
+                            />
+                            <span className="size-name">
+                              {model}
                             </span>
                           </label>
                         );

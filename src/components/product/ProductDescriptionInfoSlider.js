@@ -25,6 +25,7 @@ const ProductDescriptionInfoSlider = ({
   const [selectedProductSize, setSelectedProductSize] = useState(
     product.variation ? product.variation[0].size[0].name : ""
   );
+  const [selectedProductModel, setSelectedProductModel] = useState("");
   const [productStock, setProductStock] = useState(
     product.variation ? product.variation[0].size[0].stock : product.stock
   );
@@ -34,7 +35,8 @@ const ProductDescriptionInfoSlider = ({
     cartItems,
     product,
     selectedProductColor,
-    selectedProductSize
+    selectedProductSize,
+    selectedProductModel
   );
 
   return (
@@ -184,7 +186,8 @@ const ProductDescriptionInfoSlider = ({
                     ...product,
                     quantity: quantityCount,
                     selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
-                    selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null
+                    selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null,
+                    selectedProductModel: selectedProductModel ? selectedProductModel : product.selectedProductModel ? product.selectedProductModel : null
                   }))
                 }
                 disabled={productCartQty >= productStock}

@@ -32,14 +32,15 @@ export const getDiscountPrice = (price, discount) => {
 };
 
 // get product cart quantity
-export const getProductCartQuantity = (cartItems, product, color, size) => {
+export const getProductCartQuantity = (cartItems, product, color, size, model) => {
   let productInCart = cartItems.find(
     single =>
       single.id === product.id &&
       (single.selectedProductColor
         ? single.selectedProductColor === color
         : true) &&
-      (single.selectedProductSize ? single.selectedProductSize === size : true)
+      (single.selectedProductSize ? single.selectedProductSize === size : true) &&
+      (single.selectedProductModel ? single.selectedProductModel === model : true)
   );
   if (cartItems.length >= 1 && productInCart) {
     if (product.variation) {
@@ -47,7 +48,8 @@ export const getProductCartQuantity = (cartItems, product, color, size) => {
         single =>
           single.id === product.id &&
           single.selectedProductColor === color &&
-          single.selectedProductSize === size
+          single.selectedProductSize === size &&
+          single.selectedProductModel === model
       );
       return foundItem ? foundItem.quantity : 0;
     } else {

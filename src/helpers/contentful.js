@@ -61,6 +61,7 @@ export const processContentfulProduct = (item) => {
     images: fields.images?.map(img => img.fields.file.url) || [],
     color: fields.color || [],
     size: fields.size || [],
+    model: fields.model || [],
     metaTitle: fields.metaTitle || fields.name || "Product",
     metaDescription: fields.metaDescription || fields.shortDescription || "",
     stock: fields.stock || 0,

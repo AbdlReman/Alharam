@@ -161,13 +161,16 @@ const Checkout = () => {
         parseFloat(giftBoxPerUnit) * item.quantity
       ).toFixed(2);
       
-      // Build product name with color and size if available
+      // Build product name with color, size, and model if available
       let productNameWithDetails = item.name;
       if (item.selectedProductColor) {
         productNameWithDetails += ` (Color: ${item.selectedProductColor})`;
       }
       if (item.selectedProductSize) {
         productNameWithDetails += ` (Size: ${item.selectedProductSize})`;
+      }
+      if (item.selectedProductModel) {
+        productNameWithDetails += ` (Model: ${item.selectedProductModel})`;
       }
       
       return {
@@ -206,9 +209,15 @@ const Checkout = () => {
     const prices = orderSummary.map((item) => `${"Rs "}${item.price}`);
     const totals = orderSummary.map((item) => `${"Rs "}${item.total}`);
     
-    // Create color and size arrays for email
+    // Create color, size, and model arrays for email
     const colors = cartItems.map((item) => item.selectedProductColor || "N/A");
     const sizes = cartItems.map((item) => item.selectedProductSize || "N/A");
+    const models = cartItems.map((item) => item.selectedProductModel || "N/A");
+    
+    // Check if any product has these attributes
+    const hasColors = cartItems.some((item) => item.selectedProductColor);
+    const hasSizes = cartItems.some((item) => item.selectedProductSize);
+    const hasModels = cartItems.some((item) => item.selectedProductModel);
     
     // Join arrays with line breaks for display
     const formattedProductNames = productNames.join("\n");
@@ -217,6 +226,7 @@ const Checkout = () => {
     const formattedTotals = totals.join("\n");
     const formattedColors = colors.join("\n");
     const formattedSizes = sizes.join("\n");
+    const formattedModels = models.join("\n");
 
     // Get payment method display name
     const getPaymentMethodName = (method) => {
@@ -243,6 +253,7 @@ const Checkout = () => {
       totals: formattedTotals,
       colors: formattedColors,
       sizes: formattedSizes,
+      models: formattedModels,
       subtotal: total,
       discount: discountAmount.toFixed(2),
       grandTotal: grandTotal.toFixed(2),
@@ -277,6 +288,10 @@ const Checkout = () => {
           totals: formattedTotals,
           colors: formattedColors,
           sizes: formattedSizes,
+          models: formattedModels,
+          hasColors: hasColors ? "yes" : "no",
+          hasSizes: hasSizes ? "yes" : "no",
+          hasModels: hasModels ? "yes" : "no",
           subtotal: total, // subtotal before coupon
           total: grandTotal.toFixed(2), // for template compatibility, send final total here
           giftBoxTotal: giftBoxTotal.toFixed(2),
