@@ -1,10 +1,10 @@
 import React, { Fragment, useState, useEffect, Suspense, lazy } from "react";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
-import BannerTwentySeven from "../../wrappers/banner/BannerTwentySeven";
 import FeatureIconTwo from "../../wrappers/feature-icon/FeatureIconTwo";
 import LatestProductSection from "../../wrappers/product/LatestProductSection";
 import HeroBanner from "../../components/hero/HeroBanner";
+import TopSlider from "../../components/TopSlider";
 import ShopProducts from "../../wrappers/product/ShopProducts";
 import SectionTitle from "../../components/section-title/SectionTitle";
 import ShippingReturnsFeatures from "../../components/features/ShippingReturnsFeatures";
@@ -12,7 +12,7 @@ import client from "../../data/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import { hasCategory } from "../../helpers/categoryMapper";
 import "../../assets/css/category-layouts.css";
-import TopSlider from "../../components/TopSlider";
+
 
 // Add CSS for loading animations and simple fade effects
 const simpleStyles = `
