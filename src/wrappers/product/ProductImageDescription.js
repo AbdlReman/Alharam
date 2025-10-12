@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { useState } from "react";
 import clsx from "clsx";
 import { getDiscountPrice } from "../../helpers/product";
 import ProductImageGallery from "../../components/product/ProductImageGallery";
@@ -13,9 +12,6 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType,
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { compareItems } = useSelector((state) => state.compare);
   const { cartItems } = useSelector((state) => state.cart);
-  
-  // State to manage selected color for image switching
-  const [selectedColor, setSelectedColor] = useState("");
   
   // Add null check for product
   if (!product) {
@@ -36,16 +32,10 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType,
   const compareItem = compareItems.find(item => item.id === product.id);
 
   const discountedPrice = getDiscountPrice(product.price, product.discount);
-  const finalProductPrice = Math.round(product.price * currency.currencyRate);
-  const finalDiscountedPrice = Math.round(
+  const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);
+  const finalDiscountedPrice = +(
     discountedPrice * currency.currencyRate
-  );
-
-  // Handle color change from ProductDescriptionInfo
-  const handleColorChange = (color) => {
-    console.log('Color changed to:', color);
-    setSelectedColor(color);
-  };
+  ).toFixed(2);
 
   return (
     <div className={clsx("shop-area", spaceTopClass, spaceBottomClass)}>
@@ -57,23 +47,13 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType,
               <ProductImageGallerySideThumb
                 product={product}
                 thumbPosition="left"
-                selectedColor={selectedColor}
               />
             ) : galleryType === "rightThumb" ? (
-              <ProductImageGallerySideThumb 
-                product={product} 
-                selectedColor={selectedColor}
-              />
+              <ProductImageGallerySideThumb product={product} />
             ) : galleryType === "fixedImage" ? (
-              <ProductImageFixed 
-                product={product} 
-                selectedColor={selectedColor}
-              />
+              <ProductImageFixed product={product} />
             ) : (
-              <ProductImageGallery 
-                product={product} 
-                selectedColor={selectedColor}
-              />
+              <ProductImageGallery product={product} />
             )}
           </div>
           <div className="col-lg-6 col-md-6">
@@ -87,7 +67,6 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType,
               cartItems={cartItems}
               wishlistItem={wishlistItem}
               compareItem={compareItem}
-              onColorChange={handleColorChange}
             />
           </div>
         </div>

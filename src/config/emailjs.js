@@ -1,4 +1,3 @@
-
 export const EMAILJS_CONFIG = {
   SERVICE_ID: 'service_fuhazui', // Your EmailJS service ID
   CONTACT_TEMPLATE_ID: 'template_y62ttoq', // Contact Us template ID

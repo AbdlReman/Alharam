@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDiscountPrice } from "../../../helpers/product";
+import { getDiscountPrice, getQuantityDiscountedPrice } from "../../../helpers/product";
 import { deleteFromCart } from "../../../store/slices/cart-slice";
 
 const MenuCart = () => {
@@ -11,8 +11,13 @@ const MenuCart = () => {
   
   const cartTotalPrice = cartItems.reduce((total, item) => {
     const discountedPrice = getDiscountPrice(item.price, item.discount);
-    const price = discountedPrice || item.price;
-    return total + (price * item.quantity);
+    const basePrice = discountedPrice != null ? discountedPrice : item.price;
+    const quantityDiscountedPrice = getQuantityDiscountedPrice(basePrice, item.quantity);
+    const baseUnit = quantityDiscountedPrice * (currency?.currencyRate || 1);
+    const giftUnit = item.includeGiftBox && item.giftBoxPrice > 0
+      ? item.giftBoxPrice * (currency?.currencyRate || 1)
+      : 0;
+    return total + (baseUnit + giftUnit) * item.quantity;
   }, 0);
 
   return (
@@ -25,14 +30,26 @@ const MenuCart = () => {
                 item.price,
                 item.discount
               );
-              const finalProductPrice = Math.round(
-                item.price * currency.currencyRate
-              );
-              const finalDiscountedPrice = discountedPrice ? 
-                Math.round(discountedPrice * currency.currencyRate) : 
-                finalProductPrice;
+              const basePrice = discountedPrice != null ? discountedPrice : item.price;
+              const quantityDiscountedPrice = getQuantityDiscountedPrice(basePrice, item.quantity);
+              
+              const finalProductPrice = (
+                item.price * (currency?.currencyRate || 1)
+              ).toFixed(2);
+              const finalDiscountedPrice = discountedPrice
+                ? (discountedPrice * (currency?.currencyRate || 1)).toFixed(2)
+                : finalProductPrice;
+              const finalQuantityDiscountedPrice = (
+                quantityDiscountedPrice * (currency?.currencyRate || 1)
+              ).toFixed(2);
 
-              const itemPrice = discountedPrice ? finalDiscountedPrice : finalProductPrice;
+              const giftBoxPerUnit =
+                item.includeGiftBox && item.giftBoxPrice > 0
+                  ? (item.giftBoxPrice * (currency?.currencyRate || 1)).toFixed(2)
+                  : 0;
+
+              const baseUnitPrice = parseFloat(finalQuantityDiscountedPrice);
+              const itemUnitPrice = baseUnitPrice.toFixed(2);
 
               return (
                 <li className="single-shopping-cart" key={item.cartItemId}>
@@ -57,9 +74,12 @@ const MenuCart = () => {
                       </Link>
                     </h4>
                     <h6>Qty: {item.quantity}</h6>
-                    <span>
-                                                    {"Rs "+ itemPrice}
-                    </span>
+                    <span>{"Rs " + itemUnitPrice}</span>
+                                         {item.includeGiftBox && item.giftBoxPrice > 0 && (
+                       <div className="cart-item-variation">
+                         <span>Gift box: + Rs {(item.giftBoxPrice * (currency?.currencyRate || 1)).toFixed(2)} per unit</span>
+                       </div>
+                     )}
                     {item.selectedProductColor && (
                       <div className="cart-item-variation">
                         <span>Color: {item.selectedProductColor}</span>
@@ -68,11 +88,6 @@ const MenuCart = () => {
                     {item.selectedProductSize && (
                       <div className="cart-item-variation">
                         <span>Size: {item.selectedProductSize}</span>
-                      </div>
-                    )}
-                    {item.selectedProductModel && (
-                      <div className="cart-item-variation">
-                        <span>Model: {item.selectedProductModel}</span>
                       </div>
                     )}
                   </div>
@@ -89,7 +104,7 @@ const MenuCart = () => {
             <h4>
               Total :{" "}
               <span className="shop-total">
-                                              {"Rs "+ Math.round(cartTotalPrice)}
+                                              {"Rs "+ cartTotalPrice.toFixed(2)}
               </span>
             </h4>
           </div>

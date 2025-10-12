@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 const LanguageCurrencyChanger = ({ currency }) => {
   return (
     <div className="language-currency-wrap">
-      {/* <div className="same-language-currency">
-        <p>Call Us +923342743554</p>
-      </div> */}
+      <div className="same-language-currency">
+        {/* Phone number moved to marquee */}
+      </div>
     </div>
   );
 };

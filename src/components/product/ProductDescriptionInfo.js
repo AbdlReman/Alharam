@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getProductCartQuantity } from "../../helpers/product";
+import { getProductCartQuantity, getQuantityDiscount, getQuantityDiscountedPrice } from "../../helpers/product";
 import Rating from "./sub-components/ProductRating";
 import { addToCart } from "../../store/slices/cart-slice";
 import { addToWishlist } from "../../store/slices/wishlist-slice";
@@ -17,16 +17,15 @@ const ProductDescriptionInfo = ({
   cartItems,
   wishlistItem,
   compareItem,
-  onColorChange,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
   const [selectedProductColor, setSelectedProductColor] = useState("");
   const [selectedProductSize, setSelectedProductSize] = useState("");
-  const [selectedProductModel, setSelectedProductModel] = useState("");
   const [productStock, setProductStock] = useState(0);
   const [quantityCount, setQuantityCount] = useState(1);
+  const [includeGiftBox, setIncludeGiftBox] = useState(false);
   
   // Use useEffect to set initial values when product changes
   useEffect(() => {
@@ -35,18 +34,7 @@ const ProductDescriptionInfo = ({
         setSelectedProductColor(product.variation[0].color || "");
       }
       
-      if (product.variation && product.variation[0] && product.variation[0].size && product.variation[0].size[0]) {
-        setSelectedProductSize(product.variation[0].size[0].name || "");
-      }
-      
-      // Set initial model if available
-      if (product.model && product.model.length > 0) {
-        setSelectedProductModel(product.model[0] || "");
-      }
-      
-      const stock = product.variation && product.variation[0] && product.variation[0].size && product.variation[0].size[0] 
-        ? product.variation[0].size[0].stock 
-        : product.stock || 0;
+      const stock = product.stock || 0;
       setProductStock(stock);
     }
   }, [product]);
@@ -60,13 +48,21 @@ const ProductDescriptionInfo = ({
     );
   }
 
+  const giftBoxUnitPrice = Number(product.giftBoxPrice || 0);
+  const showGiftBoxOption = Number.isFinite(giftBoxUnitPrice) && giftBoxUnitPrice > 0;
+
   const productCartQty = getProductCartQuantity(
     cartItems,
     product,
     selectedProductColor,
-    selectedProductSize,
-    selectedProductModel
+    selectedProductSize
   );
+
+  // Calculate quantity discount
+  const quantityDiscount = getQuantityDiscount(quantityCount);
+  const basePrice = discountedPrice !== null ? discountedPrice : product.price;
+  const quantityDiscountedPrice = getQuantityDiscountedPrice(basePrice, quantityCount);
+  const finalQuantityDiscountedPrice = Math.round(quantityDiscountedPrice * (currency?.currencyRate || 1));
 
   const handleAddToCart = () => {
     dispatch(addToCart({
@@ -74,7 +70,8 @@ const ProductDescriptionInfo = ({
       quantity: quantityCount,
       selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
       selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null,
-      selectedProductModel: selectedProductModel ? selectedProductModel : product.selectedProductModel ? product.selectedProductModel : null
+      includeGiftBox: showGiftBoxOption ? includeGiftBox : false,
+      giftBoxPrice: showGiftBoxOption ? giftBoxUnitPrice : 0
     }));
   };
 
@@ -85,7 +82,8 @@ const ProductDescriptionInfo = ({
       quantity: quantityCount,
       selectedProductColor: selectedProductColor ? selectedProductColor : product.selectedProductColor ? product.selectedProductColor : null,
       selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null,
-      selectedProductModel: selectedProductModel ? selectedProductModel : product.selectedProductModel ? product.selectedProductModel : null,
+      includeGiftBox: showGiftBoxOption ? includeGiftBox : false,
+      giftBoxPrice: showGiftBoxOption ? giftBoxUnitPrice : 0,
       suppressToast: true
     }));
     
@@ -94,7 +92,25 @@ const ProductDescriptionInfo = ({
   };
 
   return (
-    <div className="product-details-content ml-70">
+    <div className="product-details-content ml-70" style={{
+      minHeight: '600px',
+      padding: '20px 0',
+      '@media (min-width: 992px)': {
+        minHeight: '650px',
+        padding: '30px 0'
+      }
+    }}>
+      {/* Conditional line for perfumes category */}
+      {product.category && product.category.includes("perfumes") && (
+        <div style={{
+          fontSize: '20px',
+          color: '#666',
+          marginBottom: '18px',
+          fontWeight: '400'
+        }}>
+          Inspired by Hugo perfume
+        </div>
+      )}
       <h2>{product.name}</h2>
                   <div className="product-details-price">
               {discountedPrice !== null ? (
@@ -117,42 +133,106 @@ const ProductDescriptionInfo = ({
       ) : (
         ""
       )}
+      <hr style={{ margin: '20px 0', border: '1px solid #e5e5e5' }} />
       <div className="pro-details-list">
         <p>{product.shortDescription}</p>
       </div>
 
-      {/* Display models if available */}
-      {product.model && product.model.length > 0 && (
-        <div className="pro-details-size-color">
-          <div className="pro-details-model-wrap">
-            <span>Model</span>
-            <div className="pro-details-model-content-boxes">
-              {product.model.map((model, key) => {
-                return (
-                  <label
-                    className={`pro-details-model-box ${model === selectedProductModel ? 'selected' : ''}`}
-                    key={key}
-                  >
-                    <input
-                      type="radio"
-                      value={model}
-                      name="product-model"
-                      checked={
-                        model === selectedProductModel
-                          ? "checked"
-                          : ""
-                      }
-                      onChange={() => {
-                        setSelectedProductModel(model);
-                        setQuantityCount(1);
-                      }}
-                    />
-                    <span className="model-box-text">{model}</span>
-                  </label>
-                );
-              })}
-            </div>
+      {/* Quantity Discount Section */}
+      <div className="quantity-discount-section" style={{
+        border: '2px dashed #28a745',
+        borderRadius: '8px',
+        padding: '20px',
+        margin: '25px 0',
+        backgroundColor: '#f8fff9',
+        minHeight: '120px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
+          <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#28a745' }}>
+            🎉 Buy More Save More!
+          </span>
+        </div>
+        <div style={{ 
+          display: 'flex', 
+          gap: '25px', 
+          marginBottom: '15px',
+          flexWrap: 'wrap'
+        }}>
+                     <label style={{ 
+             display: 'flex', 
+             alignItems: 'center', 
+             cursor: 'pointer',
+             fontSize: '15px'
+           }}>
+             <input
+               type="radio"
+               name="quantity-discount"
+               checked={quantityCount === 2}
+               onChange={() => setQuantityCount(2)}
+               style={{ 
+                 marginRight: '8px',
+                 width: '16px',
+                 height: '16px',
+                 cursor: 'pointer'
+               }}
+             />
+             <span>Buy 2 - Get 5% OFF</span>
+           </label>
+           <label style={{ 
+             display: 'flex', 
+             alignItems: 'center',
+             cursor: 'pointer',
+             fontSize: '15px'
+           }}>
+             <input
+               type="radio"
+               name="quantity-discount"
+               checked={quantityCount === 3}
+               onChange={() => setQuantityCount(3)}
+               style={{ 
+                 marginRight: '8px',
+                 width: '16px',
+                 height: '16px',
+                 cursor: 'pointer'
+               }}
+             />
+             <span>Buy 3 - Get 10% OFF</span>
+           </label>
+        </div>
+        {quantityDiscount > 0 && (
+          <div style={{ 
+            fontSize: '15px', 
+            color: '#28a745', 
+            fontWeight: 'bold',
+            padding: '10px',
+            backgroundColor: '#e8f5e8',
+            borderRadius: '4px',
+            marginTop: 'auto'
+          }}>
+            You save: Rs {((basePrice * quantityCount * (currency?.currencyRate || 1)) - (quantityDiscountedPrice * quantityCount * (currency?.currencyRate || 1))).toFixed(2)}
           </div>
+        )}
+      </div>
+
+      <hr style={{ margin: '20px 0', border: '1px solid #e5e5e5' }} />
+
+      {/* Gift box option (only if configured and > 0) */}
+      {showGiftBoxOption && (
+        <div className="pro-details-giftbox" style={{ marginTop: 15, marginBottom: 15 }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+            <input
+              type="checkbox"
+              checked={includeGiftBox}
+              onChange={(e) => setIncludeGiftBox(e.target.checked)}
+              style={{ width: 16, height: 16 }}
+            />
+            <span>
+              Do you want special packaging (+ Rs {(giftBoxUnitPrice * (currency?.currencyRate || 1)).toFixed(2)})
+            </span>
+          </label>
         </div>
       )}
 
@@ -161,13 +241,13 @@ const ProductDescriptionInfo = ({
         <div className="pro-details-size-color">
           <div className="pro-details-color-wrap">
             <span>Color</span>
-            <div className="pro-details-color-content-boxes">
-              {product.color.map((color, key) => {
-                return (
-                  <label
-                    className={`pro-details-color-box ${color === selectedProductColor ? 'selected' : ''}`}
-                    key={key}
-                  >
+            <div className="pro-details-color-content">
+                             {product.color.map((color, key) => {
+                 return (
+                   <label
+                     className={`pro-details-color-content--single ${color === selectedProductColor ? 'selected' : ''}`}
+                     key={key}
+                   >
                     <input
                       type="radio"
                       value={color}
@@ -176,17 +256,12 @@ const ProductDescriptionInfo = ({
                         color === selectedProductColor ? "checked" : ""
                       }
                       onChange={() => {
-                        console.log('Color selected:', color);
                         setSelectedProductColor(color);
                         setQuantityCount(1);
-                        // Notify parent component about color change
-                        if (onColorChange) {
-                          console.log('Calling onColorChange with:', color);
-                          onColorChange(color);
-                        }
                       }}
                     />
-                    <span className="color-box-text">{color}</span>
+                    <span className="checkmark"></span>
+                    <span className="color-text">{color}</span>
                   </label>
                 );
               })}
@@ -198,59 +273,34 @@ const ProductDescriptionInfo = ({
       {/* Display sizes if available */}
       {product.size && product.size.length > 0 && (
         <div className="pro-details-size-color">
-          <div className="pro-details-size-wrap">
+          <div className="pro-details-color-wrap">
             <span>Size</span>
-            <div className="pro-details-size-content-boxes">
-              {product.size.map((size, key) => {
-                return (
-                  <label
-                    className={`pro-details-size-box ${size === selectedProductSize ? 'selected' : ''}`}
-                    key={key}
-                  >
+            <div className="pro-details-color-content">
+                             {product.size.map((size, key) => {
+                 return (
+                   <label
+                     className={`pro-details-color-content--single ${size === selectedProductSize ? 'selected' : ''}`}
+                     key={key}
+                   >
                     <input
                       type="radio"
                       value={size}
                       name="product-size"
                       checked={
-                        size === selectedProductSize
-                          ? "checked"
-                          : ""
+                        size === selectedProductSize ? "checked" : ""
                       }
                       onChange={() => {
                         setSelectedProductSize(size);
                         setQuantityCount(1);
                       }}
                     />
-                    <span className="size-box-text">{size}</span>
+                    <span className="checkmark"></span>
+                    <span className="color-text">{size}</span>
                   </label>
                 );
               })}
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Display categories if available */}
-      {product.category && product.category.length > 0 && (
-        <div className="pro-details-categories">
-          <span>Categories: </span>
-          {product.category.map((cat, index) => (
-            <Link key={index} to={`/shop?category=${cat}`}>
-              {cat}{index < product.category.length - 1 ? ', ' : ''}
-            </Link>
-          ))}
-        </div>
-      )}
-
-      {/* Display tags if available */}
-      {product.tag && product.tag.length > 0 && (
-        <div className="pro-details-tags">
-          <span>Tags: </span>
-          {product.tag.map((tag, index) => (
-            <Link key={index} to={`/shop?tag=${tag}`}>
-              {tag}{index < product.tag.length - 1 ? ', ' : ''}
-            </Link>
-          ))}
         </div>
       )}
 
@@ -301,6 +351,26 @@ const ProductDescriptionInfo = ({
               <button
                 onClick={handleAddToCart}
                 disabled={productCartQty >= productStock}
+                style={{
+                  background: '#03055b',
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '10px 22px',
+                  borderRadius: '24px',
+                  fontWeight: 600,
+                  transition: 'all 0.25s ease',
+                  cursor: productCartQty >= productStock ? 'not-allowed' : 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  if (!(productCartQty >= productStock)) {
+                    e.currentTarget.style.background = '#ff69b4';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!(productCartQty >= productStock)) {
+                    e.currentTarget.style.background = '#03055b';
+                  }
+                }}
               >
                 {" "}
                 Add To Cart{" "}
@@ -366,7 +436,6 @@ ProductDescriptionInfo.propTypes = {
   finalProductPrice: PropTypes.number,
   product: PropTypes.shape({}),
   wishlistItem: PropTypes.shape({}),
-  onColorChange: PropTypes.func,
 };
 
 export default ProductDescriptionInfo;

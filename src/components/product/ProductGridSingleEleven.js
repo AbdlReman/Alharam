@@ -21,10 +21,10 @@ const ProductGridSingleEleven = ({
 }) => {
   const [modalShow, setModalShow] = useState(false);
   const discountedPrice = getDiscountPrice(product.price, product.discount);
-  const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);
-  const finalDiscountedPrice = +(
+  const finalProductPrice = Math.round(product.price * currency.currencyRate);
+  const finalDiscountedPrice = Math.round(
     discountedPrice * currency.currencyRate
-  ).toFixed(2);
+  );
   const dispatch = useDispatch();
 
   return (

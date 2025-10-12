@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@contentful/rich-text-html-renderer": "^17.0.1",
+    "@contentful/rich-text-html-renderer": "^17.1.0",
     "@contentful/rich-text-react-renderer": "^16.0.1",
     "@emailjs/browser": "^4.4.1",
     "@reduxjs/toolkit": "^1.8.6",
@@ -22,6 +22,7 @@
     "core-js": "^3.44.0",
     "dotenv": "^16.4.5",
     "emailjs-com": "^3.2.0",
+    "framer-motion": "^12.23.11",
     "google-map-react": "^2.2.0",
     "i18next": "^22.0.4",
     "i18next-browser-languagedetector": "^7.0.0",
@@ -56,9 +57,7 @@
     "eject": "react-scripts eject",
     "vercel-build": "npm run build",
     "generate-sitemap": "node scripts/generate-sitemap.js",
-    "generate-sitemap-advanced": "node scripts/generate-sitemap-advanced.js",
-    "build-with-sitemap": "npm run build && npm run generate-sitemap",
-    "build-with-sitemap-advanced": "npm run build && npm run generate-sitemap-advanced"
+    "build-with-sitemap": "npm run build && npm run generate-sitemap"
   },
   "eslintConfig": {
     "extends": [

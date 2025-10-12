@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
-import { getDiscountPrice } from "../../helpers/product";
+import { getDiscountPrice, getQuantityDiscountedPrice } from "../../helpers/product";
 import { deleteFromCart, updateQuantity, deleteAllFromCart } from "../../store/slices/cart-slice";
 
 const Cart = () => {
@@ -17,7 +17,7 @@ const Cart = () => {
   if (!currency) {
     return (
       <Fragment>
-        <SEO titleTemplate="Shopping Cart - Alharam" description="Review your cart items at Alharam. Premium electronic appliances with secure checkout." />
+        <SEO titleTemplate="Shopping Cart – IFI (Iconic Futures Innovations)" description="Review your cart at IFI – Iconic Futures Innovations (ifilifestyle). Premium watches, perfumes, men’s fabrics, and accessories with fast nationwide delivery." />
         <LayoutOne headerTop="visible">
           <div className="cart-main-area pt-90 pb-100">
             <div className="container">
@@ -44,10 +44,11 @@ const Cart = () => {
   };
 
   let cartTotalPrice = 0;
+  let quantityDiscountTotal = 0;
 
   return (
     <Fragment>
-                <SEO titleTemplate="Shopping Cart - Alharam" description="Review your cart items at Alharam. Premium electronic appliances with secure checkout." />
+                <SEO titleTemplate="Shopping Cart – IFI (Iconic Futures Innovations)" description="Review your cart at IFI – Iconic Futures Innovations (ifilifestyle). Premium watches, perfumes, men’s fabrics, and accessories with fast nationwide delivery." />
       <LayoutOne headerTop="visible">
         <Breadcrumb
           pages={[
@@ -88,19 +89,35 @@ const Cart = () => {
                           item.price,
                           item.discount
                         );
-                        const finalProductPrice = Math.round(
+                        const basePrice = discountedPrice != null ? discountedPrice : item.price;
+                        const quantityDiscountedPrice = getQuantityDiscountedPrice(basePrice, item.quantity);
+                        
+                        const finalProductPrice = (
                           item.price * currency.currencyRate
-                        );
+                        ).toFixed(2);
                         const finalDiscountedPrice = discountedPrice
-                          ? Math.round(discountedPrice * currency.currencyRate)
+                          ? (discountedPrice * currency.currencyRate).toFixed(2)
                           : null;
+                        const finalQuantityDiscountedPrice = (
+                          quantityDiscountedPrice * currency.currencyRate
+                        ).toFixed(2);
 
-                        const price = discountedPrice
-                          ? finalDiscountedPrice
-                          : finalProductPrice;
-                        const subtotal = Math.round(price * item.quantity);
+                        const giftBoxPerUnit =
+                          item.includeGiftBox && item.giftBoxPrice > 0
+                            ? (item.giftBoxPrice * currency.currencyRate).toFixed(2)
+                            : 0;
 
-                        cartTotalPrice += parseFloat(price) * item.quantity;
+                        const baseUnitPrice = parseFloat(finalQuantityDiscountedPrice);
+                        const unitPriceWithGift = (baseUnitPrice + parseFloat(giftBoxPerUnit || 0)).toFixed(2);
+
+                        const subtotal = (parseFloat(unitPriceWithGift) * item.quantity).toFixed(2);
+
+                        cartTotalPrice += parseFloat(unitPriceWithGift) * item.quantity;
+                        
+                        // Calculate quantity discount savings
+                        const originalPrice = parseFloat(discountedPrice ? finalDiscountedPrice : finalProductPrice);
+                        const quantityDiscountSavings = (originalPrice * item.quantity) - (parseFloat(finalQuantityDiscountedPrice) * item.quantity);
+                        quantityDiscountTotal += quantityDiscountSavings;
 
                         return (
                           <tr key={key}>
@@ -131,22 +148,25 @@ const Cart = () => {
                                   <small>Size: {item.selectedProductSize}</small>
                                 </div>
                               )}
+                              {item.includeGiftBox && item.giftBoxPrice > 0 && (
+                                <div className="cart-item-variation">
+                                  <small>Gift box: + Rs {(item.giftBoxPrice * currency.currencyRate).toFixed(2)} per unit</small>
+                                </div>
+                              )}
                             </td>
                             <td className="product-price-cart">
                               {discountedPrice ? (
                                 <Fragment>
                                   <span className="amount old">
-                                  {"Rs " +
-                                      finalProductPrice}
+                                    {"Rs " + finalProductPrice}
                                   </span>
                                   <span className="amount">
-                                  {"Rs " +
-                                      finalDiscountedPrice}
+                                    {"Rs " + finalQuantityDiscountedPrice}
                                   </span>
                                 </Fragment>
                               ) : (
                                 <span className="amount">
-                                  {"Rs " + finalProductPrice}
+                                  {"Rs " + finalQuantityDiscountedPrice}
                                 </span>
                               )}
                             </td>
@@ -221,13 +241,21 @@ const Cart = () => {
                   <h5>
                     Total products:{" "}
                     <span>
-                      {"Rs " + Math.round(cartTotalPrice)}
+                      {"Rs " + cartTotalPrice.toFixed(2)}
                     </span>
                   </h5>
+                  {quantityDiscountTotal > 0 && (
+                    <h5 style={{ color: '#28a745' }}>
+                      Quantity Discount Savings:{" "}
+                      <span>
+                        {"Rs " + quantityDiscountTotal.toFixed(2)}
+                      </span>
+                    </h5>
+                  )}
                   <h4>
                     Grand Total:{" "}
                     <span>
-                      {"Rs " + Math.round(cartTotalPrice)}
+                      {"Rs " + cartTotalPrice.toFixed(2)}
                     </span>
                   </h4>
                   <Link to="/checkout" className="btn btn-primary">

@@ -1,9 +1,12 @@
+// import { useSelector } from "react-redux";
+
 const MobileLangCurrChange = () => {
+  // const currency = useSelector((state) => state.currency);
 
   return (
     <div className="mobile-menu-middle">
       <div className="lang-curr-style">
-        <p>Call Us +923342743554</p>
+        <p>Call Us +92 329 5034080</p>
       </div>
     </div>
   );

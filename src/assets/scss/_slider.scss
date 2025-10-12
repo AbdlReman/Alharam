@@ -2954,7 +2954,7 @@
     }
 
     &:hover {
-      border-color: #313131;
+      border-color: $theme-color-hover;
     }
   }
 }
@@ -3051,7 +3051,7 @@
     }
 
     &:hover {
-      border-color: #313131;
+      border-color: $theme-color-hover;
     }
   }
 }
@@ -3145,7 +3145,7 @@
     }
 
     &:hover {
-      border-color: #053399;
+      border-color: $theme-color-hover;
     }
   }
 }
@@ -3235,8 +3235,8 @@
 
   &:hover {
     color: #fff;
-    border-color: #bca487;
-    background-color: #bca487;
+    border-color: $theme-color-hover;
+    background-color: $theme-color-hover;
   }
 }
 }

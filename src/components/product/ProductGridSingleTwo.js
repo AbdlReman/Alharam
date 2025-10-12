@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import { getDiscountPrice, truncateTitle } from "../../helpers/product";
 import ProductModal from "./ProductModal";
 import { addToWishlist } from "../../store/slices/wishlist-slice";
 import { addToCompare } from "../../store/slices/compare-slice";
 import { addToCart } from "../../store/slices/cart-slice";
-// import ProductImageGallery from "./ProductImageGallery";
+import ProductImageGallery from "./ProductImageGallery";
 
 const ProductGridSingleTwo = ({
   product,
@@ -22,13 +22,14 @@ const ProductGridSingleTwo = ({
 }) => {
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useDispatch();
-  // Using props to determine wishlist/compare state; store selections not needed here
+  const { wishlistItems } = useSelector((state) => state.wishlist);
+  const { compareItems } = useSelector((state) => state.compare);
 
   const discountedPrice = getDiscountPrice(product.price, product.discount);
-  const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);
-  const finalDiscountedPrice = +(
+  const finalProductPrice = Math.round(product.price * currency.currencyRate);
+  const finalDiscountedPrice = Math.round(
     discountedPrice * currency.currencyRate
-  ).toFixed(2);
+  );
 
   // Handle images from Contentful - ensure we have at least one image
   const productImages = product.images || (product.image ? [product.image] : []);
@@ -47,26 +48,85 @@ const ProductGridSingleTwo = ({
 
   return (
     <Fragment>
-      <div className={clsx("product-wrap-2", spaceBottomClass, colorClass)}>
-        <div className="product-img">
-          <Link to={process.env.PUBLIC_URL + "/product/" + product.slug}>
-            <img
-              className="default-img"
-              src={mainImage}
-              alt={product.name}
-              onError={(e) => {
-                e.target.src = '/assets/img/product/default-product.jpg';
-              }}
-            />
-            <img
-              className="hover-img"
-              src={hoverImage}
-              alt={product.name}
-              onError={(e) => {
-                e.target.src = '/assets/img/product/default-product.jpg';
-              }}
-            />
-          </Link>
+             <div className={clsx("product-wrap-2", spaceBottomClass, colorClass)} style={{
+         height: '400px',
+         display: 'flex',
+         flexDirection: 'column',
+         background: 'white',
+         borderRadius: '12px',
+         overflow: 'hidden',
+         boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+         transition: 'all 0.3s ease',
+         cursor: 'pointer'
+       }}
+               onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-5px)';
+          e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+          // Only apply hover image effect if there are multiple images
+          if (displayImages.length > 1) {
+            const hoverImg = e.currentTarget.querySelector('.hover-img');
+            const defaultImg = e.currentTarget.querySelector('.default-img');
+            if (hoverImg && defaultImg) {
+              hoverImg.style.opacity = '1';
+              hoverImg.style.transform = 'scale(1.0)';
+              defaultImg.style.opacity = '0';
+            }
+          }
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+          // Only apply hover image effect if there are multiple images
+          if (displayImages.length > 1) {
+            const hoverImg = e.currentTarget.querySelector('.hover-img');
+            const defaultImg = e.currentTarget.querySelector('.default-img');
+            if (hoverImg && defaultImg) {
+              hoverImg.style.opacity = '0';
+              hoverImg.style.transform = 'scale(0.95)';
+              defaultImg.style.opacity = '1';
+            }
+          }
+        }}>
+                 <div className="product-img" style={{ position: 'relative' }}>
+           <Link to={process.env.PUBLIC_URL + "/product/" + product.slug}>
+             <img
+               className="default-img"
+               src={mainImage}
+               alt={product.name}
+                                                               style={{
+                   width: '100%',
+                   height: '250px',
+                   objectFit: 'contain',
+                   transition: 'opacity 0.8s ease, transform 0.8s ease' // Enhanced transition with scale
+                 }}
+               onError={(e) => {
+                 e.target.src = '/assets/img/product/default-product.jpg';
+               }}
+               loading="lazy"
+             />
+             {displayImages.length > 1 && (
+               <img
+                 className="hover-img"
+                 src={hoverImage}
+                 alt={product.name}
+                                   style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '250px',
+                    objectFit: 'contain',
+                    opacity: 0,
+                    transition: 'opacity 0.8s ease, transform 0.8s ease', // Enhanced transition with scale
+                    transform: 'scale(0.95)'
+                  }}
+                 onError={(e) => {
+                   e.target.src = '/assets/img/product/default-product.jpg';
+                 }}
+                 loading="lazy"
+               />
+             )}
+           </Link>
           {product.discount || product.new ? (
             <div className="product-img-badges">
               {product.discount ? (
@@ -80,108 +140,158 @@ const ProductGridSingleTwo = ({
             ""
           )}
 
-          <div className="product-action-2">
-            {product.affiliateLink ? (
-              <a
-                href={product.affiliateLink}
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Buy now"
-              >
-                {" "}
-                <i className="fa fa-shopping-cart"></i>{" "}
-              </a>
-            ) : product.variation && product.variation.length >= 1 ? (
-              <Link
-                to={`${process.env.PUBLIC_URL}/product/${product.slug}`}
-                title="Select options"
-              >
-                <i className="fa fa-cog"></i>
-              </Link>
-            ) : product.stock && product.stock > 0 ? (
-              <button
-                onClick={handleAddToCart}
-                className={
-                  cartItem !== undefined && cartItem.quantity > 0
-                    ? "active"
-                    : ""
-                }
-                disabled={cartItem !== undefined && cartItem.quantity > 0}
-                title={
-                  cartItem !== undefined ? "Added to cart" : "Add to cart"
-                }
-              >
-                {" "}
-                <i className="fa fa-shopping-cart"></i>{" "}
-              </button>
-            ) : (
-              <button disabled className="active" title="Out of stock">
-                <i className="fa fa-shopping-cart"></i>
-              </button>
-            )}
-
-            <button
-              title="Quick View"
-              onClick={() => setModalShow(true)}
-            >
-              <i className="fa fa-eye"></i>
-            </button>
-
-            <button
-              className={compareItem !== undefined ? "active" : ""}
-              disabled={compareItem !== undefined}
-              title={
-                compareItem !== undefined
-                  ? "Added to compare"
-                  : "Add to compare"
-              }
-              onClick={() => dispatch(addToCompare(product))}
-            >
-              <i className="fa fa-retweet"></i>
-            </button>
-          </div>
+          
         </div>
-        <div className="product-content-2">
-          <div
-            className={`title-price-wrap-2 ${
-              titlePriceClass ? titlePriceClass : ""
-            }`}
-          >
-            <h3>
-              <Link to={process.env.PUBLIC_URL + "/product/" + product.slug}>
-                {truncateTitle(product.name)}
-              </Link>
-            </h3>
-            <div className="price-2">
-              {discountedPrice !== null ? (
-                <Fragment>
-                  <span>
-                                  {"Rs " + finalDiscountedPrice}
-            </span>{" "}
-            <span className="old">
-              {"Rs " + finalProductPrice}
-            </span>
-          </Fragment>
-        ) : (
-          <span>{"Rs " + finalProductPrice} </span>
-              )}
-            </div>
-          </div>
-          <div className="pro-wishlist-2">
-            <button
-              className={wishlistItem !== undefined ? "active" : ""}
-              disabled={wishlistItem !== undefined}
-              title={
-                wishlistItem !== undefined
-                  ? "Added to wishlist"
-                  : "Add to wishlist"
-              }
-              onClick={() => dispatch(addToWishlist(product))}
-            >
-              <i className="fa fa-heart-o" />
-            </button>
-          </div>
-        </div>
+                 <div className="product-content-2" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '15px' }}>
+           <div>
+             <h3 style={{ marginBottom: '10px', fontSize: '14px', lineHeight: '1.3' }}>
+               <Link to={process.env.PUBLIC_URL + "/product/" + product.slug}>
+                 {truncateTitle(product.name)}
+               </Link>
+             </h3>
+           </div>
+           <div className="product-price-cart-container" style={{
+             display: 'flex',
+             justifyContent: 'space-between',
+             alignItems: 'center',
+             marginTop: 'auto'
+           }}>
+                           <div className="price-2">
+                                 <span style={{ 
+                   fontSize: '16px', 
+                   fontWeight: '600', 
+                   color: '#03055b',
+                   whiteSpace: 'nowrap',
+                   display: 'inline-block'
+                 }} className="product-price-text">
+                   {"Rs " + (discountedPrice !== null ? finalDiscountedPrice : finalProductPrice)}
+                 </span>
+              </div>
+             
+             {/* Inline Add to Cart Button */}
+             <div className="inline-cart-button">
+               {product.affiliateLink ? (
+                 <a
+                   href={product.affiliateLink}
+                   rel="noopener noreferrer"
+                   target="_blank"
+                                                          style={{
+                     background: '#03055b',
+                     color: 'white',
+                     border: 'none',
+                     padding: '8px 16px',
+                     borderRadius: '20px',
+                     fontSize: '12px',
+                     fontWeight: '600',
+                     cursor: 'pointer',
+                     textDecoration: 'none',
+                     transition: 'all 0.3s ease',
+                     boxShadow: '0 2px 8px rgba(3, 5, 91, 0.3)'
+                   }}
+                   className="product-button"
+                   onMouseOver={(e) => {
+                     e.target.style.transform = 'scale(1.05)';
+                     e.target.style.boxShadow = '0 4px 12px rgba(3, 5, 91, 0.4)';
+                   }}
+                   onMouseOut={(e) => {
+                     e.target.style.transform = 'scale(1)';
+                     e.target.style.boxShadow = '0 2px 8px rgba(3, 5, 91, 0.3)';
+                   }}
+                 >
+                   Buy Now
+                 </a>
+                               ) : product.variation && product.variation.length >= 1 ? (
+                  <button
+                    onClick={handleAddToCart}
+                    className={cartItem && cartItem.quantity > 0 ? "active product-button" : "product-button"}
+                    disabled={cartItem && cartItem.quantity > 0}
+                    style={{
+                      background: cartItem && cartItem.quantity > 0 
+                        ? 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)'
+                        : '#03055b',
+                      color: 'white',
+                      border: 'none',
+                      padding: '8px 16px',
+                      borderRadius: '20px',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: cartItem && cartItem.quantity > 0 ? 'default' : 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 2px 8px rgba(3, 5, 91, 0.3)',
+                      opacity: cartItem && cartItem.quantity > 0 ? 0.8 : 1
+                    }}
+                   onMouseOver={(e) => {
+                     if (!cartItem || cartItem.quantity === 0) {
+                       e.target.style.transform = 'scale(1.05)';
+                       e.target.style.boxShadow = '0 4px 12px rgba(3, 5, 91, 0.4)';
+                     }
+                   }}
+                   onMouseOut={(e) => {
+                     if (!cartItem || cartItem.quantity === 0) {
+                       e.target.style.transform = 'scale(1)';
+                       e.target.style.boxShadow = '0 2px 8px rgba(3, 5, 91, 0.3)';
+                     }
+                   }}
+                 >
+                   {cartItem && cartItem.quantity > 0 ? "✓ Added" : "Add to Cart"}
+                 </button>
+                               ) : product.stock && product.stock > 0 ? (
+                  <button
+                    onClick={handleAddToCart}
+                    className={cartItem && cartItem.quantity > 0 ? "active product-button" : "product-button"}
+                    disabled={cartItem && cartItem.quantity > 0}
+                    style={{
+                      background: cartItem && cartItem.quantity > 0 
+                        ? 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)'
+                        : '#03055b',
+                      color: 'white',
+                      border: 'none',
+                      padding: '8px 16px',
+                      borderRadius: '20px',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: cartItem && cartItem.quantity > 0 ? 'default' : 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 2px 8px rgba(3, 5, 91, 0.3)',
+                      opacity: cartItem && cartItem.quantity > 0 ? 0.8 : 1
+                    }}
+                   onMouseOver={(e) => {
+                     if (!cartItem || cartItem.quantity === 0) {
+                       e.target.style.transform = 'scale(1.05)';
+                       e.target.style.boxShadow = '0 4px 12px rgba(3, 5, 91, 0.4)';
+                     }
+                   }}
+                   onMouseOut={(e) => {
+                     if (!cartItem || cartItem.quantity === 0) {
+                       e.target.style.transform = 'scale(1)';
+                       e.target.style.boxShadow = '0 2px 8px rgba(3, 5, 91, 0.3)';
+                     }
+                   }}
+                 >
+                   {cartItem && cartItem.quantity > 0 ? "✓ Added" : "Add to Cart"}
+                 </button>
+               ) : (
+                                   <button 
+                    disabled 
+                    className="product-button"
+                    style={{
+                      background: '#95a5a6',
+                      color: 'white',
+                      border: 'none',
+                      padding: '8px 16px',
+                      borderRadius: '20px',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: 'not-allowed',
+                      opacity: 0.6
+                    }}
+                 >
+                   Out of Stock
+                 </button>
+               )}
+             </div>
+           </div>
+         </div>
       </div>
       {/* product modal */}
       <ProductModal

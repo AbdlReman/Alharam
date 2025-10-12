@@ -1,17 +1,17 @@
 [
   {
-    "id": "1",
+    "id": 1,
     "title": "Our Vision",
-    "text": "To become the most trusted and preferred brand for ladies undergarments in Pakistan, empowering women to embrace their beauty and confidence through premium quality, comfortable, and stylish intimate wear that celebrates every woman's unique body and personality."
+    "text": "To become the most trusted and preferred brand for premium quality watches in Pakistan, empowering customers to own luxury timepieces that combine elegance with affordability and fast delivery throughout the country."
   },
   {
-    "id": "2",
+    "id": 2,
     "title": "Our Mission",
-    "text": "To provide Pakistani women with the highest quality undergarments that combine comfort, style, and affordability. We are committed to offering a diverse range of sizes, styles, and designs that cater to every woman's needs while maintaining the highest standards of quality and customer satisfaction."
+    "text": "To provide Pakistani customers with the highest quality luxury watches that combine premium craftsmanship, affordability, and fast delivery. We are committed to offering a diverse range of styles and designs that cater to every customer's preferences while maintaining the highest standards of quality and service."
   },
   {
-    "id": "3",
-    "title": "Our Goal",
-    "text": "To create a shopping experience that makes every woman feel valued and beautiful. We aim to break taboos around intimate wear shopping by providing a comfortable, discreet, and professional environment where women can find exactly what they need to feel confident and comfortable in their daily lives."
+    "id": 3,
+    "title": "Our Values",
+    "text": "Quality excellence, customer trust, and innovation are the core values that drive everything we do at IFILifestyle. We believe in building lasting relationships with our customers through transparency, reliability, and exceptional service."
   }
 ]

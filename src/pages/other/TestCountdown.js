@@ -6,10 +6,7 @@ import RecurringCountDown from "../../wrappers/countdown/RecurringCountDown";
 const TestCountdown = () => {
   return (
     <LayoutOne headerTop="visible">
-      <SEO
-        titleTemplate="Test Countdown - Alharam"
-        description="Test page for recurring countdown functionality"
-      />
+      <SEO titleTemplate="Test Countdown - IFILifestyle" />
       
       <div className="container mt-5">
         <div className="row">
@@ -27,7 +24,7 @@ const TestCountdown = () => {
       <RecurringCountDown
         spaceTopClass="pt-50"
         spaceBottomClass="pb-50"
-        bgImg="/assets/img/bg/testimonial-bg-3.jpg"
+        bgImg="/assets/img/bg/bg.png"
         cycleDays={10}
       />
 

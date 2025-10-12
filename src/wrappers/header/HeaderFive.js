@@ -20,7 +20,7 @@ const HeaderFive = () => {
               href="/"
               target="_self"
             >
-              Alharam
+              Lanina
             </a>
             .All Rights Reserved.
           </p>

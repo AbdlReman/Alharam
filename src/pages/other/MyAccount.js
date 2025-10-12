@@ -11,8 +11,10 @@ const MyAccount = () => {
   return (
     <Fragment>
       <SEO
-        titleTemplate="My Account"
-        description="My Account page of flone react minimalist eCommerce template."
+        titleTemplate="My Account – Alharam"
+        title="My Account - Alharam Mobile Accessories Store"
+        description="Manage your Alharam account, orders, and personal information. View your mobile accessories and electronics orders, update details, and track deliveries."
+        keywords="Alharam account, my orders, customer account, mobile accessories orders, Pakistan"
       />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}

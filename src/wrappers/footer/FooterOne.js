@@ -93,9 +93,14 @@ const FooterOne = ({
                 <ul>
                   <li>
                     <i className="fa fa-phone"></i>{" "}
-                    <a href="tel://+923342743554">+923342743554</a>
+                    <a href="tel:+923342743554">+92 334 2743554</a>
                   </li>
-                  
+                  <li>
+                    <i className="fa fa-whatsapp" style={{ color: '#25D366' }}></i>{" "}
+                    <a href="https://wa.me/923342743554" target="_blank" rel="noopener noreferrer">
+                      WhatsApp
+                    </a>
+                  </li>
                   <li>
                     <i className="fa fa-envelope"></i>{" "}
                     <a href="mailto:info@alharam.store">info@alharam.store</a>

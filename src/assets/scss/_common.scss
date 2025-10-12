@@ -1777,41 +1777,6 @@ textarea:focus {
   background-color: #fff;
 }
 
-// Brand background utility
-.bg-brand {
-  background-color: $theme-color;
-}
-
-// Utility to force black text color inside a section
-.content-black {
-  color: #000;
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  span,
-  a,
-  li,
-  .section-title h2,
-  .product-wrapper,
-  .single-product-wrap,
-  .price,
-  .product-content {
-    color: #000 !important;
-  }
-
-  .btn,
-  a.button,
-  .loadMore6 {
-    color: #000;
-    border-color: rgba(0, 0, 0, 0.3);
-  }
-}
-
 .default-overlay {
   position: relative;
 
@@ -1839,7 +1804,7 @@ textarea:focus {
 
     &:hover {
       color: #fff;
-      border: 1px solid $theme-color;
+      border: 1px solid $theme-color-hover;
     }
 
     &::before,
@@ -1862,7 +1827,7 @@ textarea:focus {
 
       width: 0;
 
-      background: $theme-color;
+      background: $theme-color-hover;
     }
 
     &:hover::after {

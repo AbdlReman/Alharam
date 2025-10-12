@@ -136,33 +136,56 @@ const getIndividualItemArray = array => {
 // get individual categories
 export const getIndividualCategories = products => {
   let productCategories = [];
+  
   products &&
-    products.forEach(product => {
+    products.map(product => {
       if (product.category) {
         if (Array.isArray(product.category)) {
           product.category.forEach(single => {
-            productCategories.push(single);
+            if (single && single.trim()) {
+              productCategories.push(single.trim());
+            }
           });
         } else {
           // If category is a single string
-          productCategories.push(product.category);
+          if (product.category && product.category.trim()) {
+            productCategories.push(product.category.trim());
+          }
         }
       }
     });
+  
   const individualProductCategories = getIndividualItemArray(productCategories);
-  return individualProductCategories;
+  
+  // Filter out categories with 0 products
+  const categoriesWithProducts = individualProductCategories.filter(category => {
+    const categoryCount = products.filter(product => {
+      if (!product.category) return false;
+      if (Array.isArray(product.category)) {
+        return product.category.some(cat => 
+          cat.toLowerCase() === category.toLowerCase()
+        );
+      }
+      return product.category.toLowerCase() === category.toLowerCase();
+    }).length;
+    
+    return categoryCount > 0;
+  });
+  
+  return categoriesWithProducts;
 };
 
 // get individual tags
 export const getIndividualTags = products => {
   let productTags = [];
   products &&
-    products.forEach(product => {
-      if (product.tag) {
-        product.tag.forEach(single => {
-          productTags.push(single);
-        });
-      }
+    products.map(product => {
+      return (
+        product.tag &&
+        product.tag.map(single => {
+          return productTags.push(single);
+        })
+      );
     });
   const individualProductTags = getIndividualItemArray(productTags);
   return individualProductTags;
@@ -172,29 +195,41 @@ export const getIndividualTags = products => {
 export const getIndividualColors = products => {
   let productColors = [];
   products &&
-    products.forEach(product => {
-      if (product.color) {
-        product.color.forEach(single => {
-          productColors.push(single);
-        });
-      }
+    products.map(product => {
+      return (
+        product.color &&
+        product.color.map(single => {
+          return productColors.push(single);
+        })
+      );
     });
   const individualProductColors = getIndividualItemArray(productColors);
-  return individualProductColors;
+  
+  // Filter out colors with 0 products
+  const colorsWithProducts = individualProductColors.filter(color => {
+    const colorCount = products.filter(product => 
+      product.color && product.color.includes(color)
+    ).length;
+    
+    return colorCount > 0;
+  });
+  
+  return colorsWithProducts;
 };
 
 // get individual sizes
 export const getProductsIndividualSizes = products => {
   let productSizes = [];
   products &&
-    products.forEach(product => {
-      if (product.variation) {
-        product.variation.forEach(single => {
-          single.size.forEach(single => {
-            productSizes.push(single.name);
+    products.map(product => {
+      return (
+        product.variation &&
+        product.variation.map(single => {
+          return single.size.map(single => {
+            return productSizes.push(single.name);
           });
-        });
-      }
+        })
+      );
     });
   const individualProductSizes = getIndividualItemArray(productSizes);
   return individualProductSizes;
@@ -204,12 +239,13 @@ export const getProductsIndividualSizes = products => {
 export const getIndividualSizes = product => {
   let productSizes = [];
   product.variation &&
-    product.variation.forEach(singleVariation => {
-      if (singleVariation.size) {
-        singleVariation.size.forEach(singleSize => {
-          productSizes.push(singleSize.name);
-        });
-      }
+    product.variation.map(singleVariation => {
+      return (
+        singleVariation.size &&
+        singleVariation.size.map(singleSize => {
+          return productSizes.push(singleSize.name);
+        })
+      );
     });
   const individualSizes = getIndividualItemArray(productSizes);
   return individualSizes;
@@ -251,4 +287,23 @@ export const truncateTitle = (title, maxLength = 20) => {
   if (!title) return "";
   if (title.length <= maxLength) return title;
   return title.substring(0, maxLength) + "...";
+};
+
+// Calculate quantity-based discount
+export const getQuantityDiscount = (quantity) => {
+  if (quantity >= 3) {
+    return 10; // 10% off for 3 or more
+  } else if (quantity >= 2) {
+    return 5; // 5% off for 2
+  }
+  return 0; // No discount for 1
+};
+
+// Calculate final price with quantity discount
+export const getQuantityDiscountedPrice = (basePrice, quantity) => {
+  const discountPercent = getQuantityDiscount(quantity);
+  if (discountPercent === 0) {
+    return basePrice;
+  }
+  return basePrice * (1 - discountPercent / 100);
 };

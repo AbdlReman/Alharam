@@ -2,7 +2,9 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import {
   getIndividualCategories,
-  getIndividualColors
+  getIndividualTags,
+  getIndividualColors,
+  getProductsIndividualSizes
 } from "../../helpers/product";
 import ShopSearch from "../../components/product/ShopSearch";
 import ShopCategories from "../../components/product/ShopCategories";
@@ -19,14 +21,18 @@ const ShopSidebar = ({
   searchTerm, 
   clearAllFilters,
   sideSpaceClass,
-  hideCategoryFilter = false
+  hideCategoryFilter = false,
+  pageType = "shop"
 }) => {
   const uniqueCategories = getIndividualCategories(products);
   const uniqueColors = getIndividualColors(products);
   
-  // Debug: Log categories and colors
-  console.log("Unique Categories:", uniqueCategories);
-  console.log("Unique Colors:", uniqueColors);
+  // Debug: Log categories and colors being processed
+  console.log("=== SHOP SIDEBAR DEBUG ===");
+  console.log("Products received:", products?.length || 0);
+  console.log("Unique categories:", uniqueCategories);
+  console.log("Unique colors:", uniqueColors);
+  console.log("=== END SHOP SIDEBAR DEBUG ===");
 
   return (
     <div className={clsx("sidebar-style", sideSpaceClass)}>
@@ -39,20 +45,21 @@ const ShopSidebar = ({
       {/* filter by categories */}
       {!hideCategoryFilter && (
         <ShopCategories
-          categories={uniqueCategories}
+          categories={pageType === "top-categories" ? [] : uniqueCategories}
           handleCategoryFilter={handleCategoryFilter}
           selectedCategory={selectedCategory}
+          products={products}
+          pageType={pageType}
         />
       )}
 
-      {/* filter by color (only show when colors exist) */}
-      {uniqueColors && uniqueColors.length > 0 && (
-        <ShopColor 
-          colors={uniqueColors} 
-          handleColorFilter={handleColorFilter}
-          selectedColor={selectedColor}
-        />
-      )}
+      {/* filter by color */}
+      <ShopColor 
+        colors={uniqueColors} 
+        handleColorFilter={handleColorFilter}
+        selectedColor={selectedColor}
+        products={products}
+      />
       
       {/* Clear filters button */}
       {(searchTerm || selectedCategory || selectedColor) && (
@@ -80,7 +87,9 @@ ShopSidebar.propTypes = {
   searchTerm: PropTypes.string,
   clearAllFilters: PropTypes.func,
   products: PropTypes.array,
-  sideSpaceClass: PropTypes.string
+  sideSpaceClass: PropTypes.string,
+  hideCategoryFilter: PropTypes.bool,
+  pageType: PropTypes.string
 };
 
 export default ShopSidebar;

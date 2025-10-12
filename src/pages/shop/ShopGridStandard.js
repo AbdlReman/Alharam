@@ -8,6 +8,7 @@ import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import ShopSidebar from "../../wrappers/product/ShopSidebar";
 import ShopTopbar from "../../wrappers/product/ShopTopbar";
 import ShopProducts from "../../wrappers/product/ShopProducts";
+import FilterMessage from "../../components/product/FilterMessage";
 import client from "../../data/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
@@ -124,7 +125,7 @@ const ShopGridStandard = () => {
             id: item.sys.id,
             name: fields.name,
             slug: fields.slug,
-            price: Math.round(parseFloat(fields.price) || 0),
+            price: parseFloat(fields.price) || 0,
             discount: parseFloat(fields.discount) || 0,
             shortDescription: fields.shortDescription,
             fullDescription: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",
@@ -152,12 +153,23 @@ const ShopGridStandard = () => {
           };
         });
         
-        // Debug: Log the first few products to see category structure
-        console.log("Products with categories:", items.slice(0, 3).map(item => ({
-          name: item.name,
-          category: item.category,
-          color: item.color
-        })));
+
+        
+        // Debug: Log all categories to understand the data structure
+        const allCategories = items.reduce((acc, product) => {
+          if (product.category && Array.isArray(product.category)) {
+            product.category.forEach(cat => {
+              if (cat && cat.trim()) {
+                acc.add(cat.trim());
+              }
+            });
+          }
+          return acc;
+        }, new Set());
+        
+        console.log("=== ALL CATEGORIES IN PRODUCTS ===");
+        console.log(Array.from(allCategories).sort());
+        console.log("=== END CATEGORIES ===");
         
         setProducts(items);
       } catch (error) {
@@ -175,31 +187,53 @@ const ShopGridStandard = () => {
     
     // Apply search filter
     if (searchTerm) {
-      console.log("Searching for:", searchTerm);
-      console.log("Products before search:", filtered.length);
       filtered = filtered.filter(product => {
-        const nameMatch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const descMatch = product.shortDescription?.toLowerCase().includes(searchTerm.toLowerCase());
-        return nameMatch || descMatch;
+        const nameMatch = product.name && product.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const descMatch = product.shortDescription && product.shortDescription.toLowerCase().includes(searchTerm.toLowerCase());
+        const categoryMatch = product.category && product.category.some(cat => 
+          cat && cat.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        return nameMatch || descMatch || categoryMatch;
       });
-      console.log("Products after search:", filtered.length);
     }
     
     // Apply category filter
     if (selectedCategory) {
-      filtered = filtered.filter(product =>
-        product.category && 
-        (Array.isArray(product.category) ? 
-          product.category.includes(selectedCategory) : 
-          product.category === selectedCategory)
-      );
+      console.log("=== CATEGORY FILTER DEBUG ===");
+      console.log("Selected Category:", selectedCategory);
+      console.log("Products before filter:", filtered.length);
+      
+      filtered = filtered.filter(product => {
+        if (!product.category || !Array.isArray(product.category)) {
+          console.log(`Product ${product.name} has no category array:`, product.category);
+          return false;
+        }
+        
+        console.log(`Checking product ${product.name} with categories:`, product.category);
+        
+        // Use exact category matching for dynamic categories
+        const match = product.category.some(cat => 
+          cat && cat.toLowerCase() === selectedCategory.toLowerCase()
+        );
+        
+        console.log(`Product ${product.name} match:`, match);
+        return match;
+      });
+      
+      console.log("Products after filter:", filtered.length);
+      console.log("=== END CATEGORY FILTER DEBUG ===");
     }
     
     // Apply color filter
     if (selectedColor) {
-      filtered = filtered.filter(product =>
-        product.color && product.color.includes(selectedColor)
-      );
+      filtered = filtered.filter(product => {
+        if (!product.color || !Array.isArray(product.color)) {
+          return false;
+        }
+        return product.color.some(color => 
+          color && color.toLowerCase() === selectedColor.toLowerCase()
+        );
+      });
     }
     
     // Apply sorting
@@ -209,10 +243,7 @@ const ShopGridStandard = () => {
     setCurrentData(sorted.slice(offset, offset + pageLimit));
   }, [products, offset, sortType, sortValue, filterSortType, filterSortValue, searchTerm, selectedCategory, selectedColor]);
   
-  // Debug: Monitor search term changes
-  useEffect(() => {
-    console.log("Search term changed to:", searchTerm);
-  }, [searchTerm]);
+
 
   if (loading) {
     return (
@@ -228,7 +259,7 @@ const ShopGridStandard = () => {
 
   return (
     <Fragment>
-              <SEO titleTemplate="Alharam Collection - Electronics Store" description="Shop the latest collection of premium electronic appliances at Alharam. AC, Freezer, and other electronic products for your home and business." />
+              <SEO titleTemplate="IFILifestyle Collection - Premium Quality Watches" description="Shop the latest collection of premium quality watches at IFILifestyle. Pakistan's premier destination for luxury timepieces with fast delivery. Visit https://www.ifilifestyle.pk/" />
       <LayoutOne headerTop="visible">
         <Breadcrumb
           pages={[
@@ -247,7 +278,6 @@ const ShopGridStandard = () => {
                 <div className="col-lg-3 order-2 order-lg-1">
                   <ShopSidebar
                     products={products}
-                    getSortParams={getSortParams}
                     handleSearch={handleSearch}
                     handleCategoryFilter={handleCategoryFilter}
                     handleColorFilter={handleColorFilter}
@@ -260,41 +290,23 @@ const ShopGridStandard = () => {
                 </div>
                 <div className="col-lg-9 order-1 order-lg-2">
                   <ShopTopbar
-                    getLayout={getLayout}
-                    getFilterSortParams={getFilterSortParams}
                     productCount={products.length}
                     sortedProductCount={sortedProducts.length}
                   />
+                                     <FilterMessage
+                     selectedCategory={selectedCategory}
+                     selectedColor={selectedColor}
+                     searchTerm={searchTerm}
+                     totalProducts={products.length}
+                     filteredProducts={sortedProducts.length}
+                     products={products}
+                   />
+                   
+                   {/* Temporary Debug Display */}
                   
-                  {/* Search Results Summary */}
-                  {(searchTerm || selectedCategory || selectedColor) && (
-                    <div className="search-results-summary mb-4">
-                      <div className="row">
-                        <div className="col-12">
-                          <div className="alert alert-info">
-                            <strong>Search Results:</strong> {sortedProducts.length} products found
-                            {searchTerm && (
-                              <span className="ml-2">
-                                <strong>Search:</strong> "{searchTerm}"
-                              </span>
-                            )}
-                            {selectedCategory && (
-                              <span className="ml-2">
-                                <strong>Category:</strong> {selectedCategory}
-                              </span>
-                            )}
-                            {selectedColor && (
-                              <span className="ml-2">
-                                <strong>Color:</strong> {selectedColor}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  <ShopProducts layout={layout} products={currentData} />
+                   
+                   
+                  <ShopProducts layout="grid three-column" products={currentData} />
                   <div className="pro-pagination-style text-center mt-30">
                     <Paginator
                       totalRecords={sortedProducts.length}

@@ -1,7 +1,9 @@
 import React from "react";
+import { FadeInOnScroll } from "../AnimatedSection";
 
 const ShippingReturnsFeatures = () => {
   return (
+    <FadeInOnScroll direction="up" delay={0.35}>
       <div className="features-section" style={{
         padding: '40px 0',
         backgroundColor: '#fff',
@@ -9,7 +11,7 @@ const ShippingReturnsFeatures = () => {
       }}>
         <div className="container">
           <div className="row">
-            {/* Free Shipping */}
+            {/* Premium Quality */}
             <div className="col-6 col-md-3 mb-3">
               <div className="feature-card" style={{
                 textAlign: 'center',
@@ -29,7 +31,7 @@ const ShippingReturnsFeatures = () => {
                 <div style={{
                   width: '50px',
                   height: '50px',
-                  backgroundColor: '#B79346',
+                  backgroundColor: '#03055b',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
@@ -37,22 +39,25 @@ const ShippingReturnsFeatures = () => {
                   margin: '0 auto 15px',
                   color: '#fff',
                   fontSize: '20px'
-                }}>
-                  <i className="fa fa-truck"></i>
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#ff69b4'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#03055b'; }}
+                >
+                  <i className="fa fa-star"></i>
                 </div>
                 <h5 style={{
-                  color: '#333',
+                  color: '#03055b',
                   fontSize: '14px',
                   fontWeight: '600',
                   marginBottom: '8px',
                   lineHeight: '1.2'
                 }}>
-                  Free Shipping
+                  Premium Quality
                 </h5>
               </div>
             </div>
 
-            {/* 100% Money Back */}
+            {/* Reliable & Efficient */}
             <div className="col-6 col-md-3 mb-3">
               <div className="feature-card" style={{
                 textAlign: 'center',
@@ -72,7 +77,7 @@ const ShippingReturnsFeatures = () => {
                 <div style={{
                   width: '50px',
                   height: '50px',
-                  backgroundColor: '#B79346',
+                  backgroundColor: '#03055b',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
@@ -80,22 +85,25 @@ const ShippingReturnsFeatures = () => {
                   margin: '0 auto 15px',
                   color: '#fff',
                   fontSize: '20px'
-                }}>
-                  <i className="fa fa-credit-card"></i>
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#ff69b4'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#03055b'; }}
+                >
+                  <i className="fa fa-clock-o"></i>
                 </div>
                 <h5 style={{
-                  color: '#333',
+                  color: '#03055b',
                   fontSize: '14px',
                   fontWeight: '600',
                   marginBottom: '8px',
                   lineHeight: '1.2'
                 }}>
-                  100% Money Back
+                  Reliable & Efficient
                 </h5>
               </div>
             </div>
 
-            {/* 1 Year Warranty */}
+            {/* Wide Product Range */}
             <div className="col-6 col-md-3 mb-3">
               <div className="feature-card" style={{
                 textAlign: 'center',
@@ -115,7 +123,7 @@ const ShippingReturnsFeatures = () => {
                 <div style={{
                   width: '50px',
                   height: '50px',
-                  backgroundColor: '#B79346',
+                  backgroundColor: '#03055b',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
@@ -123,22 +131,25 @@ const ShippingReturnsFeatures = () => {
                   margin: '0 auto 15px',
                   color: '#fff',
                   fontSize: '20px'
-                }}>
-                  <i className="fa fa-shield"></i>
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#ff69b4'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#03055b'; }}
+                >
+                  <i className="fa fa-th-large"></i>
                 </div>
                 <h5 style={{
-                  color: '#333',
+                  color: '#03055b',
                   fontSize: '14px',
                   fontWeight: '600',
                   marginBottom: '8px',
                   lineHeight: '1.2'
                 }}>
-                  1 Year Warranty
+                  Wide Product Range
                 </h5>
               </div>
             </div>
 
-            {/* Easy Returns */}
+            {/* Professional Service */}
             <div className="col-6 col-md-3 mb-3">
               <div className="feature-card" style={{
                 textAlign: 'center',
@@ -158,7 +169,7 @@ const ShippingReturnsFeatures = () => {
                 <div style={{
                   width: '50px',
                   height: '50px',
-                  backgroundColor: '#B79346',
+                  backgroundColor: '#03055b',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
@@ -166,23 +177,27 @@ const ShippingReturnsFeatures = () => {
                   margin: '0 auto 15px',
                   color: '#fff',
                   fontSize: '20px'
-                }}>
-                  <i className="fa fa-undo"></i>
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#ff69b4'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#03055b'; }}
+                >
+                  <i className="fa fa-user"></i>
                 </div>
                 <h5 style={{
-                  color: '#333',
+                  color: '#03055b',
                   fontSize: '14px',
                   fontWeight: '600',
                   marginBottom: '8px',
                   lineHeight: '1.2'
                 }}>
-                  Easy Returns
+                  Professional Service
                 </h5>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </FadeInOnScroll>
   );
 };
 

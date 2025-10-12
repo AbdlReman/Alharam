@@ -1,187 +1,133 @@
 const fs = require('fs');
 const path = require('path');
 
-// Configuration
-const BASE_URL = 'https://www.alharam.store'; // Alharam Electronics Store
-const OUTPUT_PATH = path.join(__dirname, '../public/sitemap.xml');
+// Base URL for the website
+const BASE_URL = 'https://www.ifilifestyle.com';
 
-// Define your site structure - Static Pages
+// Static pages with their priorities and change frequencies
 const staticPages = [
-  {
-    url: '/',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'daily',
-    priority: '1.0'
-  },
-  {
-    url: '/shop',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.9'
-  },
-
-  {
-    url: '/mobileaccessories',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.8'
-  },
-  {
-    url: '/electronics',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.8'
-  },
-  {
-    url: '/blog-standard',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.7'
-  },
-  {
-    url: '/blog-no-sidebar',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.7'
-  },
-  {
-    url: '/blog-right-sidebar',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.7'
-  },
-  {
-    url: '/about',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'monthly',
-    priority: '0.6'
-  },
-  {
-    url: '/contact',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'monthly',
-    priority: '0.6'
-  },
-  {
-    url: '/my-account',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'monthly',
-    priority: '0.5'
-  },
-  {
-    url: '/login-register',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'monthly',
-    priority: '0.5'
-  },
-  {
-    url: '/cart',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'monthly',
-    priority: '0.4'
-  },
-  {
-    url: '/wishlist',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'monthly',
-    priority: '0.4'
-  },
-  {
-    url: '/compare',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'monthly',
-    priority: '0.4'
-  },
-  {
-    url: '/checkout',
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'monthly',
-    priority: '0.4'
-  }
+  { url: '/', priority: '1.0', changefreq: 'daily' },
+  { url: '/top-categories', priority: '0.9', changefreq: 'weekly' },
+  { url: '/categories', priority: '0.9', changefreq: 'weekly' },
+  { url: '/watches', priority: '0.8', changefreq: 'weekly' },
+  { url: '/watch-straps', priority: '0.8', changefreq: 'weekly' },
+  { url: '/eyewear', priority: '0.8', changefreq: 'weekly' },
+  { url: '/rings-accessories', priority: '0.8', changefreq: 'weekly' },
+  { url: '/perfumes', priority: '0.8', changefreq: 'weekly' },
+  { url: '/mobile-gadgets', priority: '0.8', changefreq: 'weekly' },
+  { url: '/fashion', priority: '0.8', changefreq: 'weekly' },
+  { url: '/watches/mens', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watches/womens', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watches/unisex', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watches/luxury', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watches/formal', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watches/casual', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watches/sports', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watch-straps/leather', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watch-straps/metal', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watch-straps/silicone', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watch-straps/nylon', priority: '0.7', changefreq: 'weekly' },
+  { url: '/watch-straps/magnetic', priority: '0.7', changefreq: 'weekly' },
+  { url: '/eyewear/sunglasses', priority: '0.7', changefreq: 'weekly' },
+  { url: '/eyewear/optical', priority: '0.7', changefreq: 'weekly' },
+  { url: '/rings-accessories/fashion-rings', priority: '0.7', changefreq: 'weekly' },
+  { url: '/rings-accessories/chains-bracelets', priority: '0.7', changefreq: 'weekly' },
+  { url: '/perfumes/mens', priority: '0.7', changefreq: 'weekly' },
+  { url: '/perfumes/womens', priority: '0.7', changefreq: 'weekly' },
+  { url: '/perfumes/unisex', priority: '0.7', changefreq: 'weekly' },
+  { url: '/mobile-gadgets/used-mobiles', priority: '0.7', changefreq: 'weekly' },
+  { url: '/mobile-gadgets/accessories', priority: '0.7', changefreq: 'weekly' },
+  { url: '/fashion/tshirt', priority: '0.7', changefreq: 'weekly' },
+  { url: '/fashion/pant-jeans', priority: '0.7', changefreq: 'weekly' },
+  { url: '/fashion/shalwar-kameez', priority: '0.7', changefreq: 'weekly' },
+  { url: '/shop', priority: '0.8', changefreq: 'daily' },
+  { url: '/blog-standard', priority: '0.6', changefreq: 'weekly' },
+  { url: '/blog-no-sidebar', priority: '0.6', changefreq: 'weekly' },
+  { url: '/blog-right-sidebar', priority: '0.6', changefreq: 'weekly' },
+  { url: '/blog-details-standard', priority: '0.5', changefreq: 'monthly' },
+  { url: '/about', priority: '0.6', changefreq: 'monthly' },
+  { url: '/contact', priority: '0.6', changefreq: 'monthly' },
+  { url: '/my-account', priority: '0.5', changefreq: 'monthly' },
+  { url: '/login-register', priority: '0.5', changefreq: 'monthly' },
+  { url: '/cart', priority: '0.4', changefreq: 'monthly' },
+  { url: '/wishlist', priority: '0.4', changefreq: 'monthly' },
+  { url: '/compare', priority: '0.4', changefreq: 'monthly' },
+  { url: '/checkout', priority: '0.4', changefreq: 'monthly' }
 ];
 
-// Sample product slugs (you can replace these with actual product slugs from your Contentful CMS)
-// In a real implementation, you would fetch these from your CMS or API
-const sampleProductSlugs = [
-  'premium-ac-unit-1-ton',
-  'split-ac-1-5-ton',
-  'window-ac-2-ton',
-  'freezer-15-cubic-feet',
-  'refrigerator-side-by-side',
-  'washing-machine-front-load',
-  'microwave-oven-convection',
-  'air-purifier-hepa-filter',
-  'water-dispenser-cold-hot',
-  'electric-kettle-stainless-steel',
-  'blender-mixer-grinder',
-  'food-processor-multi-function',
-  'toaster-4-slice',
-  'coffee-maker-automatic',
-  'rice-cooker-fuzzy-logic',
-  'electric-pressure-cooker',
-  'steam-iron-non-stick',
-  'vacuum-cleaner-bagless',
-  'ceiling-fan-remote-control',
-  'table-fan-oscillating'
-];
-
-// Generate product pages for sitemap
-const generateProductPages = () => {
-  return sampleProductSlugs.map(slug => ({
-    url: `/product/${slug}`,
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.8'
-  }));
-};
-
-// Combine static pages and product pages
-const getAllPages = () => {
-  const productPages = generateProductPages();
-  return [...staticPages, ...productPages];
-};
-
-// Generate sitemap XML
-function generateSitemapXML() {
-  const allPages = getAllPages();
+// Function to generate XML sitemap
+function generateSitemap() {
+  const currentDate = new Date().toISOString().split('T')[0];
   
-  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-  
-  allPages.forEach(page => {
-    xml += '  <url>\n';
-    xml += `    <loc>${BASE_URL}${page.url}</loc>\n`;
-    xml += `    <lastmod>${page.lastmod}</lastmod>\n`;
-    xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
-    xml += `    <priority>${page.priority}</priority>\n`;
-    xml += '  </url>\n';
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+`;
+
+  // Add static pages
+  staticPages.forEach(page => {
+    sitemap += `  <url>
+    <loc>${BASE_URL}${page.url}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>
+`;
   });
-  
-  xml += '</urlset>';
-  
-  return xml;
+
+  // Add product pages (you can extend this to fetch from your database/API)
+  // For now, we'll add a placeholder for dynamic product URLs
+  // In a real implementation, you would fetch product data and add URLs like:
+  // ${BASE_URL}/product/product-slug
+
+  sitemap += `</urlset>`;
+
+  return sitemap;
 }
 
-// Write sitemap to file
+// Function to write sitemap to file
 function writeSitemap() {
+  const sitemap = generateSitemap();
+  const sitemapPath = path.join(__dirname, '..', 'public', 'sitemap.xml');
+  
   try {
-    const sitemapXML = generateSitemapXML();
-    const allPages = getAllPages();
-    fs.writeFileSync(OUTPUT_PATH, sitemapXML, 'utf8');
-    console.log(`✅ Sitemap generated successfully at: ${OUTPUT_PATH}`);
-    console.log(`📊 Total pages: ${allPages.length}`);
-    console.log(`🏪 Product pages: ${sampleProductSlugs.length}`);
-    console.log(`📄 Static pages: ${staticPages.length}`);
+    fs.writeFileSync(sitemapPath, sitemap);
+    console.log('✅ Sitemap generated successfully at:', sitemapPath);
+    console.log(`📊 Total URLs in sitemap: ${staticPages.length}`);
   } catch (error) {
     console.error('❌ Error generating sitemap:', error);
-    process.exit(1);
   }
 }
 
-// Run the script
-if (require.main === module) {
-  console.log('🚀 Generating sitemap...');
-  writeSitemap();
+// Function to add product URLs to sitemap
+function addProductUrls(products) {
+  const currentDate = new Date().toISOString().split('T')[0];
+  let productUrls = '';
+  
+  products.forEach(product => {
+    productUrls += `  <url>
+    <loc>${BASE_URL}/product/${product.slug}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+`;
+  });
+  
+  return productUrls;
 }
 
-module.exports = { generateSitemapXML, writeSitemap }; 
+// Export functions for use in other scripts
+module.exports = {
+  generateSitemap,
+  writeSitemap,
+  addProductUrls,
+  BASE_URL
+};
+
+// Run the script if called directly
+if (require.main === module) {
+  writeSitemap();
+}

@@ -7,59 +7,148 @@ const MobileNavMenu = () => {
   return (
     <nav className="offcanvas-navigation" id="offcanvas-navigation">
       <ul>
-      <li>
+        <li>
           <Link to={process.env.PUBLIC_URL + "/"}>
             {t("home")}
           </Link>
         </li>
        
-        <li className="menu-item-has-children">
+        <li>
           <Link to={process.env.PUBLIC_URL + "/shop"}>
-            {t("shop")}
+            Shop
+          </Link>
+        </li>
+
+        {/* Top Categories */}
+        <li className="menu-item-has-children">
+          <Link to={process.env.PUBLIC_URL + "/top-categories"}>
+            Top Categories
           </Link>
           <ul className="sub-menu">
+            {/* Bras */}
+            <li className="menu-item-has-children">
+              <Link to={process.env.PUBLIC_URL + "/bras"}>
+                Bras
+              </Link>
+              <ul className="sub-menu">
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/bras/air-bra"}>
+                    Air Bra
+                  </Link>
+                </li>
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/bras/sports-bra"}>
+                    Sports Bra
+                  </Link>
+                </li>
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/bras/padded-bra"}>
+                    Padded Bra
+                  </Link>
+                </li>
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/bras/nursing-bra"}>
+                    Nursing Bra
+                  </Link>
+                </li>
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/bras/strapless-bra"}>
+                    Strapless Bra
+                  </Link>
+                </li>
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/bras/cotton-net-bra"}>
+                    Cotton & Net Bra
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            
+            {/* Lingerie */}
             <li>
-              <Link to={process.env.PUBLIC_URL + "/shop"}>
-                All Products
+              <Link to={process.env.PUBLIC_URL + "/lingerie"}>
+                Lingerie
               </Link>
             </li>
-
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/mobileaccessories"}>
-                Mobile Accessories
+            
+            {/* Nightwear */}
+            <li className="menu-item-has-children">
+              <Link to={process.env.PUBLIC_URL + "/nightwear"}>
+                Nightwear
               </Link>
+              <ul className="sub-menu">
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/nightwear/nighties"}>
+                    Nighties
+                  </Link>
+                </li>
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/nightwear/bold-wear"}>
+                    Bold Wear
+                  </Link>
+                </li>
+                <li>
+                  <Link to={process.env.PUBLIC_URL + "/nightwear/night-suits"}>
+                    Night Suits
+                  </Link>
+                </li>
+              </ul>
             </li>
+            
+            {/* Panties */}
             <li>
-              <Link to={process.env.PUBLIC_URL + "/electronics"}>
-                Electronics
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/onlycase"}>
-                OnlyCase
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/onlyglass"}>
-                OnlyGlass
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/allinonekit"}>
-                All In One Kit
+              <Link to={process.env.PUBLIC_URL + "/panties"}>
+                Panties
               </Link>
             </li>
           </ul>
         </li>
-        
-        {/* <li>
-          <Link to={process.env.PUBLIC_URL + "/shop-grid-standard"}>
-            {t("collection")}
-          </Link>
-        </li> */}
+
+        {/* Other Categories */}
         <li className="menu-item-has-children">
-          <Link to={process.env.PUBLIC_URL + "/"}>{t("pages")}</Link>
+          <Link to={process.env.PUBLIC_URL + "/categories"}>
+            Categories
+          </Link>
           <ul className="sub-menu">
+            {/* Undergarments */}
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/undergarments"}>
+                Undergarments
+              </Link>
+            </li>
+            
+            {/* Stockings */}
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/stockings"}>
+                Stockings
+              </Link>
+            </li>
+            
+            {/* Tops */}
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/tops"}>
+                Tops
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+        {/* Other Pages */}
+        <li className="menu-item-has-children">
+          <Link to={process.env.PUBLIC_URL + "/"}>
+            Pages
+          </Link>
+          <ul className="sub-menu">
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/about"}>
+                {t("about_us")}
+              </Link>
+            </li>
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/contact"}>
+                {t("contact_us")}
+              </Link>
+            </li>
             <li>
               <Link to={process.env.PUBLIC_URL + "/cart"}>
                 {t("cart")}
@@ -80,55 +169,7 @@ const MobileNavMenu = () => {
                 {t("compare")}
               </Link>
             </li>
-            
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/about"}>
-                {t("about_us")}
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/contact"}>
-                {t("contact_us")}
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/not-found"}>
-                {t("404_page")}
-              </Link>
-            </li>
           </ul>
-        </li>
-        {/* <li className="menu-item-has-children">
-          <Link to={process.env.PUBLIC_URL + "/blog-standard"}>
-            {t("blog")}
-          </Link>
-          <ul className="sub-menu">
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/blog-standard"}>
-                {t("blog_standard")}
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/blog-no-sidebar"}>
-                {t("blog_no_sidebar")}
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/blog-right-sidebar"}>
-                {t("blog_right_sidebar")}
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
-                {t("blog_details_standard")}
-              </Link>
-            </li>
-          </ul>
-        </li> */}
-        <li>
-          <Link to={process.env.PUBLIC_URL + "/contact"}>
-            {t("contact_us")}
-          </Link>
         </li>
       </ul>
     </nav>
@@ -136,3 +177,4 @@ const MobileNavMenu = () => {
 };
 
 export default MobileNavMenu;
+

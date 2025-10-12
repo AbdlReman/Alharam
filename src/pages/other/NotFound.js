@@ -10,8 +10,10 @@ const NotFound = () => {
   return (
     <Fragment>
       <SEO
-        titleTemplate="Not Found"
-        description="404 of flone react minimalist eCommerce template."
+        titleTemplate="404 - Page Not Found – Alharam"
+        title="Page Not Found - Alharam Mobile Accessories Store"
+        description="The page you're looking for cannot be found. Browse Alharam's mobile accessories, glass protectors, covers, and electronics collection."
+        keywords="Alharam, 404, page not found, mobile accessories Pakistan"
       />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}

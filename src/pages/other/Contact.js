@@ -18,6 +18,7 @@ const Contact = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [submitStatus, setSubmitStatus] = useState('');
 
   // Initialize EmailJS
   useEffect(() => {
@@ -35,9 +36,11 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    // setSubmitStatus('');
 
     // Check if EmailJS is properly configured
     if (!EMAILJS_CONFIG.SERVICE_ID || !EMAILJS_CONFIG.CONTACT_TEMPLATE_ID || !EMAILJS_CONFIG.PUBLIC_KEY) {
+      // setSubmitStatus('error');
       setIsSubmitting(false);
       toast.error('EmailJS is not properly configured. Please check your configuration.');
       return;
@@ -57,6 +60,7 @@ const Contact = () => {
       );
 
       if (result.status === 200) {
+        // setSubmitStatus('success');
         setFormData({
           name: '',
           email: '',
@@ -67,6 +71,7 @@ const Contact = () => {
       }
     } catch (error) {
       console.error('EmailJS Error:', error);
+      // setSubmitStatus('error');
       toast.error('Sorry! There was an error sending your message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -87,9 +92,11 @@ const Contact = () => {
         pauseOnHover
         theme="light"
       />
-      <SEO
-        titleTemplate="Contact Alharam"
-        description="Get in touch with Alharam for any questions about our electronic appliances, orders, or customer support."
+      <SEO 
+        titleTemplate="Contact – Alharam" 
+        title="Contact Alharam - Mobile Accessories & Electronics Store"
+        description="Get in touch with Alharam - Pakistan's premier mobile accessories and electronics store. Contact us for orders, product inquiries about mobile glass, covers, all-in-one kits, and electronics. We're here to help!"
+        keywords="contact Alharam, mobile accessories support, customer service, Pakistan electronics store, mobile glass inquiry, product support"
       />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
@@ -99,6 +106,7 @@ const Contact = () => {
             { label: "Contact", path: process.env.PUBLIC_URL + pathname },
           ]}
         />
+     
         <div className="contact-area pt-100 pb-100">
           <div className="container">
             <div className="custom-row-2">
@@ -109,8 +117,21 @@ const Contact = () => {
                       <i className="fa fa-phone" />
                     </div>
                     <div className="contact-info-dec">
-                     
-                      <p>+923342743554</p>
+                      <p>
+                        <a href="tel:+923342743554">+92 334 2743554</a>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="single-contact-info">
+                    <div className="contact-icon">
+                      <i className="fa fa-whatsapp" style={{ color: '#25D366' }} />
+                    </div>
+                    <div className="contact-info-dec">
+                      <p>
+                        <a href="https://wa.me/923342743554" target="_blank" rel="noopener noreferrer">
+                          WhatsApp: +92 334 2743554
+                        </a>
+                      </p>
                     </div>
                   </div>
                   <div className="single-contact-info">
@@ -118,7 +139,7 @@ const Contact = () => {
                       <i className="fa fa-globe" />
                     </div>
                     <div className="contact-info-dec">
-                      <p>
+                                            <p>
                         <a href="mailto:info@alharam.store">
                           info@alharam.store
                         </a>
@@ -234,3 +255,4 @@ const Contact = () => {
 };
 
 export default Contact;
+

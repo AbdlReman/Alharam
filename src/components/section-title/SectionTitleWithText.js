@@ -1,18 +1,15 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-const SectionTitleWithText = ({ spaceTopClass, spaceBottomClass }) => {
+const SectionTitleWithText = ({ spaceTopClass, spaceBottomClass, title, description }) => {
   return (
     <div className={clsx("welcome-area", spaceTopClass, spaceBottomClass)}>
       <div className="container">
         <div className="welcome-content text-center">
-          <h5>Who Are We</h5>
-                  <h1>Welcome To Alharam</h1>
-        <p>
-          Alharam is Pakistan's premier destination for premium electronic appliances. 
-            We believe every home and business deserves reliable, efficient, and modern 
-            electronic appliances. Our carefully curated collection of AC units, freezers, 
-            and other appliances combines technology with reliability, ensuring you get the best performance every day.
+          <h5>{title || "About Us"}</h5>
+          <h1>Welcome to Alharam</h1>
+          <p>
+            {description || "Alharam is Pakistan's premier destination for mobile accessories and premium electronics. We specialize in mobile glass protectors, all-in-one mobile kits, stylish mobile covers, and a wide range of quality electronics to meet all your needs."}
           </p>
         </div>
       </div>
@@ -22,7 +19,9 @@ const SectionTitleWithText = ({ spaceTopClass, spaceBottomClass }) => {
 
 SectionTitleWithText.propTypes = {
   spaceBottomClass: PropTypes.string,
-  spaceTopClass: PropTypes.string
+  spaceTopClass: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string
 };
 
 export default SectionTitleWithText;

@@ -55,228 +55,205 @@
   }
 }
 
-/* about content styles */
+/* About Content Styles */
 .about-content-area {
+  background-color: #f8f9fa;
+
   .about-content {
     h2 {
-      font-size: 28px;
-      font-weight: 600;
       color: #333;
       margin-bottom: 20px;
+      font-weight: 600;
     }
 
     p {
-      font-size: 16px;
-      line-height: 1.8;
       color: #666;
-      margin-bottom: 20px;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+  }
+
+  .about-features {
+    .feature-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+
+      i {
+        margin-right: 10px;
+        color: #28a745;
+      }
+
+      span {
+        color: #333;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+/* Why Choose IFILifestyle Section */
+.why-choose-ifilifestyle {
+  .choose-card {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
     }
 
+    .choose-icon {
+      color: #007bff;
+    }
+
+    h4 {
+      color: #333;
+      margin: 15px 0;
+      font-weight: 600;
+    }
+
+    p {
+      color: #666;
+      line-height: 1.6;
+    }
+  }
+}
+
+/* Our Values Section */
+.our-values {
+  .value-card {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .value-icon {
+      color: #007bff;
+    }
+
+    h4 {
+      color: #333;
+      margin: 15px 0;
+      font-weight: 600;
+    }
+
+    p {
+      color: #666;
+      line-height: 1.6;
+    }
+  }
+}
+
+/* Testimonials Section */
+.testimonials {
+  .testimonial-card {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .testimonial-content {
+      text-align: center;
+
+      i {
+        color: #007bff;
+      }
+
+      p {
+        color: #666;
+        line-height: 1.6;
+        font-style: italic;
+        margin: 15px 0;
+      }
+
+      .customer-info {
+        h5 {
+          color: #333;
+          margin: 0;
+          font-weight: 600;
+        }
+
+        small {
+          color: #999;
+        }
+      }
+    }
+  }
+}
+
+/* Our Commitment Section */
+.about-commitment {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  padding: 50px 30px;
+  border-radius: 15px;
+  text-align: center;
+
+  h2 {
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+  }
+
+  .btn-brand {
+    background: white;
+    color: #007bff;
+    border: 2px solid white;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: transparent;
+      color: white;
+    }
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .about-content-area {
     .about-features {
       .feature-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-
-        i {
-          margin-right: 10px;
-          font-size: 18px;
-        }
-
-        span {
-          font-size: 16px;
-          color: #333;
-          font-weight: 500;
-        }
+        margin-bottom: 10px;
       }
     }
   }
 
-  .about-image {
-    img {
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-  }
+  .why-choose-ifilifestyle,
+  .our-values,
+  .testimonials {
 
-  /* Why Choose Alharam Section */
-  .why-choose-alharam {
-    .choose-card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 30px 20px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      height: 100%;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
-
-      .choose-icon {
-        i {
-          color: $theme-color;
-        }
-      }
-
-      h4 {
-        font-size: 20px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 15px;
-      }
-
-      p {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #666;
-        margin: 0;
-      }
-    }
-  }
-
-  /* Product Categories Section */
-  .product-categories {
-    .category-card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 30px 20px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      height: 100%;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
-
-      .category-icon {
-        i {
-          color: $theme-color;
-        }
-      }
-
-      h4 {
-        font-size: 20px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 15px;
-      }
-
-      p {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #666;
-        margin-bottom: 20px;
-      }
-
-      .btn-outline-primary {
-        border-color: $theme-color;
-        color: $theme-color;
-
-        &:hover {
-          background: $theme-color;
-          color: #fff;
-        }
-      }
-    }
-  }
-
-  /* Testimonials Section */
-  .testimonials-section {
+    .choose-card,
+    .value-card,
     .testimonial-card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      height: 100%;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
-
-      .testimonial-content {
-        p {
-          font-size: 16px;
-          line-height: 1.6;
-          color: #666;
-          font-style: italic;
-          margin-bottom: 15px;
-        }
-
-        .customer-info {
-          color: #333;
-          font-size: 14px;
-        }
-      }
-    }
-  }
-
-  .about-values {
-    .value-card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      height: 100%;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
-
-      .value-icon {
-        i {
-          color: $theme-color;
-        }
-      }
-
-      h4 {
-        font-size: 20px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 15px;
-      }
-
-      p {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #666;
-        margin: 0;
-      }
+      margin-bottom: 20px;
     }
   }
 
   .about-commitment {
-    background: #f8f9fa;
-    padding: 50px 30px;
-    border-radius: 15px;
-
-    h2 {
-      font-size: 28px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 20px;
-    }
+    padding: 30px 20px;
 
     .lead {
-      font-size: 18px;
-      line-height: 1.8;
-      color: #666;
-      margin-bottom: 30px;
-    }
-
-    .btn-primary {
-      background: $theme-color;
-      border: none;
-      padding: 12px 30px;
-      font-size: 16px;
-      font-weight: 500;
-      border-radius: 25px;
-      transition: all 0.3s ease;
-
-      &:hover {
-        background: darken($theme-color, 10%);
-        transform: translateY(-2px);
-      }
+      font-size: 1rem;
     }
   }
 }
@@ -457,8 +434,8 @@
   color: #fff !important;
 
   &:hover {
-    background-color: darken($theme-color, 10%) !important;
-    border-color: darken($theme-color, 10%) !important;
+    background-color: $theme-color-hover !important;
+    border-color: $theme-color-hover !important;
     color: #fff !important;
   }
 }
@@ -469,8 +446,8 @@
   background-color: transparent !important;
 
   &:hover {
-    background-color: $theme-color !important;
-    border-color: $theme-color !important;
+    background-color: $theme-color-hover !important;
+    border-color: $theme-color-hover !important;
     color: #fff !important;
   }
 }

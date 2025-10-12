@@ -4,21 +4,30 @@ import { Link } from "react-router-dom";
 
 const FooterCopyright = ({ footerLogo, spaceBottomClass, colorClass }) => {
   return (
-    <div className={clsx("copyright", spaceBottomClass, colorClass)}>
+    <div
+      className={`copyright ${spaceBottomClass ? spaceBottomClass : ""} ${
+        colorClass ? colorClass : ""
+      }`}
+    >
       <div className="footer-logo">
         <Link to={process.env.PUBLIC_URL + "/"}>
-          <img 
-            alt="Alharam" 
+          <img
+            alt="Lanina"
+            className="img-fluid"
             src={process.env.PUBLIC_URL + footerLogo}
           />
         </Link>
       </div>
       <p>
         &copy; {new Date().getFullYear()}{" "}
-        <Link to={process.env.PUBLIC_URL + "/"}>
-          Alharam
-        </Link>
-                  .<br /> Premium Electronics Store - All Rights Reserved
+        <a
+          href="https://hasthemes.com/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Lanina
+        </a>
+        .<br /> All Rights Reserved
       </p>
     </div>
   );

@@ -62,6 +62,10 @@ const TabProductTwo = ({ spaceBottomClass, category }) => {
   }, []);
 
   // Filter products by category
+  const cosmeticProducts = products
+    .filter(product => product.category && product.category.includes('cosmetic'))
+    .slice(0, 4);
+  
   const mobileAccessoriesProducts = products
     .filter(product => product.category && product.category.includes('mobileaccessories'))
     .slice(0, 4);
@@ -87,11 +91,16 @@ const TabProductTwo = ({ spaceBottomClass, category }) => {
     <div className={clsx("product-area", spaceBottomClass)}>
       <div className="container">
         <SectionTitle titleText="DAILY DEALS!" positionClass="text-center" />
-        <Tab.Container defaultActiveKey="mobileAccessories">
+        <Tab.Container defaultActiveKey="cosmetic">
           <Nav
             variant="pills"
             className="product-tab-list pt-30 pb-55 text-center"
           >
+            <Nav.Item>
+              <Nav.Link eventKey="cosmetic">
+                <h4>Cosmetics</h4>
+              </Nav.Link>
+            </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="mobileAccessories">
                 <h4>Mobile Accessories</h4>
@@ -104,6 +113,14 @@ const TabProductTwo = ({ spaceBottomClass, category }) => {
             </Nav.Item>
           </Nav>
           <Tab.Content>
+            <Tab.Pane eventKey="cosmetic">
+              <div className="row four-column">
+                <ProductGridTwo
+                  products={cosmeticProducts}
+                  spaceBottomClass="mb-25"
+                />
+              </div>
+            </Tab.Pane>
             <Tab.Pane eventKey="mobileAccessories">
               <div className="row four-column">
                 <ProductGridTwo

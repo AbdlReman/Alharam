@@ -273,7 +273,7 @@
           background-color: $theme-color;
 
           &:hover {
-            background-color: #333;
+            background-color: $theme-color-hover;
           }
         }
       }

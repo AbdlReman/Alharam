@@ -215,8 +215,8 @@ const ElectronicPage = () => {
   return (
     <Fragment>
       <SEO
-        titleTemplate="Electronics - Alharam"
-        description="Shop premium electronics at Alharam. Quality electronic appliances with excellent service and reliability."
+        titleTemplate="Electronics - Lanina"
+        description="Shop premium electronics at Lanina. Quality electronic appliances with excellent service and reliability. Visit https://www.lanina.pk/"
       />
       <LayoutOne headerTop="visible">
         <Breadcrumb

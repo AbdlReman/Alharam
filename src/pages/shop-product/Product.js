@@ -7,7 +7,7 @@ import RelatedProductSlider from "../../wrappers/product/RelatedProductSlider";
 import ProductDescriptionTab from "../../wrappers/product/ProductDescriptionTab";
 import ProductImageDescription from "../../wrappers/product/ProductImageDescription";
 import client from "../../data/contentful";
-import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import { processContentfulProduct } from "../../helpers/contentful";
 
 const Product = () => {
   let { pathname } = useLocation();
@@ -38,45 +38,7 @@ const Product = () => {
           const fields = item.fields;
           
           // Transform Contentful data to match our product structure
-          const transformedProduct = {
-            id: item.sys.id,
-            name: fields.name || "Product",
-            slug: fields.slug,
-            price: Math.round(parseFloat(fields.price) || 0),
-            discount: parseFloat(fields.discount) || 0,
-            shortDescription: fields.shortDescription || "",
-            fullDescription: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",
-            category: fields.category || [],
-            tag: fields.tag || [],
-            images: fields.images?.map(img => ({
-              url: img.fields.file.url,
-              title: img.fields.title || '',
-              filename: img.fields.file.fileName || ''
-            })) || [],
-            color: fields.color || [],
-            size: fields.size || [],
-            model: fields.model || [],
-            metaTitle: fields.metaTitle || fields.name || "Product",
-            metaDescription: fields.metaDescription || fields.shortDescription || "",
-            stock: fields.stock || 0,
-            // For backward compatibility with existing components
-            image: fields.images?.[0]?.fields?.file?.url,
-            // Create simple URL array for backward compatibility
-            imageUrls: fields.images?.map(img => img.fields.file.url) || [],
-            title: fields.name || "Product",
-            description: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",
-            // Add color-specific images mapping
-            colorImages: fields.colorImages || {},
-            // Add variation structure if colors/sizes exist
-            variation: fields.color && fields.color.length > 0 ? 
-              fields.color.map(color => ({
-                color: color,
-                size: fields.size ? fields.size.map(size => ({
-                  name: size,
-                  stock: fields.stock || 0
-                })) : []
-              })) : null
-          };
+          const transformedProduct = processContentfulProduct(item);
 
           setProduct(transformedProduct);
         } else {
@@ -122,15 +84,17 @@ const Product = () => {
   return (
     <Fragment>
       <SEO
-        titleTemplate={`${product.metaTitle || product.name} - Alharam`}
-        description={product.metaDescription || `Shop ${product.name} at Alharam. Premium electronic appliances with quality and reliability.`}
+        titleTemplate={`${product.metaTitle || product.name} – IFI (Iconic Futures Innovations)`}
+        description={
+          product.metaDescription || `Shop ${product.name} at IFI (Iconic Futures Innovations) – ifilifestyle. Premium watches, perfumes, men’s fabrics, and fashion accessories with fast nationwide delivery across Pakistan.`
+        }
       />
 
       <LayoutOne headerTop="visible">
         <Breadcrumb
           pages={[
             { label: "Home", path: process.env.PUBLIC_URL + "/" },
-            { label: product.name, path: process.env.PUBLIC_URL + pathname },
+            { label: "Shop", path: process.env.PUBLIC_URL + "/shop" },
           ]}
         />
 
