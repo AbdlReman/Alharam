@@ -4,7 +4,6 @@ import LayoutOne from "../../layouts/LayoutOne";
 import FeatureIconTwo from "../../wrappers/feature-icon/FeatureIconTwo";
 import LatestProductSection from "../../wrappers/product/LatestProductSection";
 import HeroBanner from "../../components/hero/HeroBanner";
-// import TopSlider from "../../components/TopSlider.jsx";
 import ShopProducts from "../../wrappers/product/ShopProducts";
 import SectionTitle from "../../components/section-title/SectionTitle";
 import ShippingReturnsFeatures from "../../components/features/ShippingReturnsFeatures";
@@ -91,6 +90,18 @@ const HomeFurniture = () => {
   const [showControls, setShowControls] = useState(false);
   const [loading, setLoading] = useState(false); // Changed to false to show content immediately
   const [isMobile, setIsMobile] = useState(false);
+  
+  // TopSlider state
+  const [topSliderActiveIndex, setTopSliderActiveIndex] = useState(0);
+  const topSlides = ["Free shipping all Pakistan", "Welcome to Alharam Store"];
+
+  // TopSlider interval effect
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTopSliderActiveIndex((prev) => (prev + 1) % topSlides.length);
+    }, 4000);
+    return () => clearInterval(intervalId);
+  }, [topSlides.length]);
 
   // Custom hook for detecting screen size
   useEffect(() => {
@@ -298,7 +309,102 @@ const HomeFurniture = () => {
         canonical="https://www.alharam.store/"
         robots="index, follow"
       />
-       {/* <TopSlider/> */}
+      
+      {/* Top Slider Bar */}
+      <div
+        role="region"
+        aria-label="Store announcements"
+        style={{
+          width: "100%",
+          backgroundColor: "#B79346",
+          color: "#ffffff",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1200,
+            margin: "0 auto",
+            padding: "8px 16px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: 40,
+            position: "relative",
+          }}
+        >
+          {topSlides.map((text, index) => (
+            <div
+              key={index}
+              aria-hidden={topSliderActiveIndex !== index}
+              style={{
+                position: topSliderActiveIndex === index ? "relative" : "absolute",
+                opacity: topSliderActiveIndex === index ? 1 : 0,
+                transition: "opacity 400ms ease-in-out",
+                whiteSpace: "nowrap",
+                fontWeight: 600,
+                letterSpacing: 0.3,
+                lineHeight: "40px",
+              }}
+            >
+              {text}
+            </div>
+          ))}
+
+          {/* Left Arrow */}
+          <button
+            type="button"
+            aria-label="Previous announcement"
+            onClick={() =>
+              setTopSliderActiveIndex((prev) => (prev - 1 + topSlides.length) % topSlides.length)
+            }
+            style={{
+              position: "absolute",
+              left: 8,
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "transparent",
+              color: "#fff",
+              border: 0,
+              padding: 0,
+              fontSize: 28,
+              lineHeight: 1,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            ‹
+          </button>
+
+          {/* Right Arrow */}
+          <button
+            type="button"
+            aria-label="Next announcement"
+            onClick={() => setTopSliderActiveIndex((prev) => (prev + 1) % topSlides.length)}
+            style={{
+              position: "absolute",
+              right: 8,
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "transparent",
+              color: "#fff",
+              border: 0,
+              padding: 0,
+              fontSize: 28,
+              lineHeight: 1,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            ›
+          </button>
+        </div>
+      </div>
+
       <LayoutOne >
         {/* hero banner section - Instant load */}
        
