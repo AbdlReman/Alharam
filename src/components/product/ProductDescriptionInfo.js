@@ -351,26 +351,7 @@ const ProductDescriptionInfo = ({
               <button
                 onClick={handleAddToCart}
                 disabled={productCartQty >= productStock}
-                style={{
-                  background: '#03055b',
-                  color: '#ffffff',
-                  border: 'none',
-                  padding: '10px 22px',
-                  borderRadius: '24px',
-                  fontWeight: 600,
-                  transition: 'all 0.25s ease',
-                  cursor: productCartQty >= productStock ? 'not-allowed' : 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  if (!(productCartQty >= productStock)) {
-                    e.currentTarget.style.background = '#ff69b4';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!(productCartQty >= productStock)) {
-                    e.currentTarget.style.background = '#03055b';
-                  }
-                }}
+                className="buy-now-btn"
               >
                 {" "}
                 Add To Cart{" "}
