@@ -772,7 +772,7 @@ const Checkout = () => {
                               </div>
                             </div>
 
-                            <div className="payment-option mb-20">
+                            {/* <div className="payment-option mb-20">
                               <div className="radio-wrapper">
                                 <input
                                   type="radio"
@@ -839,9 +839,9 @@ const Checkout = () => {
                                   </p>
                                 </div>
                               )}
-                            </div>
+                            </div> */}
 
-                            <div className="payment-option mb-20">
+                            {/* <div className="payment-option mb-20">
                               <div className="radio-wrapper">
                                 <input
                                   type="radio"
@@ -865,13 +865,10 @@ const Checkout = () => {
                                     <strong>Account Number:</strong>{" "}
                                     08350108779781 
                                   </p>
-                                  {/* <p>
-                                    <strong>IBAN:</strong>{" "}
-                                    PK47TMB0000000082782492
-                                  </p> */}
+                               
                                 </div>
                               )}
-                            </div>
+                            </div> */}
                           </div>
 
                           {/* Transaction ID Field for Online Payments */}
