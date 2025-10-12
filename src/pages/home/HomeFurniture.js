@@ -311,10 +311,10 @@ const HomeFurniture = () => {
         
         
 
-        {/* banner - Instant load */}
+        {/* banner - Instant load 
         <div className="fade-in">
           <BannerTwentySeven spaceTopClass="pt-80" spaceBottomClass="pb-60" />
-        </div>
+        </div>*/}
 
         {/* Features Section - Instant load */}
         <ShippingReturnsFeatures />

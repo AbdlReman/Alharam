@@ -1,7 +1,7 @@
 const WhatsAppButton = () => {
     const handleWhatsAppClick = () => {
-        const phoneNumber = "+92 329 5034080";
-        const message = "Hello! I'm interested in your products.";
+        const phoneNumber = "+923342743554";
+        const message = "Hello Alharam! I would like to inquire about your mobile accessories and products.";
         const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     };
