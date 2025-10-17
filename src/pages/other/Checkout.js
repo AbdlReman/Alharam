@@ -235,8 +235,10 @@ const Checkout = () => {
           return "Cash on Delivery";
         case "easypaisa":
           return "Easy Paisa";
-        case "sadapay":
-          return "Sada Pay";
+        case "jazcash":
+          return "Jazcash";
+        case "ubl":
+          return "UBL (United Bank Limited)";
         case "bank":
           return "Bank Transfer";
         default:
@@ -787,7 +789,7 @@ const Checkout = () => {
                               </div>
                             </div>
 
-                            {/* <div className="payment-option mb-20">
+                            <div className="payment-option mb-20">
                               <div className="radio-wrapper">
                                 <input
                                   type="radio"
@@ -809,14 +811,42 @@ const Checkout = () => {
                               </div>
                               {formData.paymentMethod === "easypaisa" && (
                                 <div className="payment-details">
-                                 
-                                  <br/>
                                   <p>
-                                    <strong>Account 2:</strong> 0329 5034080 
+                                    <strong>Account:</strong> 03142617554
                                   </p>
-                                 
                                   <p>
-                                    <strong>Account Holder:</strong> Ayesha Noor
+                                    <strong>Title:</strong> Ahmad
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+
+
+                            <div className="payment-option mb-20">
+                              <div className="radio-wrapper">
+                                <input
+                                  type="radio"
+                                  id="jazcash"
+                                  name="paymentMethod"
+                                  value="jazcash"
+                                  checked={formData.paymentMethod === "jazcash"}
+                                  onChange={handleChange}
+                                  className="custom-radio"
+                                />
+                                <label
+                                  htmlFor="jazcash"
+                                  className="radio-label"
+                                >
+                                  Jazcash
+                                </label>
+                              </div>
+                              {formData.paymentMethod === "jazcash" && (
+                                <div className="payment-details">
+                                  <p>
+                                    <strong>Account:</strong> 03142617554
+                                  </p>
+                                  <p>
+                                    <strong>Title:</strong> Ahmad
                                   </p>
                                 </div>
                               )}
@@ -826,64 +856,37 @@ const Checkout = () => {
                               <div className="radio-wrapper">
                                 <input
                                   type="radio"
-                                  id="sadapay"
+                                  id="ubl"
                                   name="paymentMethod"
-                                  value="sadapay"
-                                  checked={
-                                    formData.paymentMethod === "sadapay"
-                                  }
+                                  value="ubl"
+                                  checked={formData.paymentMethod === "ubl"}
                                   onChange={handleChange}
                                   className="custom-radio"
                                 />
                                 <label
-                                  htmlFor="sadapay"
+                                  htmlFor="ubl"
                                   className="radio-label"
                                 >
-                                  Sada Pay
+                                  UBL (United Bank Limited)
                                 </label>
                               </div>
-                              {formData.paymentMethod === "sadapay" && (
+                              {formData.paymentMethod === "ubl" && (
                                 <div className="payment-details">
-                              
-                                  <br/>
                                   <p>
-                                    <strong>Account 2:</strong> 0329 5034080 
+                                    <strong>IBAN:</strong> PK33UNIL0109000340024674
                                   </p>
                                   <p>
-                                    <strong>Account Holder:</strong> Ayesha Noor
+                                    <strong>Branch Code:</strong> 2617
+                                  </p>
+                                  <p>
+                                    <strong>Account #:</strong> 2617340024674
+                                  </p>
+                                  <p>
+                                    <strong>Title:</strong> Ahmad
                                   </p>
                                 </div>
                               )}
-                            </div> */}
-
-                            {/* <div className="payment-option mb-20">
-                              <div className="radio-wrapper">
-                                <input
-                                  type="radio"
-                                  id="bank"
-                                  name="paymentMethod"
-                                  value="bank"
-                                  checked={formData.paymentMethod === "bank"}
-                                  onChange={handleChange}
-                                  className="custom-radio"
-                                />
-                                <label htmlFor="bank" className="radio-label">
-                                Meezan bank
-                                </label>
-                              </div>
-                              {formData.paymentMethod === "bank" && (
-                                <div className="payment-details">
-                                  <p>
-                                    <strong>Account Holder:</strong> Ayesha Noor
-                                  </p>
-                                  <p>
-                                    <strong>Account Number:</strong>{" "}
-                                    08350108779781 
-                                  </p>
-                               
-                                </div>
-                              )}
-                            </div> */}
+                            </div>
                           </div>
 
                           {/* Transaction ID Field for Online Payments */}

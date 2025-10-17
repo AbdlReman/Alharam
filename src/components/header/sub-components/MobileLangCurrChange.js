@@ -6,7 +6,7 @@ const MobileLangCurrChange = () => {
   return (
     <div className="mobile-menu-middle">
       <div className="lang-curr-style">
-        <p>Call Us +92 329 5034080</p>
+        <p>Call Us +92 334 2743554</p>
       </div>
     </div>
   );
