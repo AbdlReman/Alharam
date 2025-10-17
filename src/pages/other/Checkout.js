@@ -75,7 +75,12 @@ const Checkout = () => {
   };
 
   const subtotalDisplay = parseFloat(calculateSubtotal().toFixed(2));
-  const discountDisplay = appliedCoupon
+  
+  // Check if online payment discount applies (10% discount for non-cash payments)
+  const isOnlinePayment = formData.paymentMethod !== "cash_on_delivery";
+  const onlinePaymentDiscount = isOnlinePayment ? parseFloat((subtotalDisplay * 0.10).toFixed(2)) : 0;
+  
+  const couponDiscount = appliedCoupon
     ? parseFloat(
         (
           appliedCoupon.type === "percent"
@@ -84,8 +89,10 @@ const Checkout = () => {
         ).toFixed(2)
       )
     : 0;
+  
+  const totalDiscountDisplay = parseFloat((onlinePaymentDiscount + couponDiscount).toFixed(2));
   const grandTotalDisplay = parseFloat(
-    Math.max(subtotalDisplay - discountDisplay, 0).toFixed(2)
+    Math.max(subtotalDisplay - totalDiscountDisplay, 0).toFixed(2)
   );
 
   // Show welcome toast when component mounts (only once)
@@ -187,9 +194,14 @@ const Checkout = () => {
 
     const giftBoxTotal = parseFloat(giftBoxTotalAccumulator.toFixed(2));
 
-    // Compute discount and grand total based on applied coupon
+    // Compute discount and grand total based on applied coupon and online payment discount
     const numericTotal = parseFloat(total);
-    const discountAmount = appliedCoupon
+    
+    // Check if online payment discount applies (10% discount for non-cash payments)
+    const isOnlinePayment = formData.paymentMethod !== "cash_on_delivery";
+    const onlinePaymentDiscountAmount = isOnlinePayment ? parseFloat((numericTotal * 0.10).toFixed(2)) : 0;
+    
+    const couponDiscountAmount = appliedCoupon
       ? parseFloat(
           (
             appliedCoupon.type === "percent"
@@ -198,7 +210,9 @@ const Checkout = () => {
           ).toFixed(2)
         )
       : 0;
-    const grandTotal = parseFloat(Math.max(numericTotal - discountAmount, 0).toFixed(2));
+    
+    const totalDiscountAmount = parseFloat((onlinePaymentDiscountAmount + couponDiscountAmount).toFixed(2));
+    const grandTotal = parseFloat(Math.max(numericTotal - totalDiscountAmount, 0).toFixed(2));
 
     // Create separate arrays for each column
     const productNames = orderSummary.map((item) => {
@@ -257,7 +271,7 @@ const Checkout = () => {
       sizes: formattedSizes,
       models: formattedModels,
       subtotal: total,
-      discount: discountAmount.toFixed(2),
+      discount: totalDiscountAmount.toFixed(2),
       grandTotal: grandTotal.toFixed(2),
       giftBoxTotal: giftBoxTotal.toFixed(2),
       paymentMethod: getPaymentMethodName(formData.paymentMethod),
@@ -294,13 +308,15 @@ const Checkout = () => {
           hasColors: hasColors ? "yes" : "no",
           hasSizes: hasSizes ? "yes" : "no",
           hasModels: hasModels ? "yes" : "no",
-          subtotal: total, // subtotal before coupon
+          subtotal: total, // subtotal before discounts
           total: grandTotal.toFixed(2), // for template compatibility, send final total here
           giftBoxTotal: giftBoxTotal.toFixed(2),
           couponCode: appliedCoupon?.code || "",
           couponType: appliedCoupon?.type || "",
           couponValue: appliedCoupon?.value != null ? String(appliedCoupon.value) : "",
-          discount: discountAmount.toFixed(2),
+          onlinePaymentDiscount: onlinePaymentDiscountAmount.toFixed(2),
+          couponDiscount: couponDiscountAmount.toFixed(2),
+          discount: totalDiscountAmount.toFixed(2),
           grandTotal: grandTotal.toFixed(2),
         },
         EMAILJS_CONFIG.PUBLIC_KEY // Your user ID
@@ -746,11 +762,19 @@ const Checkout = () => {
                               <li>{"Rs " + subtotalDisplay.toFixed(2)}</li>
                             </ul>
                           </div>
-                          {discountDisplay > 0 && (
+                          {onlinePaymentDiscount > 0 && (
                             <div className="your-order-discount">
                               <ul>
-                                <li className="order-discount">Discount </li>
-                                <li>{"- Rs " + discountDisplay.toFixed(2)}</li>
+                                <li className="order-discount">Online Payment Discount (10%) </li>
+                                <li>{"- Rs " + onlinePaymentDiscount.toFixed(2)}</li>
+                              </ul>
+                            </div>
+                          )}
+                          {couponDiscount > 0 && (
+                            <div className="your-order-discount">
+                              <ul>
+                                <li className="order-discount">Coupon Discount ({appliedCoupon?.code}) </li>
+                                <li>{"- Rs " + couponDiscount.toFixed(2)}</li>
                               </ul>
                             </div>
                           )}
@@ -765,6 +789,22 @@ const Checkout = () => {
                         {/* Payment Method Section */}
                         <div className="payment-method">
                           <h4>Payment Method</h4>
+                          
+                          {/* Online Payment Discount Notice */}
+                          <div className="online-payment-discount-notice" style={{
+                            backgroundColor: '#e8f5e8',
+                            border: '2px solid #4caf50',
+                            borderRadius: '8px',
+                            padding: '15px',
+                            marginBottom: '20px',
+                            textAlign: 'center'
+                          }}>
+                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#2e7d32', marginBottom: '8px' }}>
+                              💳 Save 10% with Online Payments!
+                            </div>
+                            
+                          </div>
+                          
                           <div className="payment-options">
                             <div className="payment-option mb-20">
                               <div className="radio-wrapper">
@@ -806,7 +846,7 @@ const Checkout = () => {
                                   htmlFor="easypaisa"
                                   className="radio-label"
                                 >
-                                  Easy Paisa
+                                  Easy Paisa <span style={{color: '#4caf50', fontWeight: 'bold', fontSize: '12px'}}>(10% OFF)</span>
                                 </label>
                               </div>
                               {formData.paymentMethod === "easypaisa" && (
@@ -837,7 +877,7 @@ const Checkout = () => {
                                   htmlFor="jazcash"
                                   className="radio-label"
                                 >
-                                  Jazcash
+                                  Jazcash <span style={{color: '#4caf50', fontWeight: 'bold', fontSize: '12px'}}>(10% OFF)</span>
                                 </label>
                               </div>
                               {formData.paymentMethod === "jazcash" && (
@@ -867,7 +907,7 @@ const Checkout = () => {
                                   htmlFor="ubl"
                                   className="radio-label"
                                 >
-                                  UBL (United Bank Limited)
+                                  UBL (United Bank Limited) <span style={{color: '#4caf50', fontWeight: 'bold', fontSize: '12px'}}>(10% OFF)</span>
                                 </label>
                               </div>
                               {formData.paymentMethod === "ubl" && (
@@ -888,6 +928,23 @@ const Checkout = () => {
                               )}
                             </div>
                           </div>
+
+                          {/* Dynamic Discount Message for Online Payments */}
+                          {isOnlinePayment && onlinePaymentDiscount > 0 && (
+                            <div className="online-payment-discount-applied" style={{
+                              backgroundColor: '#f3e5f5',
+                              border: '2px solid #9c27b0',
+                              borderRadius: '8px',
+                              padding: '12px',
+                              marginBottom: '20px',
+                              textAlign: 'center'
+                            }}>
+                              
+                              <div style={{ fontSize: '14px', color: '#7b1fa2' }}>
+                                You're saving Rs {onlinePaymentDiscount.toFixed(2)} with online payment
+                              </div>
+                            </div>
+                          )}
 
                           {/* Transaction ID Field for Online Payments */}
                           {formData.paymentMethod !== "cash_on_delivery" && (
