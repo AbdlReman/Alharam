@@ -428,12 +428,16 @@ const HomeFurniture = () => {
 
         
 
-        {/* latest products section - Quick load */}
-        <div className="fade-in">
-          <LatestProductSection spaceBottomClass="pb-100" />
-        </div>
-
-        <br/>
+     
+        
+        {/* All In One Kits - Quick load */}
+        <ProductSectionLoader 
+          title="All In One Kits" 
+          products={allInOneKitProducts} 
+          category="allinonekit" 
+          animationClass="fade-in"
+        />
+<br/>
 
         {/* Video Advertisement Section */}
         <div className="video-ad-section fade-in" style={{
@@ -563,15 +567,13 @@ const HomeFurniture = () => {
           </div>
         </div>
 
-        <br/>
-        {/* All In One Kits - Quick load */}
-        <ProductSectionLoader 
-          title="All In One Kits" 
-          products={allInOneKitProducts} 
-          category="allinonekit" 
-          animationClass="fade-in"
-        />
 <br/>
+   {/* latest products section - Quick load */}
+   <div className="fade-in">
+          <LatestProductSection spaceBottomClass="pb-100" />
+        </div>
+
+        <br/>
         {/* Mobile Glass Protectors section */}
         <ProductSectionLoader 
           title="Mobile Glass Protectors" 
