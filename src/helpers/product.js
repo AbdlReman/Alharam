@@ -140,7 +140,7 @@ export const getIndividualCategories = products => {
   let productCategories = [];
   
   products &&
-    products.map(product => {
+    products.forEach(product => {
       if (product.category) {
         if (Array.isArray(product.category)) {
           product.category.forEach(single => {
