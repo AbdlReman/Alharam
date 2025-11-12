@@ -134,10 +134,13 @@ const Checkout = () => {
     }
 
     // Validate either transaction ID OR payment screenshot for online payments
+    const hasTransactionId = formData.transactionId && formData.transactionId.trim() !== "";
+    const hasPaymentScreenshot = (formData.paymentScreenshot && formData.paymentScreenshot.trim() !== "") || uploadedImageUrl;
+    
     if (
       formData.paymentMethod !== "cash_on_delivery" &&
-      !formData.transactionId &&
-      !formData.paymentScreenshot
+      !hasTransactionId &&
+      !hasPaymentScreenshot
     ) {
       toast.error("Please provide either Transaction ID OR Payment Screenshot for online payment");
       return;
@@ -425,7 +428,7 @@ const Checkout = () => {
     toast.info("Coupon removed");
   };
 
-  // Handle image upload - Convert to data URL instead of Cloudinary
+  // Handle image upload - Upload to Cloudinary to avoid EmailJS size limits
   const handleImageUpload = async (file) => {
     if (!file) return;
 
@@ -444,15 +447,91 @@ const Checkout = () => {
     }
 
     setImageUploading(true);
-    const loadingToast = toast.loading("Processing payment screenshot...");
+    const loadingToast = toast.loading("Uploading payment screenshot...");
 
     try {
-      // Convert file to data URL
+      // Create FormData for Cloudinary upload
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', file);
+      uploadFormData.append('upload_preset', 'ml_default');
+
+      // Upload to Cloudinary
+      const response = await fetch(CLOUDINARY_UPLOAD_URL, {
+        method: 'POST',
+        body: uploadFormData,
+      });
+
+      let responseData;
+      try {
+        responseData = await response.json();
+      } catch (parseError) {
+        console.error('Failed to parse Cloudinary response:', parseError);
+        const text = await response.text();
+        console.error('Cloudinary response text:', text);
+        throw new Error('Invalid response from Cloudinary');
+      }
+
+      if (!response.ok) {
+        console.error('Cloudinary upload error:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: responseData
+        });
+        // Fallback to data URL if Cloudinary fails
+        const errorMessage = responseData?.error?.message || responseData?.message || `Upload failed (${response.status})`;
+        throw new Error(errorMessage);
+      }
+
+      const imageUrl = responseData.secure_url || responseData.url;
+
+      if (!imageUrl) {
+        console.error('No URL in Cloudinary response:', responseData);
+        throw new Error('No URL returned from upload');
+      }
+
+      // Store both the Cloudinary URL and a data URL for preview
       const reader = new FileReader();
       reader.readAsDataURL(file);
       
       reader.onload = () => {
         const dataUrl = reader.result;
+        setUploadedImageUrl(dataUrl); // Use data URL for preview
+        setFormData(prev => ({
+          ...prev,
+          paymentScreenshot: imageUrl // Store Cloudinary URL for email
+        }));
+        
+        toast.dismiss(loadingToast);
+        toast.success("Payment screenshot uploaded successfully!");
+        setImageUploading(false);
+      };
+
+      reader.onerror = () => {
+        // Even if preview fails, we still have the Cloudinary URL
+        setUploadedImageUrl(imageUrl);
+        setFormData(prev => ({
+          ...prev,
+          paymentScreenshot: imageUrl
+        }));
+        
+        toast.dismiss(loadingToast);
+        toast.success("Payment screenshot uploaded successfully!");
+        setImageUploading(false);
+      };
+    } catch (error) {
+      console.error('Image upload error:', error);
+      
+      // Fallback: Use data URL if Cloudinary fails (with size warning)
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        
+        // Warn if data URL is very large (over 500KB)
+        if (dataUrl.length > 500000) {
+          toast.warning("Image uploaded as data URL (Cloudinary upload failed). Large images may cause email issues.");
+        }
         
         setUploadedImageUrl(dataUrl);
         setFormData(prev => ({
@@ -461,20 +540,15 @@ const Checkout = () => {
         }));
         
         toast.dismiss(loadingToast);
-        toast.success("Payment screenshot processed successfully!");
+        toast.success("Payment screenshot processed (using fallback method)");
         setImageUploading(false);
       };
 
       reader.onerror = () => {
         toast.dismiss(loadingToast);
-        toast.error("Failed to process image file. Please try again.");
+        toast.error(`Failed to upload image: ${error.message || 'Unknown error'}`);
         setImageUploading(false);
       };
-    } catch (error) {
-      console.error('Image processing error:', error);
-      toast.dismiss(loadingToast);
-      toast.error("Failed to process image. Please try again.");
-      setImageUploading(false);
     }
   };
 
