@@ -94,6 +94,10 @@ const Checkout = () => {
   const grandTotalDisplay = parseFloat(
     Math.max(subtotalDisplay - totalDiscountDisplay, 0).toFixed(2)
   );
+  
+  // Calculate delivery charges: 300 if order total < 3000, free if >= 3000
+  const deliveryCharges = grandTotalDisplay < 3000 ? 300 : 0;
+  const finalTotalWithDelivery = parseFloat((grandTotalDisplay + deliveryCharges).toFixed(2));
 
   // Show welcome toast when component mounts (only once)
   useEffect(() => {
@@ -216,6 +220,10 @@ const Checkout = () => {
     
     const totalDiscountAmount = parseFloat((onlinePaymentDiscountAmount + couponDiscountAmount).toFixed(2));
     const grandTotal = parseFloat(Math.max(numericTotal - totalDiscountAmount, 0).toFixed(2));
+    
+    // Calculate delivery charges: 300 if order total < 3000, free if >= 3000
+    const deliveryChargesAmount = grandTotal < 3000 ? 300 : 0;
+    const finalTotalWithDeliveryAmount = parseFloat((grandTotal + deliveryChargesAmount).toFixed(2));
 
     // Create separate arrays for each column
     const productNames = orderSummary.map((item) => {
@@ -276,6 +284,8 @@ const Checkout = () => {
       subtotal: total,
       discount: totalDiscountAmount.toFixed(2),
       grandTotal: grandTotal.toFixed(2),
+      deliveryCharges: deliveryChargesAmount.toFixed(2),
+      finalTotal: finalTotalWithDeliveryAmount.toFixed(2),
       giftBoxTotal: giftBoxTotal.toFixed(2),
       paymentMethod: getPaymentMethodName(formData.paymentMethod),
     });
@@ -312,7 +322,7 @@ const Checkout = () => {
           hasSizes: hasSizes ? "yes" : "no",
           hasModels: hasModels ? "yes" : "no",
           subtotal: total, // subtotal before discounts
-          total: grandTotal.toFixed(2), // for template compatibility, send final total here
+          total: finalTotalWithDeliveryAmount.toFixed(2), // final total with delivery charges
           giftBoxTotal: giftBoxTotal.toFixed(2),
           couponCode: appliedCoupon?.code || "",
           couponType: appliedCoupon?.type || "",
@@ -321,6 +331,8 @@ const Checkout = () => {
           couponDiscount: couponDiscountAmount.toFixed(2),
           discount: totalDiscountAmount.toFixed(2),
           grandTotal: grandTotal.toFixed(2),
+          deliveryCharges: deliveryChargesAmount.toFixed(2),
+          finalTotal: finalTotalWithDeliveryAmount.toFixed(2),
         },
         EMAILJS_CONFIG.PUBLIC_KEY // Your user ID
       );
@@ -852,10 +864,20 @@ const Checkout = () => {
                               </ul>
                             </div>
                           )}
+                          <div className="your-order-delivery">
+                            <ul>
+                              <li className="order-delivery">Delivery Charges </li>
+                              <li>
+                                {deliveryCharges > 0 
+                                  ? "Rs " + deliveryCharges.toFixed(2)
+                                  : "Free"}
+                              </li>
+                            </ul>
+                          </div>
                           <div className="your-order-total">
                             <ul>
                               <li className="order-total">Total </li>
-                              <li>{"Rs " + grandTotalDisplay.toFixed(2)}</li>
+                              <li>{"Rs " + finalTotalWithDelivery.toFixed(2)}</li>
                             </ul>
                           </div>
                         </div>
