@@ -93,7 +93,7 @@ const HomeFurniture = () => {
   
   // TopSlider state
   const [topSliderActiveIndex, setTopSliderActiveIndex] = useState(0);
-  const topSlides = ["Free shipping all Pakistan", "Welcome to Alharam Store"];
+  const topSlides = ["Free Shipping over PKR 3,000", "Welcome to Alharam Store"];
 
   // TopSlider interval effect
   useEffect(() => {
