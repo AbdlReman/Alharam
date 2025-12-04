@@ -78,7 +78,7 @@ const Checkout = () => {
   
   // Check if online payment discount applies (10% discount for non-cash payments)
   const isOnlinePayment = formData.paymentMethod !== "cash_on_delivery";
-  const onlinePaymentDiscount = isOnlinePayment ? parseFloat((subtotalDisplay * 0.10).toFixed(2)) : 0;
+  const onlinePaymentDiscount = isOnlinePayment ? parseFloat((subtotalDisplay * 0.04).toFixed(2)) : 0;
   
   const couponDiscount = appliedCoupon
     ? parseFloat(
@@ -206,7 +206,7 @@ const Checkout = () => {
     
     // Check if online payment discount applies (10% discount for non-cash payments)
     const isOnlinePayment = formData.paymentMethod !== "cash_on_delivery";
-    const onlinePaymentDiscountAmount = isOnlinePayment ? parseFloat((numericTotal * 0.10).toFixed(2)) : 0;
+    const onlinePaymentDiscountAmount = isOnlinePayment ? parseFloat((numericTotal * 0.04).toFixed(2)) : 0;
     
     const couponDiscountAmount = appliedCoupon
       ? parseFloat(
@@ -851,7 +851,7 @@ const Checkout = () => {
                           {onlinePaymentDiscount > 0 && (
                             <div className="your-order-discount">
                               <ul>
-                                <li className="order-discount">Online Payment Discount (10%) </li>
+                                <li className="order-discount">Online Payment Discount (4%) </li>
                                 <li>{"- Rs " + onlinePaymentDiscount.toFixed(2)}</li>
                               </ul>
                             </div>
@@ -896,7 +896,7 @@ const Checkout = () => {
                             textAlign: 'center'
                           }}>
                             <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#2e7d32', marginBottom: '8px' }}>
-                              💳 Save 10% with Online Payments!
+                              💳 Save 4% with Online Payments!
                             </div>
                             
                           </div>
@@ -942,7 +942,7 @@ const Checkout = () => {
                                   htmlFor="easypaisa"
                                   className="radio-label"
                                 >
-                                  Easy Paisa <span style={{color: '#4caf50', fontWeight: 'bold', fontSize: '12px'}}>(10% OFF)</span>
+                                  Easy Paisa <span style={{color: '#4caf50', fontWeight: 'bold', fontSize: '12px'}}>(4% OFF)</span>
                                 </label>
                               </div>
                               {formData.paymentMethod === "easypaisa" && (
@@ -973,7 +973,7 @@ const Checkout = () => {
                                   htmlFor="jazcash"
                                   className="radio-label"
                                 >
-                                  Jazcash <span style={{color: '#4caf50', fontWeight: 'bold', fontSize: '12px'}}>(10% OFF)</span>
+                                  Jazcash <span style={{color: '#4caf50', fontWeight: 'bold', fontSize: '12px'}}>(4% OFF)</span>
                                 </label>
                               </div>
                               {formData.paymentMethod === "jazcash" && (
@@ -1003,7 +1003,7 @@ const Checkout = () => {
                                   htmlFor="ubl"
                                   className="radio-label"
                                 >
-                                  UBL (United Bank Limited) <span style={{color: '#4caf50', fontWeight: 'bold', fontSize: '12px'}}>(10% OFF)</span>
+                                  UBL (United Bank Limited) <span style={{color: '#4caf50', fontWeight: 'bold', fontSize: '12px'}}>(4% OFF)</span>
                                 </label>
                               </div>
                               {formData.paymentMethod === "ubl" && (
