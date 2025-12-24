@@ -77,6 +77,12 @@ const simpleStyles = `
     background-color: white !important;
   }
 
+  body.popup-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+  }
+
   .popup-overlay {
     position: fixed;
     top: 0;
@@ -89,17 +95,27 @@ const simpleStyles = `
     align-items: center;
     z-index: 9999;
     animation: fadeIn 0.3s ease-out;
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
   }
 
   .popup-container {
     position: relative;
-    max-width: 90%;
-    max-height: 90%;
+    max-width: calc(100% - 20px);
+    max-height: calc(100% - 20px);
+    width: auto;
+    height: auto;
     background: white;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     animation: scaleIn 0.3s ease-out;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: auto;
   }
 
   @keyframes scaleIn {
@@ -139,15 +155,97 @@ const simpleStyles = `
 
   .popup-image {
     max-width: 100%;
-    max-height: 80vh;
+    max-height: calc(100vh - 100px);
+    width: auto;
+    height: auto;
     border-radius: 5px;
     display: block;
     cursor: pointer;
     transition: transform 0.3s ease;
+    object-fit: contain;
+    box-sizing: border-box;
   }
 
   .popup-image:hover {
     transform: scale(1.02);
+  }
+
+  @media (max-width: 768px) {
+    .popup-overlay {
+      padding: 5px;
+    }
+
+    .popup-container {
+      max-width: calc(100% - 10px);
+      max-height: calc(100% - 10px);
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .popup-close {
+      width: 40px;
+      height: 40px;
+      top: 5px;
+      right: 5px;
+      font-size: 24px;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .popup-image {
+      max-width: 100%;
+      max-height: calc(100vh - 80px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .popup-overlay {
+      padding: 5px;
+    }
+
+    .popup-container {
+      max-width: calc(100% - 10px);
+      max-height: calc(100% - 10px);
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .popup-close {
+      width: 45px;
+      height: 45px;
+      top: 5px;
+      right: 5px;
+      font-size: 28px;
+    }
+
+    .popup-image {
+      max-width: 100%;
+      max-height: calc(100vh - 70px);
+    }
+  }
+
+  @media (max-width: 360px) {
+    .popup-overlay {
+      padding: 2px;
+    }
+
+    .popup-container {
+      max-width: calc(100% - 4px);
+      max-height: calc(100% - 4px);
+      padding: 8px;
+    }
+
+    .popup-close {
+      width: 40px;
+      height: 40px;
+      top: 3px;
+      right: 3px;
+      font-size: 24px;
+    }
+
+    .popup-image {
+      max-width: 100%;
+      max-height: calc(100vh - 60px);
+    }
   }
 `;
 
@@ -213,6 +311,30 @@ const HomeFurniture = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [popupShown]);
+
+  // Lock body scroll when popup is open
+  useEffect(() => {
+    if (showPopup) {
+      document.body.classList.add('popup-open');
+      // Prevent scroll on mobile
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.classList.remove('popup-open');
+      // Restore scroll position
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+  }, [showPopup]);
 
   // Get products based on screen size
   const getDisplayProducts = (products, desktopCount = 3, mobileCount = 2) => {
