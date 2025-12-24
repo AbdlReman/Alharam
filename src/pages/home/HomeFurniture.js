@@ -75,6 +75,73 @@ const simpleStyles = `
   .white-title h2::after {
     background-color: white !important;
   }
+
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .popup-container {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10000;
+  }
+
+  .popup-close:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: rotate(90deg);
+  }
+
+  .popup-image {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 5px;
+    display: block;
+  }
 `;
 
 
@@ -90,6 +157,8 @@ const HomeFurniture = () => {
   const [showControls, setShowControls] = useState(false);
   const [loading, setLoading] = useState(false); // Changed to false to show content immediately
   const [isMobile, setIsMobile] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupShown, setPopupShown] = useState(false);
   
   // TopSlider state
   const [topSliderActiveIndex, setTopSliderActiveIndex] = useState(0);
@@ -118,6 +187,25 @@ const HomeFurniture = () => {
     // Cleanup
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
+
+  // Scroll detection for popup (20% scroll down)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (popupShown) return; // Don't show popup again if already shown
+
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercentage = (scrollTop / documentHeight) * 100;
+
+      if (scrollPercentage >= 20) {
+        setShowPopup(true);
+        setPopupShown(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [popupShown]);
 
   // Get products based on screen size
   const getDisplayProducts = (products, desktopCount = 3, mobileCount = 2) => {
@@ -810,6 +898,26 @@ const HomeFurniture = () => {
           <FeatureIconTwo spaceTopClass="pt-100" spaceBottomClass="pb-60" />
         </div>
       </LayoutOne>
+
+      {/* Popup Modal */}
+      {showPopup && (
+        <div className="popup-overlay" onClick={() => setShowPopup(false)}>
+          <div className="popup-container" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="popup-close"
+              onClick={() => setShowPopup(false)}
+              aria-label="Close popup"
+            >
+              ×
+            </button>
+            <img
+              src="/assets/img/popup.jpeg"
+              alt="Popup"
+              className="popup-image"
+            />
+          </div>
+        </div>
+      )}
     </Fragment>
   );
 };
