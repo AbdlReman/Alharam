@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect, Suspense, lazy } from "react";
+import { Link } from "react-router-dom";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import FeatureIconTwo from "../../wrappers/feature-icon/FeatureIconTwo";
@@ -141,6 +142,12 @@ const simpleStyles = `
     max-height: 80vh;
     border-radius: 5px;
     display: block;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .popup-image:hover {
+    transform: scale(1.02);
   }
 `;
 
@@ -910,11 +917,13 @@ const HomeFurniture = () => {
             >
               ×
             </button>
-            <img
-              src="/assets/img/popup.jpeg"
-              alt="Popup"
-              className="popup-image"
-            />
+            <Link to="/allinonekit" onClick={() => setShowPopup(false)}>
+              <img
+                src="/assets/img/popup.jpeg"
+                alt="Popup"
+                className="popup-image"
+              />
+            </Link>
           </div>
         </div>
       )}
