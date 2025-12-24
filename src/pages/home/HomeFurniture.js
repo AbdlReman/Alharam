@@ -293,10 +293,30 @@ const HomeFurniture = () => {
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
+  // Check if popup should be shown (once per month)
+  const shouldShowPopup = () => {
+    const lastPopupDate = localStorage.getItem('popupLastShown');
+    
+    if (!lastPopupDate) {
+      // First time - show popup
+      return true;
+    }
+    
+    const lastDate = new Date(lastPopupDate);
+    const currentDate = new Date();
+    const daysDifference = Math.floor((currentDate - lastDate) / (1000 * 60 * 60 * 24));
+    
+    // Show popup if 30 days (1 month) have passed
+    return daysDifference >= 30;
+  };
+
   // Scroll detection for popup (20% scroll down)
   useEffect(() => {
     const handleScroll = () => {
-      if (popupShown) return; // Don't show popup again if already shown
+      if (popupShown) return; // Don't show popup again if already shown in this session
+      
+      // Check if popup should be shown (once per month)
+      if (!shouldShowPopup()) return;
 
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -305,6 +325,8 @@ const HomeFurniture = () => {
       if (scrollPercentage >= 20) {
         setShowPopup(true);
         setPopupShown(true);
+        // Save current date to localStorage
+        localStorage.setItem('popupLastShown', new Date().toISOString());
       }
     };
 
