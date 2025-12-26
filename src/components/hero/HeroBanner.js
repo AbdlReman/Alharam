@@ -9,7 +9,8 @@
     const bannerImages = [
       "/assets/img/banner/banner1.jpeg",
       "/assets/img/banner/banner2.jpeg",
-      
+      "/assets/img/banner/banner3.jpeg",
+      "/assets/img/banner/banner4.jpeg",
     ];
   
     // Swiper options for the banner slider
