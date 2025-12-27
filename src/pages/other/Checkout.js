@@ -95,8 +95,8 @@ const Checkout = () => {
     Math.max(subtotalDisplay - totalDiscountDisplay, 0).toFixed(2)
   );
   
-  // Calculate delivery charges: 300 if order total < 3000, free if >= 3000
-  const deliveryCharges = grandTotalDisplay < 3000 ? 300 : 0;
+  // Calculate delivery charges: 350 if order total < 3000, free if >= 3000
+  const deliveryCharges = grandTotalDisplay < 3000 ? 350 : 0;
   const finalTotalWithDelivery = parseFloat((grandTotalDisplay + deliveryCharges).toFixed(2));
 
   // Show welcome toast when component mounts (only once)
@@ -221,8 +221,8 @@ const Checkout = () => {
     const totalDiscountAmount = parseFloat((onlinePaymentDiscountAmount + couponDiscountAmount).toFixed(2));
     const grandTotal = parseFloat(Math.max(numericTotal - totalDiscountAmount, 0).toFixed(2));
     
-    // Calculate delivery charges: 300 if order total < 3000, free if >= 3000
-    const deliveryChargesAmount = grandTotal < 3000 ? 300 : 0;
+    // Calculate delivery charges: 350 if order total < 3000, free if >= 3000
+    const deliveryChargesAmount = grandTotal < 3000 ? 350 : 0;
     const finalTotalWithDeliveryAmount = parseFloat((grandTotal + deliveryChargesAmount).toFixed(2));
 
     // Create separate arrays for each column
