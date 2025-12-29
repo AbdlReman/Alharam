@@ -3,21 +3,17 @@ import clsx from "clsx";
 import {
   getIndividualCategories,
   getIndividualTags,
-  getIndividualColors,
   getProductsIndividualSizes
 } from "../../helpers/product";
 import ShopSearch from "../../components/product/ShopSearch";
 import ShopCategories from "../../components/product/ShopCategories";
-import ShopColor from "../../components/product/ShopColor";
 
 const ShopSidebar = ({ 
   products, 
   getSortParams, 
   handleSearch, 
   handleCategoryFilter, 
-  handleColorFilter, 
   selectedCategory, 
-  selectedColor, 
   searchTerm, 
   clearAllFilters,
   sideSpaceClass,
@@ -25,13 +21,11 @@ const ShopSidebar = ({
   pageType = "shop"
 }) => {
   const uniqueCategories = getIndividualCategories(products);
-  const uniqueColors = getIndividualColors(products);
   
-  // Debug: Log categories and colors being processed
+  // Debug: Log categories being processed
   console.log("=== SHOP SIDEBAR DEBUG ===");
   console.log("Products received:", products?.length || 0);
   console.log("Unique categories:", uniqueCategories);
-  console.log("Unique colors:", uniqueColors);
   console.log("=== END SHOP SIDEBAR DEBUG ===");
 
   return (
@@ -52,17 +46,9 @@ const ShopSidebar = ({
           pageType={pageType}
         />
       )}
-
-      {/* filter by color */}
-      <ShopColor 
-        colors={uniqueColors} 
-        handleColorFilter={handleColorFilter}
-        selectedColor={selectedColor}
-        products={products}
-      />
       
       {/* Clear filters button */}
-      {(searchTerm || selectedCategory || selectedColor) && (
+      {(searchTerm || selectedCategory) && (
         <div className="sidebar-widget mt-50">
           <button 
             onClick={clearAllFilters}
@@ -81,9 +67,7 @@ ShopSidebar.propTypes = {
   getSortParams: PropTypes.func,
   handleSearch: PropTypes.func,
   handleCategoryFilter: PropTypes.func,
-  handleColorFilter: PropTypes.func,
   selectedCategory: PropTypes.string,
-  selectedColor: PropTypes.string,
   searchTerm: PropTypes.string,
   clearAllFilters: PropTypes.func,
   products: PropTypes.array,

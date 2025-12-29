@@ -280,9 +280,7 @@ const ShopGridStandard = () => {
                     products={products}
                     handleSearch={handleSearch}
                     handleCategoryFilter={handleCategoryFilter}
-                    handleColorFilter={handleColorFilter}
                     selectedCategory={selectedCategory}
-                    selectedColor={selectedColor}
                     searchTerm={searchTerm}
                     clearAllFilters={clearAllFilters}
                     sideSpaceClass="mr-30"
