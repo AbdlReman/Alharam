@@ -173,24 +173,25 @@ const FilterMessage = ({
   };
 
   return (
-    <div className="filter-message-container">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <span style={{ fontWeight: 'bold', marginRight: '10px' }}>Filters Applied:</span>
-          {renderFilterMessage().map((message, index) => (
-            <React.Fragment key={index}>
-              {message}
-              {index < renderFilterMessage().length - 1 && (
-                <span style={{ margin: '0 8px', color: '#6c757d' }}>•</span>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-        <div style={{ fontSize: '12px', color: '#6c757d' }}>
-          Showing {filteredProducts} of {totalProducts} products
-        </div>
-      </div>
-    </div>
+    <></>
+    // <div className="filter-message-container">
+    //   {/* <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    //     <div>
+    //       <span style={{ fontWeight: 'bold', marginRight: '10px' }}>Filters Applied:</span>
+    //       {renderFilterMessage().map((message, index) => (
+    //         <React.Fragment key={index}>
+    //           {message}
+    //           {index < renderFilterMessage().length - 1 && (
+    //             <span style={{ margin: '0 8px', color: '#6c757d' }}>•</span>
+    //           )}
+    //         </React.Fragment>
+    //       ))}
+    //     </div>
+    //     <div style={{ fontSize: '12px', color: '#6c757d' }}>
+    //       Showing {filteredProducts} of {totalProducts} products
+    //     </div>
+    //   </div> */}
+    // </div>
   );
 };
 
