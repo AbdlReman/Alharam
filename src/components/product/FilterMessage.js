@@ -5,12 +5,13 @@ import '../../assets/css/filter-message.css';
 const FilterMessage = ({ 
   selectedCategory, 
   selectedColor, 
+  selectedModel,
   searchTerm, 
   totalProducts, 
   filteredProducts,
   products 
 }) => {
-  if (!selectedCategory && !selectedColor && !searchTerm) {
+  if (!selectedCategory && !selectedColor && !selectedModel && !searchTerm) {
     return null;
   }
 
@@ -107,6 +108,16 @@ const FilterMessage = ({
     }).length;
   };
 
+  const getModelProductCount = (model) => {
+    if (!products || !model) return 0;
+    return products.filter(product => {
+      if (!product.model || !Array.isArray(product.model)) return false;
+      return product.model.some(m => 
+        m && m.toLowerCase() === model.toLowerCase()
+      );
+    }).length;
+  };
+
   const getSearchProductCount = (term) => {
     if (!products || !term) return 0;
     return products.filter(product => {
@@ -121,6 +132,15 @@ const FilterMessage = ({
 
   const renderFilterMessage = () => {
     const messages = [];
+
+    if (selectedModel) {
+      const modelCount = getModelProductCount(selectedModel);
+      messages.push(
+        <span key="model" className="filter-message-item">
+          <strong>{modelCount}</strong> product{modelCount !== 1 ? 's' : ''} in model "<strong>{selectedModel}</strong>"
+        </span>
+      );
+    }
 
     if (selectedCategory) {
       const categoryCount = getCategoryProductCount(selectedCategory);
@@ -177,6 +197,7 @@ const FilterMessage = ({
 FilterMessage.propTypes = {
   selectedCategory: PropTypes.string,
   selectedColor: PropTypes.string,
+  selectedModel: PropTypes.string,
   searchTerm: PropTypes.string,
   totalProducts: PropTypes.number,
   filteredProducts: PropTypes.number,

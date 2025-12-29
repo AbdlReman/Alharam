@@ -6,11 +6,54 @@ const ShopTopAction = ({
   getLayout,
   getFilterSortParams,
   productCount,
-  sortedProductCount
+  sortedProductCount,
+  handleModelFilter,
+  handleColorFilter,
+  selectedModel,
+  selectedColor,
+  uniqueModels,
+  availableColors
 }) => {
   return (
     <div className="shop-top-bar mb-35">
       <div className="select-shoing-wrap">
+        {/* Model Filter */}
+        <div className="shop-select" style={{ marginRight: "15px" }}>
+          <select
+            value={selectedModel || ""}
+            onChange={e => handleModelFilter(e.target.value)}
+            style={{ minWidth: "150px" }}
+          >
+            <option value="">All Models</option>
+            {uniqueModels && uniqueModels.map((model, index) => (
+              <option key={index} value={model}>
+                {model}
+              </option>
+            ))}
+          </select>
+        </div>
+        
+        {/* Color Filter */}
+        <div className="shop-select" style={{ marginRight: "15px" }}>
+          <select
+            value={selectedColor || ""}
+            onChange={e => handleColorFilter(e.target.value)}
+            style={{ minWidth: "150px" }}
+          >
+            <option value="">All Colors</option>
+            {availableColors && availableColors.length > 0 ? (
+              availableColors.map((color, index) => (
+                <option key={index} value={color}>
+                  {color}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>No colors available</option>
+            )}
+          </select>
+        </div>
+        
+        {/* Sort Filter */}
         <div className="shop-select">
           <select
             onChange={e => getFilterSortParams("filterSort", e.target.value)}
@@ -59,7 +102,13 @@ ShopTopAction.propTypes = {
   getFilterSortParams: PropTypes.func,
   getLayout: PropTypes.func,
   productCount: PropTypes.number,
-  sortedProductCount: PropTypes.number
+  sortedProductCount: PropTypes.number,
+  handleModelFilter: PropTypes.func,
+  handleColorFilter: PropTypes.func,
+  selectedModel: PropTypes.string,
+  selectedColor: PropTypes.string,
+  uniqueModels: PropTypes.array,
+  availableColors: PropTypes.array
 };
 
 export default ShopTopAction;

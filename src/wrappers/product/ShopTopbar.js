@@ -6,7 +6,13 @@ const ShopTopbar = ({
   getLayout,
   getFilterSortParams,
   productCount,
-  sortedProductCount
+  sortedProductCount,
+  handleModelFilter,
+  handleColorFilter,
+  selectedModel,
+  selectedColor,
+  uniqueModels,
+  availableColors
 }) => {
   return (
     <Fragment>
@@ -16,6 +22,12 @@ const ShopTopbar = ({
         getFilterSortParams={getFilterSortParams}
         productCount={productCount}
         sortedProductCount={sortedProductCount}
+        handleModelFilter={handleModelFilter}
+        handleColorFilter={handleColorFilter}
+        selectedModel={selectedModel}
+        selectedColor={selectedColor}
+        uniqueModels={uniqueModels}
+        availableColors={availableColors}
       />
     </Fragment>
   );
@@ -25,7 +37,13 @@ ShopTopbar.propTypes = {
   getFilterSortParams: PropTypes.func,
   getLayout: PropTypes.func,
   productCount: PropTypes.number,
-  sortedProductCount: PropTypes.number
+  sortedProductCount: PropTypes.number,
+  handleModelFilter: PropTypes.func,
+  handleColorFilter: PropTypes.func,
+  selectedModel: PropTypes.string,
+  selectedColor: PropTypes.string,
+  uniqueModels: PropTypes.array,
+  availableColors: PropTypes.array
 };
 
 export default ShopTopbar;

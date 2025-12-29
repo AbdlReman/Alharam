@@ -30,6 +30,7 @@ const ShopGridStandard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentData, setCurrentData] = useState([]);
@@ -48,6 +49,50 @@ const ShopGridStandard = () => {
   const getFilterSortParams = (type, value) => {
     setFilterSortType(type);
     setFilterSortValue(value);
+  };
+  
+  // Get unique models from all products
+  const getUniqueModels = () => {
+    const modelSet = new Set();
+    products.forEach(product => {
+      if (product.model && Array.isArray(product.model)) {
+        product.model.forEach(model => {
+          if (model && model.trim()) {
+            modelSet.add(model.trim());
+          }
+        });
+      }
+    });
+    return Array.from(modelSet).sort();
+  };
+  
+  // Get unique colors filtered by selected model
+  const getAvailableColors = () => {
+    const colorSet = new Set();
+    let productsToCheck = products;
+    
+    // If a model is selected, only check products with that model
+    if (selectedModel) {
+      productsToCheck = products.filter(product => {
+        if (!product.model || !Array.isArray(product.model)) {
+          return false;
+        }
+        return product.model.some(model => 
+          model && model.toLowerCase() === selectedModel.toLowerCase()
+        );
+      });
+    }
+    
+    productsToCheck.forEach(product => {
+      if (product.color && Array.isArray(product.color)) {
+        product.color.forEach(color => {
+          if (color && color.trim()) {
+            colorSet.add(color.trim());
+          }
+        });
+      }
+    });
+    return Array.from(colorSet).sort();
   };
   
   // Handle search
@@ -72,11 +117,21 @@ const ShopGridStandard = () => {
     setCurrentPage(1);
   };
   
+  // Handle model filter
+  const handleModelFilter = (model) => {
+    setSelectedModel(model);
+    // Reset color filter when model changes
+    setSelectedColor("");
+    setOffset(0);
+    setCurrentPage(1);
+  };
+  
   // Clear all filters
   const clearAllFilters = () => {
     setSearchTerm("");
     setSelectedCategory("");
     setSelectedColor("");
+    setSelectedModel("");
     setSortType("");
     setSortValue("");
     setFilterSortType("");
@@ -121,6 +176,19 @@ const ShopGridStandard = () => {
             }
           }
           
+          // Handle model field - it might be a string, array, or object
+          let modelArray = [];
+          if (fields.model) {
+            if (Array.isArray(fields.model)) {
+              modelArray = fields.model;
+            } else if (typeof fields.model === 'string') {
+              modelArray = [fields.model];
+            } else if (fields.model.fields) {
+              // If it's a Contentful reference
+              modelArray = [fields.model.fields.name || fields.model.fields.title];
+            }
+          }
+          
           return {
             id: item.sys.id,
             name: fields.name,
@@ -133,6 +201,7 @@ const ShopGridStandard = () => {
             tag: fields.tag || [],
             images: fields.images?.map((img) => img.fields.file.url) || [],
             color: colorArray,
+            model: modelArray,
             size: fields.size || [],
             metaTitle: fields.metaTitle || "",
             metaDescription: fields.metaDescription || "",
@@ -224,6 +293,18 @@ const ShopGridStandard = () => {
       console.log("=== END CATEGORY FILTER DEBUG ===");
     }
     
+    // Apply model filter
+    if (selectedModel) {
+      filtered = filtered.filter(product => {
+        if (!product.model || !Array.isArray(product.model)) {
+          return false;
+        }
+        return product.model.some(model => 
+          model && model.toLowerCase() === selectedModel.toLowerCase()
+        );
+      });
+    }
+    
     // Apply color filter
     if (selectedColor) {
       filtered = filtered.filter(product => {
@@ -241,7 +322,7 @@ const ShopGridStandard = () => {
     sorted = getSortedProducts(sorted, filterSortType, filterSortValue);
     setSortedProducts(sorted);
     setCurrentData(sorted.slice(offset, offset + pageLimit));
-  }, [products, offset, sortType, sortValue, filterSortType, filterSortValue, searchTerm, selectedCategory, selectedColor]);
+  }, [products, offset, sortType, sortValue, filterSortType, filterSortValue, searchTerm, selectedCategory, selectedColor, selectedModel]);
   
 
 
@@ -310,10 +391,19 @@ const ShopGridStandard = () => {
                   <ShopTopbar
                     productCount={products.length}
                     sortedProductCount={sortedProducts.length}
+                    getFilterSortParams={getFilterSortParams}
+                    getLayout={getLayout}
+                    handleModelFilter={handleModelFilter}
+                    handleColorFilter={handleColorFilter}
+                    selectedModel={selectedModel}
+                    selectedColor={selectedColor}
+                    uniqueModels={getUniqueModels()}
+                    availableColors={getAvailableColors()}
                   />
                                      <FilterMessage
                      selectedCategory={selectedCategory}
                      selectedColor={selectedColor}
+                     selectedModel={selectedModel}
                      searchTerm={searchTerm}
                      totalProducts={products.length}
                      filteredProducts={sortedProducts.length}
