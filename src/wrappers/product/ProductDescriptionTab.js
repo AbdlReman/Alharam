@@ -25,6 +25,12 @@ const ProductDescriptionTab = ({ spaceBottomClass, productFullDesc, product }) =
             <Tab.Content className="description-review-bottom">
               <Tab.Pane eventKey="additionalInfo">
                 <div className="product-anotherinfo-wrapper">
+                  {product?.shortDescription && (
+                    <div className="short-description mb-4">
+                      <h5 className="mb-2">Short Description</h5>
+                      <p>{product.shortDescription}</p>
+                    </div>
+                  )}
                   <ul>
                     {product?.category && product.category.length > 0 && (
                       <li><span>Categories</span> {product.category.join(", ")}</li>
