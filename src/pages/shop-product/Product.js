@@ -15,6 +15,7 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedColor, setSelectedColor] = useState("");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -41,6 +42,11 @@ const Product = () => {
           const transformedProduct = processContentfulProduct(item);
 
           setProduct(transformedProduct);
+          
+          // Set initial selected color if colors exist
+          if (transformedProduct.color && transformedProduct.color.length > 0) {
+            setSelectedColor(transformedProduct.color[0]);
+          }
         } else {
           setError("Product not found");
         }
@@ -102,6 +108,8 @@ const Product = () => {
           spaceTopClass="pt-100"
           spaceBottomClass="pb-100"
           product={product}
+          selectedColor={selectedColor}
+          onColorChange={setSelectedColor}
         />
 
         <ProductDescriptionTab

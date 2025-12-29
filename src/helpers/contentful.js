@@ -58,7 +58,14 @@ export const processContentfulProduct = (item) => {
     })(), // Add video field
     category: fields.category || [],
     tag: fields.tag || [],
-    images: fields.images?.map(img => img.fields.file.url) || [],
+    // Preserve image metadata (title and description) for color filtering
+    images: fields.images?.map(img => ({
+      url: img.fields?.file?.url || "",
+      title: img.fields?.title || "",
+      description: img.fields?.description || ""
+    })) || [],
+    // Also keep a simple array of URLs for backward compatibility
+    imageUrls: fields.images?.map(img => img.fields?.file?.url) || [],
     color: fields.color || [],
     size: fields.size || [],
     model: fields.model || [],

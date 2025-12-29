@@ -17,11 +17,16 @@ const ProductDescriptionInfo = ({
   cartItems,
   wishlistItem,
   compareItem,
+  selectedColor: parentSelectedColor,
+  onColorChange,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const [selectedProductColor, setSelectedProductColor] = useState("");
+  // Use parent's selectedColor if provided, otherwise use local state
+  const [localSelectedColor, setLocalSelectedColor] = useState("");
+  const selectedProductColor = parentSelectedColor !== undefined ? parentSelectedColor : localSelectedColor;
+  
   const [selectedProductSize, setSelectedProductSize] = useState("");
   const [selectedProductModel, setSelectedProductModel] = useState("");
   const [productStock, setProductStock] = useState(0);
@@ -31,13 +36,23 @@ const ProductDescriptionInfo = ({
   // Use useEffect to set initial values when product changes
   useEffect(() => {
     if (product) {
-      if (product.variation && product.variation[0]) {
-        setSelectedProductColor(product.variation[0].color || "");
+      // Only set initial color if no color is currently selected
+      if (!parentSelectedColor && !localSelectedColor) {
+        const initialColor = product.variation && product.variation[0] 
+          ? (product.variation[0].color || "") 
+          : (product.color && product.color.length > 0 ? product.color[0] : "");
+        
+        if (onColorChange) {
+          onColorChange(initialColor);
+        } else {
+          setLocalSelectedColor(initialColor);
+        }
       }
       
       const stock = product.stock || 0;
       setProductStock(stock);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
   
   // Add null check after all hooks
@@ -260,7 +275,11 @@ const ProductDescriptionInfo = ({
                         color === selectedProductColor ? "checked" : ""
                       }
                       onChange={() => {
-                        setSelectedProductColor(color);
+                        if (onColorChange) {
+                          onColorChange(color);
+                        } else {
+                          setLocalSelectedColor(color);
+                        }
                         setQuantityCount(1);
                       }}
                     />
@@ -455,6 +474,8 @@ ProductDescriptionInfo.propTypes = {
   finalProductPrice: PropTypes.number,
   product: PropTypes.shape({}),
   wishlistItem: PropTypes.shape({}),
+  selectedColor: PropTypes.string,
+  onColorChange: PropTypes.func,
 };
 
 export default ProductDescriptionInfo;

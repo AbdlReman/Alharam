@@ -8,11 +8,42 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Swiper, { SwiperSlide } from "../../components/swiper";
 
-const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
+const ProductImageGalleryLeftThumb = ({ product, thumbPosition, selectedColor }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [index, setIndex] = useState(-1);
-  const slides = product?.image.map((img, i) => ({
-      src: process.env.PUBLIC_URL + img,
+  
+  // Filter images based on selected color
+  const getFilteredImages = () => {
+    // Check if product.images is an array of objects with metadata
+    if (product?.images && Array.isArray(product.images) && product.images.length > 0) {
+      // Check if first item is an object (new format with metadata)
+      if (typeof product.images[0] === 'object' && product.images[0].url) {
+        // Filter images based on color matching title or description
+        if (selectedColor) {
+          const filtered = product.images.filter(img => {
+            const titleMatch = img.title && img.title.trim().toLowerCase() === selectedColor.trim().toLowerCase();
+            const descMatch = img.description && img.description.trim().toLowerCase() === selectedColor.trim().toLowerCase();
+            return titleMatch || descMatch;
+          });
+          // If we found matching images, return them; otherwise return all images
+          return filtered.length > 0 ? filtered.map(img => img.url) : product.images.map(img => img.url);
+        }
+        // No color selected, return all images
+        return product.images.map(img => img.url);
+      }
+      // Old format: array of URLs
+      return product.images;
+    }
+    // Fallback to product.image (single URL or array)
+    if (product?.image) {
+      return Array.isArray(product.image) ? product.image : [product.image];
+    }
+    return [];
+  };
+  
+  const displayImages = getFilteredImages();
+  const slides = displayImages.map((img, i) => ({
+      src: img.startsWith('http') ? img : (process.env.PUBLIC_URL + img),
       key: i,
   }));
 
@@ -81,18 +112,21 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
             ) : (
               ""
             )}
-            {product?.image?.length ? (
+            {displayImages?.length ? (
               <Swiper options={gallerySwiperParams}>
-                {product?.image.map((single, key) => (
+                {displayImages.map((single, key) => (
                   <SwiperSlide key={key}>
                     <button className="lightgallery-button" onClick={() => setIndex(key)}>
                       <i className="pe-7s-expand1"></i>
                     </button>
                     <div className="single-image">
                       <img
-                        src={process.env.PUBLIC_URL + single}
+                        src={single.startsWith('http') ? single : (process.env.PUBLIC_URL + single)}
                         className="img-fluid"
                         alt=""
+                        onError={(e) => {
+                          e.target.src = '/assets/img/product/default-product.jpg';
+                        }}
                       />
                     </div>
                   </SwiperSlide>
@@ -114,15 +148,18 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
               : "col-xl-2")}
         >
           <div className="product-small-image-wrapper product-small-image-wrapper--side-thumb">
-            {product?.image?.length ? (
+            {displayImages?.length ? (
               <Swiper options={thumbnailSwiperParams}>
-                {product.image.map((single, key) => (
+                {displayImages.map((single, key) => (
                   <SwiperSlide key={key}>
                     <div className="single-image">
                       <img
-                        src={process.env.PUBLIC_URL + single}
+                        src={single.startsWith('http') ? single : (process.env.PUBLIC_URL + single)}
                         className="img-fluid"
                         alt=""
+                        onError={(e) => {
+                          e.target.src = '/assets/img/product/default-product.jpg';
+                        }}
                       />
                     </div>
                   </SwiperSlide>
@@ -139,7 +176,8 @@ const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {
 
 ProductImageGalleryLeftThumb.propTypes = {
   product: PropTypes.shape({}),
-  thumbPosition: PropTypes.string
+  thumbPosition: PropTypes.string,
+  selectedColor: PropTypes.string,
 };
 
 export default ProductImageGalleryLeftThumb;

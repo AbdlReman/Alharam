@@ -7,7 +7,7 @@ import ProductDescriptionInfo from "../../components/product/ProductDescriptionI
 import ProductImageGallerySideThumb from "../../components/product/ProductImageGallerySideThumb";
 import ProductImageFixed from "../../components/product/ProductImageFixed";
 
-const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType, product }) => {
+const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType, product, selectedColor, onColorChange }) => {
   const currency = useSelector((state) => state.currency);
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { compareItems } = useSelector((state) => state.compare);
@@ -47,13 +47,23 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType,
               <ProductImageGallerySideThumb
                 product={product}
                 thumbPosition="left"
+                selectedColor={selectedColor}
               />
             ) : galleryType === "rightThumb" ? (
-              <ProductImageGallerySideThumb product={product} />
+              <ProductImageGallerySideThumb 
+                product={product} 
+                selectedColor={selectedColor}
+              />
             ) : galleryType === "fixedImage" ? (
-              <ProductImageFixed product={product} />
+              <ProductImageFixed 
+                product={product} 
+                selectedColor={selectedColor}
+              />
             ) : (
-              <ProductImageGallery product={product} />
+              <ProductImageGallery 
+                product={product} 
+                selectedColor={selectedColor}
+              />
             )}
           </div>
           <div className="col-lg-6 col-md-6">
@@ -67,6 +77,8 @@ const ProductImageDescription = ({ spaceTopClass, spaceBottomClass, galleryType,
               cartItems={cartItems}
               wishlistItem={wishlistItem}
               compareItem={compareItem}
+              selectedColor={selectedColor}
+              onColorChange={onColorChange}
             />
           </div>
         </div>
@@ -80,6 +92,8 @@ ProductImageDescription.propTypes = {
   product: PropTypes.shape({}),
   spaceBottomClass: PropTypes.string,
   spaceTopClass: PropTypes.string,
+  selectedColor: PropTypes.string,
+  onColorChange: PropTypes.func,
 };
 
 export default ProductImageDescription;
