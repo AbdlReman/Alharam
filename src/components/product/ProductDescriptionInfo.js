@@ -138,9 +138,9 @@ const ProductDescriptionInfo = ({
         ""
       )}
       <hr style={{ margin: '20px 0', border: '1px solid #e5e5e5' }} />
-      <div className="pro-details-list">
+      {/* <div className="pro-details-list">
         <p>{product.shortDescription}</p>
-      </div>
+      </div> */}
 
       {/* Quantity Discount Section */}
       <div className="quantity-discount-section" style={{
