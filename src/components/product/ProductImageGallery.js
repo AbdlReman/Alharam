@@ -10,6 +10,7 @@ import Swiper, { SwiperSlide } from "../../components/swiper";
 const ProductImageGallery = ({ product, selectedColor }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [index, setIndex] = useState(-1);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const mainSwiperRef = useRef(null);
   
   // Get all images with metadata
@@ -36,8 +37,14 @@ const ProductImageGallery = ({ product, selectedColor }) => {
   
   // Handle thumbnail click - navigate main gallery to the clicked image
   const handleThumbnailClick = (clickedIndex) => {
-    if (mainSwiperRef.current) {
-      mainSwiperRef.current.slideTo(clickedIndex);
+    if (mainSwiperRef.current && clickedIndex >= 0 && clickedIndex < allImageUrls.length) {
+      // Use slideTo with speed for smooth transition
+      try {
+        // Ensure we're using the correct index (no loop mode, so direct index mapping)
+        mainSwiperRef.current.slideTo(clickedIndex, 300);
+      } catch (error) {
+        console.error('Error navigating to slide:', error);
+      }
     }
   };
   
@@ -51,10 +58,17 @@ const ProductImageGallery = ({ product, selectedColor }) => {
       });
       
       if (matchingIndex >= 0) {
-        mainSwiperRef.current.slideTo(matchingIndex);
+        // Small delay to ensure swiper is initialized
+        const timer = setTimeout(() => {
+          if (mainSwiperRef.current) {
+            mainSwiperRef.current.slideTo(matchingIndex, 300);
+          }
+        }, 50);
+        
+        return () => clearTimeout(timer);
       }
     }
-  }, [selectedColor, allImages]);
+  }, [selectedColor]);
   
   const slides = allImageUrls.map((img, i) => ({
       src: img,
@@ -64,13 +78,18 @@ const ProductImageGallery = ({ product, selectedColor }) => {
   // swiper slider settings
   const gallerySwiperParams = {
     spaceBetween: 10,
-    loop: allImageUrls.length > 1,
+    loop: false, // Disable loop to fix index alignment issues
     effect: "fade",
     fadeEffect: {
       crossFade: true
     },
+    speed: 300,
     onSwiper: (swiper) => {
       mainSwiperRef.current = swiper;
+    },
+    onSlideChange: (swiper) => {
+      // Update current slide index for lightbox sync
+      setCurrentSlideIndex(swiper.activeIndex);
     },
     modules: [EffectFade],
   };
@@ -81,7 +100,7 @@ const ProductImageGallery = ({ product, selectedColor }) => {
     touchRatio: 0.2,
     freeMode: true,
     loop: false,
-    slideToClickedSlide: true,
+    slideToClickedSlide: false, // Disable default behavior, we handle it manually
     breakpoints: {
       320: {
         slidesPerView: 3,
@@ -113,7 +132,13 @@ const ProductImageGallery = ({ product, selectedColor }) => {
         <Swiper options={gallerySwiperParams}>
           {allImageUrls.map((single, key) => (
             <SwiperSlide key={key}>
-              <button className="lightgallery-button" onClick={() => setIndex(key)}>
+              <button className="lightgallery-button" onClick={() => {
+                if (mainSwiperRef.current) {
+                  setIndex(mainSwiperRef.current.activeIndex);
+                } else {
+                  setIndex(key);
+                }
+              }}>
                 <i className="pe-7s-expand1"></i>
               </button>
               <div className="single-image">
@@ -154,13 +179,15 @@ const ProductImageGallery = ({ product, selectedColor }) => {
                   className={`single-image ${imageMatchesColor ? 'active' : ''}`}
                   onClick={() => handleThumbnailClick(key)}
                   style={{ 
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    userSelect: 'none'
                   }}
                 >
                   <img
                     src={single}
                     className="img-fluid"
                     alt={product.name || ""}
+                    draggable={false}
                     onError={(e) => {
                       e.target.src = '/assets/img/product/default-product.jpg';
                     }}
