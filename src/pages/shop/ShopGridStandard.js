@@ -145,106 +145,143 @@ const ShopGridStandard = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
+        console.log("=== STARTING PRODUCT FETCH ===");
+        
         const entries = await client.getEntries({ content_type: "product" });
         
-        const items = entries.items.map((item) => {
-          const fields = item.fields;
-          
-          // Handle category field - it might be a string, array, or object
-          let categoryArray = [];
-          if (fields.category) {
-            if (Array.isArray(fields.category)) {
-              categoryArray = fields.category;
-            } else if (typeof fields.category === 'string') {
-              categoryArray = [fields.category];
-            } else if (fields.category.fields) {
-              // If it's a Contentful reference
-              categoryArray = [fields.category.fields.name || fields.category.fields.title];
-            }
-          }
-          
-          // Handle color field - it might be a string, array, or object
-          let colorArray = [];
-          if (fields.color) {
-            if (Array.isArray(fields.color)) {
-              colorArray = fields.color;
-            } else if (typeof fields.color === 'string') {
-              colorArray = [fields.color];
-            } else if (fields.color.fields) {
-              // If it's a Contentful reference
-              colorArray = [fields.color.fields.name || fields.color.fields.title];
-            }
-          }
-          
-          // Handle model field - it might be a string, array, or object
-          let modelArray = [];
-          if (fields.model) {
-            if (Array.isArray(fields.model)) {
-              modelArray = fields.model;
-            } else if (typeof fields.model === 'string') {
-              modelArray = [fields.model];
-            } else if (fields.model.fields) {
-              // If it's a Contentful reference
-              modelArray = [fields.model.fields.name || fields.model.fields.title];
-            }
-          }
-          
-          return {
-            id: item.sys.id,
-            name: fields.name,
-            slug: fields.slug,
-            price: parseFloat(fields.price) || 0,
-            discount: parseFloat(fields.discount) || 0,
-            shortDescription: fields.shortDescription,
-            fullDescription: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",
-            category: categoryArray,
-            tag: fields.tag || [],
-            images: fields.images?.map((img) => img.fields.file.url) || [],
-            color: colorArray,
-            model: modelArray,
-            size: fields.size || [],
-            metaTitle: fields.metaTitle || "",
-            metaDescription: fields.metaDescription || "",
-            stock: fields.stock || 0,
-            // For backward compatibility
-            image: fields.images?.map((img) => img.fields.file.url) || [],
-            title: fields.name,
-            description: fields.shortDescription,
-            // Add variation structure if colors/sizes exist
-            variation: colorArray.length > 0 ? 
-              colorArray.map(color => ({
-                color: color,
-                size: fields.size ? fields.size.map(size => ({
-                  name: size,
-                  stock: fields.stock || 0
-                })) : []
-              })) : null
-          };
-        });
+        console.log("=== CONTENTFUL RESPONSE ===");
+        console.log("Entries received:", entries);
+        console.log("Items count:", entries?.items?.length || 0);
+        console.log("=== END CONTENTFUL RESPONSE ===");
         
-
+        if (!entries || !entries.items || entries.items.length === 0) {
+          console.warn("No products found in Contentful response");
+          setProducts([]);
+          setLoading(false);
+          return;
+        }
+        
+        const items = entries.items
+          .filter(item => item && item.fields) // Filter out invalid items
+          .map((item) => {
+            try {
+              const fields = item.fields;
+              
+              // Handle category field - it might be a string, array, or object
+              let categoryArray = [];
+              if (fields.category) {
+                if (Array.isArray(fields.category)) {
+                  categoryArray = fields.category;
+                } else if (typeof fields.category === 'string') {
+                  categoryArray = [fields.category];
+                } else if (fields.category.fields) {
+                  // If it's a Contentful reference
+                  categoryArray = [fields.category.fields.name || fields.category.fields.title];
+                }
+              }
+              
+              // Handle color field - it might be a string, array, or object
+              let colorArray = [];
+              if (fields.color) {
+                if (Array.isArray(fields.color)) {
+                  colorArray = fields.color;
+                } else if (typeof fields.color === 'string') {
+                  colorArray = [fields.color];
+                } else if (fields.color.fields) {
+                  // If it's a Contentful reference
+                  colorArray = [fields.color.fields.name || fields.color.fields.title];
+                }
+              }
+              
+              // Handle model field - it might be a string, array, or object
+              let modelArray = [];
+              if (fields.model) {
+                if (Array.isArray(fields.model)) {
+                  modelArray = fields.model;
+                } else if (typeof fields.model === 'string') {
+                  modelArray = [fields.model];
+                } else if (fields.model.fields) {
+                  // If it's a Contentful reference
+                  modelArray = [fields.model.fields.name || fields.model.fields.title];
+                }
+              }
+              
+              return {
+                id: item.sys.id,
+                name: fields.name || "Unnamed Product",
+                slug: fields.slug,
+                price: parseFloat(fields.price) || 0,
+                discount: parseFloat(fields.discount) || 0,
+                shortDescription: fields.shortDescription || "",
+                fullDescription: fields.fullDescription ? documentToHtmlString(fields.fullDescription) : "",
+                category: categoryArray,
+                tag: fields.tag || [],
+                images: fields.images?.map((img) => img?.fields?.file?.url).filter(Boolean) || [],
+                color: colorArray,
+                model: modelArray,
+                size: fields.size || [],
+                metaTitle: fields.metaTitle || "",
+                metaDescription: fields.metaDescription || "",
+                stock: fields.stock || 0,
+                // For backward compatibility
+                image: fields.images?.map((img) => img?.fields?.file?.url).filter(Boolean) || [],
+                title: fields.name || "Unnamed Product",
+                description: fields.shortDescription || "",
+                // Add variation structure if colors/sizes exist
+                variation: colorArray.length > 0 ? 
+                  colorArray.map(color => ({
+                    color: color,
+                    size: fields.size ? fields.size.map(size => ({
+                      name: size,
+                      stock: fields.stock || 0
+                    })) : []
+                  })) : null
+              };
+            } catch (itemError) {
+              console.error("Error processing product item:", itemError, item);
+              return null;
+            }
+          })
+          .filter(Boolean); // Remove any null items from failed processing
+        
+        console.log("=== PROCESSED PRODUCTS ===");
+        console.log("Total products processed:", items.length);
+        if (items.length > 0) {
+          console.log("Sample product:", items[0]);
+        }
+        console.log("=== END PROCESSED PRODUCTS ===");
         
         // Debug: Log all categories to understand the data structure
-        const allCategories = items.reduce((acc, product) => {
-          if (product.category && Array.isArray(product.category)) {
-            product.category.forEach(cat => {
-              if (cat && cat.trim()) {
-                acc.add(cat.trim());
-              }
-            });
-          }
-          return acc;
-        }, new Set());
-        
-        console.log("=== ALL CATEGORIES IN PRODUCTS ===");
-        console.log(Array.from(allCategories).sort());
-        console.log("=== END CATEGORIES ===");
+        if (items.length > 0) {
+          const allCategories = items.reduce((acc, product) => {
+            if (product.category && Array.isArray(product.category)) {
+              product.category.forEach(cat => {
+                if (cat && cat.trim()) {
+                  acc.add(cat.trim());
+                }
+              });
+            }
+            return acc;
+          }, new Set());
+          
+          console.log("=== ALL CATEGORIES IN PRODUCTS ===");
+          console.log(Array.from(allCategories).sort());
+          console.log("=== END CATEGORIES ===");
+        }
         
         setProducts(items);
+        console.log("=== PRODUCTS SET IN STATE ===");
+        console.log("Products array length:", items.length);
       } catch (error) {
-        console.error("Failed to fetch products from Contentful", error);
+        console.error("=== ERROR FETCHING PRODUCTS ===");
+        console.error("Error details:", error);
+        console.error("Error message:", error.message);
+        console.error("Error stack:", error.stack);
+        console.error("=== END ERROR ===");
+        setProducts([]);
       } finally {
         setLoading(false);
+        console.log("=== FETCH COMPLETE ===");
       }
     };
     fetchProducts();
@@ -252,7 +289,13 @@ const ShopGridStandard = () => {
 
   // Sort + paginate when data or filters change
   useEffect(() => {
+    console.log("=== FILTER EFFECT DEBUG ===");
+    console.log("Products count:", products.length);
+    console.log("Filters - Model:", selectedModel, "Color:", selectedColor, "Category:", selectedCategory, "Search:", searchTerm);
+    console.log("Offset:", offset, "PageLimit:", pageLimit);
+    
     let filtered = [...products];
+    console.log("Initial filtered count:", filtered.length);
     
     // Apply search filter
     if (searchTerm) {
@@ -264,6 +307,7 @@ const ShopGridStandard = () => {
         );
         return nameMatch || descMatch || categoryMatch;
       });
+      console.log("After search filter:", filtered.length);
     }
     
     // Apply category filter
@@ -295,6 +339,7 @@ const ShopGridStandard = () => {
     
     // Apply model filter
     if (selectedModel) {
+      const beforeCount = filtered.length;
       filtered = filtered.filter(product => {
         if (!product.model || !Array.isArray(product.model)) {
           return false;
@@ -303,10 +348,12 @@ const ShopGridStandard = () => {
           model && model.toLowerCase() === selectedModel.toLowerCase()
         );
       });
+      console.log("After model filter:", filtered.length, "(was", beforeCount + ")");
     }
     
     // Apply color filter
     if (selectedColor) {
+      const beforeCount = filtered.length;
       filtered = filtered.filter(product => {
         if (!product.color || !Array.isArray(product.color)) {
           return false;
@@ -315,14 +362,21 @@ const ShopGridStandard = () => {
           color && color.toLowerCase() === selectedColor.toLowerCase()
         );
       });
+      console.log("After color filter:", filtered.length, "(was", beforeCount + ")");
     }
     
     // Apply sorting
     let sorted = getSortedProducts(filtered, sortType, sortValue);
     sorted = getSortedProducts(sorted, filterSortType, filterSortValue);
+    console.log("Sorted products count:", sorted.length);
+    
+    const paginatedData = sorted.slice(offset, offset + pageLimit);
+    console.log("Current data (paginated):", paginatedData.length);
+    console.log("=== END FILTER EFFECT DEBUG ===");
+    
     setSortedProducts(sorted);
-    setCurrentData(sorted.slice(offset, offset + pageLimit));
-  }, [products, offset, sortType, sortValue, filterSortType, filterSortValue, searchTerm, selectedCategory, selectedColor, selectedModel]);
+    setCurrentData(paginatedData);
+  }, [products, offset, sortType, sortValue, filterSortType, filterSortValue, searchTerm, selectedCategory, selectedColor, selectedModel, pageLimit]);
   
 
 
@@ -414,7 +468,33 @@ const ShopGridStandard = () => {
                   
                    
                    
-                  <ShopProducts layout="grid three-column" products={currentData} />
+                  {currentData && currentData.length > 0 ? (
+                    <ShopProducts layout="grid three-column" products={currentData} />
+                  ) : (
+                    <div className="text-center" style={{ padding: "40px 20px" }}>
+                      <p style={{ fontSize: "16px", color: "#606060" }}>
+                        {sortedProducts.length === 0 
+                          ? "No products match your filters. Try adjusting your search criteria." 
+                          : "No products to display on this page."}
+                      </p>
+                      {(selectedModel || selectedColor || selectedCategory || searchTerm) && (
+                        <button
+                          onClick={clearAllFilters}
+                          style={{
+                            marginTop: "15px",
+                            padding: "10px 20px",
+                            background: "#03055b",
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer"
+                          }}
+                        >
+                          Clear All Filters
+                        </button>
+                      )}
+                    </div>
+                  )}
                   <div className="pro-pagination-style text-center mt-30">
                     <Paginator
                       totalRecords={sortedProducts.length}
